@@ -1,6 +1,12 @@
-import Button from "./Components/Button";
+import Header from "./Components/Header";
+
+// import Button from "./Components/Button";
 function App() {
-  return <>{/* <Button>9:00 AM</Button> */}</>;
+  return (
+    <>
+      <Header></Header>
+    </>
+  );
 }
 
 export default App;

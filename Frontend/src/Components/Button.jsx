@@ -16,7 +16,7 @@ const Button = ({ children, href, className }) => {
     return (
       <a
         href={href}
-        className={`${className} relative shadow-lg rounded-[20px] w-[150px] h-[40px] flex justify-center items-center font-semibold text-n-1 font-openSans`}
+        className={`${className} relative shadow-lg rounded-[20px] w-[150px] h-[40px] flex justify-center items-center font-semibold text-n-1 font-openSans hover:bg-n-1 hover:text-white transition-colors duration-500 ease-in-out`}
       >
         {children}
       </a>
