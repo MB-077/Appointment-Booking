@@ -2,6 +2,7 @@ import { FiSunrise } from "react-icons/fi";
 import { FiSunset } from "react-icons/fi";
 import { MdAccessTime } from "react-icons/md";
 import TimeSlot from "./TimeSlot";
+import CalendarFunc from "./Calendar";
 
 const Section = () => {
   const slotTime1 = [
@@ -34,7 +35,7 @@ const Section = () => {
       {/* header for the Section */}
 
       <div className="absolute left-10 top-6">
-        <div className="flex justify-center items-center">
+        <div className="flex w-[350px] justify-center items-center">
           <div className="text-[20px] text-n-4/70 px-2">Appointments </div>
           <div> | Home {">"} Appointments</div>
         </div>

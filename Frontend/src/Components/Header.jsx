@@ -1,7 +1,7 @@
 import { IoSettingsSharp } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import Button from "./Button";
-// import { cat } from "./../images/catto.jpg";
+import cat from "./../images/catto.jpg";
 const Header = () => {
   return (
     <nav className="flex fixed justify-between w-full h-[12vh] items-center ">
@@ -10,10 +10,18 @@ const Header = () => {
           MB077
         </div>
         <div className="flex justify-evenly bg-white w-[55%] h-[68%] items-center border-r border-r-n-1/50">
-          <img src={``} height={20} width={20} alt="cat" />
+          <img
+            src={cat}
+            height={50}
+            width={50}
+            alt="cat"
+            className="rounded-full"
+          />
           <div className="">
-            <h1 className="text-[22px]">Dr. John Doe</h1>
-            <p className="text-[13.5px]">Kids Care Clinic</p>
+            <h1 className="text-[24px] font-semibold">Dr. John Doe</h1>
+            <p className="text-[13px] font-openSans opacity-80">
+              Kids Care Clinic
+            </p>
           </div>
           <IoIosArrowDown className="cursor-pointer" />
         </div>
