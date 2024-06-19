@@ -7,13 +7,13 @@ const Header = () => {
     <nav className="flex fixed justify-between w-full h-[12vh] items-center ">
       <div className="flex justify-between w-[35%]  h-full items-center">
         <div className=" flex bg-n-1 w-[45%] h-full justify-center text-white text-[30px] font-openSans uppercase items-center tracking-wide">
-          Eon
+          MB077
         </div>
-        <div className="flex justify-evenly bg-white w-[55%] h-[68%] items-center border-r-2 border-r-n-1">
-          {/* <img src={cat} height={20} width={20} alt="cat" /> */}
+        <div className="flex justify-evenly bg-white w-[55%] h-[68%] items-center border-r border-r-n-1/50">
+          <img src={``} height={20} width={20} alt="cat" />
           <div className="">
             <h1 className="text-[22px]">Dr. John Doe</h1>
-            <p className="text-sm">Kids Care Clinic</p>
+            <p className="text-[13.5px]">Kids Care Clinic</p>
           </div>
           <IoIosArrowDown className="cursor-pointer" />
         </div>
