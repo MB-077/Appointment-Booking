@@ -1,5 +1,10 @@
 import Button from "./Button";
 const TimeSlot = ({ Time, duration, icon, slotTime }) => {
+  const Avail = (data) => {
+    console.log(data);
+    if (!data) return <div>Booking Confirmed</div>;
+    else return <div>Already Booked</div>;
+  };
   return (
     <div className="bg-white relative top-10 w-2/3 px-5 ">
       {/* header of slot space */}
@@ -11,6 +16,7 @@ const TimeSlot = ({ Time, duration, icon, slotTime }) => {
             <div className="opacity-60 text-[12px]">{duration}</div>
           </div>
         </div>
+        <div>{Avail()}</div>
       </div>
 
       {/* slot space */}
@@ -18,7 +24,7 @@ const TimeSlot = ({ Time, duration, icon, slotTime }) => {
         {slotTime.length > 0 ? (
           slotTime.map((obj) => {
             return (
-              <Button key={obj.id} isBooked={obj.isBooked}>
+              <Button onSend={Avail} key={obj.id} isBooked={obj.isBooked}>
                 {obj.start}
               </Button>
             );
