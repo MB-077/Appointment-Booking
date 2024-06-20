@@ -1,5 +1,5 @@
 import Button from "./Button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const TimeSlot = ({ Time, duration, icon, slotTime }) => {
   // defining the usestate
@@ -8,23 +8,35 @@ const TimeSlot = ({ Time, duration, icon, slotTime }) => {
   //!playing with the id's
   const [message, setMessage] = useState(<p></p>);
   const [displayText, setDisplayText] = useState(false);
+  const [bookedCount, setBookedCount] = useState(0);
+
+  //useEffectt for counting initial booked count
+  useEffect(() => {
+    const initialBookedCount = bookings.filter(
+      (booking) => booking.isBooked
+    ).length;
+    setBookedCount(initialBookedCount);
+  }, [bookings]);
 
   const handleBooking = (id) => {
     //.map methode forms a new array
     const updatedBookings = bookings.map((booking) =>
-      booking.id === id ? { ...booking, isbooked: !booking.isBooked } : booking
+      booking.id === id ? { ...booking, isBooked: !booking.isBooked } : booking
     );
 
     const booking = updatedBookings.find((el) => el.id === id);
-    if (!booking.isBooked)
+    if (booking.isBooked) {
       setMessage(
         <p className="text-green-700 text-[20px] font-semibold">
-          Booking Confirmed
+          Booking Confirmed!
         </p>
       );
-    else
+      setBookedCount(bookedCount + 1);
+    } else
       setMessage(
-        <p className="text-red-700 text-[20px] font-semibold">Already Booked</p>
+        <p className="text-red-700 text-[20px] font-semibold">
+          Already Booked, Sorry!
+        </p>
       );
 
     setBookings(updatedBookings);
@@ -54,7 +66,12 @@ const TimeSlot = ({ Time, duration, icon, slotTime }) => {
         {bookings.length > 0 ? (
           bookings.map((obj) => {
             return (
-              <Button onBook={handleBooking} key={obj.id} booking={obj}>
+              <Button
+                onBook={handleBooking}
+                key={obj.id}
+                booked={obj}
+                isBookingDisabled={!obj.isBooked && bookedCount >= 4}
+              >
                 {obj.start}
               </Button>
             );
