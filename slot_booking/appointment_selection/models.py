@@ -23,6 +23,10 @@ class TimeSlot(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     is_booked = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=False)
+    booked_by = models.ForeignKey(Patient, on_delete=models.SET_NULL, null=True, blank=True)
+    approved_by = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True, related_name='approved_timeslots')
+    reschedule_requested = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.start_time} - {self.end_time}"
