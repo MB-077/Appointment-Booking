@@ -1,4 +1,3 @@
-import { IoMdAdd } from "react-icons/io";
 import Button from "./Button";
 const TimeSlot = ({ Time, duration, icon, slotTime }) => {
   return (
@@ -12,19 +11,17 @@ const TimeSlot = ({ Time, duration, icon, slotTime }) => {
             <div className="opacity-60 text-[12px]">{duration}</div>
           </div>
         </div>
-        <div>
-          <div className="flex justify-center items-center gap-2">
-            <IoMdAdd />
-            <div> Add Slots</div>
-          </div>
-        </div>
       </div>
 
       {/* slot space */}
       <div className="grid grid-rows-2 grid-cols-5 bg-white gap-4 mb-5">
         {slotTime.length > 0 ? (
-          slotTime.map((time) => {
-            return <Button>{time}</Button>;
+          slotTime.map((obj) => {
+            return (
+              <Button key={obj.id} isBooked={obj.isBooked}>
+                {obj.start}
+              </Button>
+            );
           })
         ) : (
           <div>{""}</div>
