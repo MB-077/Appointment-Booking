@@ -41,11 +41,9 @@ const Section = () => {
         </div>
       </div>
 
-      <div>
-        {/* calendar for the section */}
-
+      <div className="flex">
         {/* space for the section  */}
-        <div className="relative top-10 mx-16  grid gap-5">
+        <div className="relative top-10 mx-16  grid gap-5 w-full">
           <TimeSlot
             Time="Morning"
             duration="9:00 AM to 10:30 AM"
@@ -66,6 +64,10 @@ const Section = () => {
             icon={<MdAccessTime></MdAccessTime>}
             slotTime={slotTime3}
           ></TimeSlot>
+        </div>
+        <div className=" absolute top-20 right-12">
+          {/* calendar for the section */}
+          <CalendarFunc />
         </div>
       </div>
     </div>

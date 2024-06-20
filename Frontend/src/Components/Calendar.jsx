@@ -1,7 +1,20 @@
-import { Calendar } from "react-calendar";
+import React, { useState } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import "./../CSS/Calendar.css";
 
-const CalendarFunc = () => {
-  return <div>{/* <Calendar className="w-1/3 bg-red-300" /> */}</div>;
+const CalendarComponent = () => {
+  const [date, setDate] = useState(new Date());
+
+  const onChange = (date) => {
+    setDate(date);
+  };
+
+  return (
+    <div>
+      <Calendar onChange={onChange} value={date} />
+    </div>
+  );
 };
 
-export default Calendar;
+export default CalendarComponent;
