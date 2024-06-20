@@ -1,7 +1,14 @@
 import Button from "./Button";
 import React, { useEffect, useState } from "react";
 
-const TimeSlot = ({ Time, duration, icon, slotTime }) => {
+const TimeSlot = ({
+  Time,
+  duration,
+  icon,
+  slotTime,
+  selectedTimeSlots,
+  setSelectedTimeSlots,
+}) => {
   // defining the usestate
   const [bookings, setBookings] = useState(slotTime);
   //we have to update the slotTime as the button is clicked and what info has to be changed is coming from button itself
@@ -32,6 +39,7 @@ const TimeSlot = ({ Time, duration, icon, slotTime }) => {
         </p>
       );
       setBookedCount(bookedCount + 1);
+      setSelectedTimeSlots([...selectedTimeSlots, booking]);
     } else
       setMessage(
         <p className="text-red-700 text-[20px] font-semibold">
@@ -70,14 +78,14 @@ const TimeSlot = ({ Time, duration, icon, slotTime }) => {
                 onBook={handleBooking}
                 key={obj.id}
                 booked={obj}
-                isBookingDisabled={!obj.isBooked && bookedCount >= 4}
+                isBookingDisabled={!obj.isBooked && bookedCount >= 6}
               >
                 {obj.start}
               </Button>
             );
           })
         ) : (
-          <div>{""}</div>
+          <div> </div>
         )}
       </div>
     </div>
