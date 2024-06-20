@@ -5,8 +5,9 @@ from django.contrib import admin
 from .models import *
 
 class TimeSlotAdmin(admin.ModelAdmin):
-    list_display = ('start_time', 'end_time', 'is_booked')
+    list_display = ('start_time', 'end_time', 'is_booked', 'booked_by')
     list_filter = ('is_booked',)
+    # prepopulated_fields = {'is_booked':('booked_by',)}
 
 admin.site.register(Doctor)
 admin.site.register(Patient)
