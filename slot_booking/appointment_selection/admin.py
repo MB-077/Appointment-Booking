@@ -13,7 +13,29 @@ class AppointmentAdmin(admin.ModelAdmin):
     list_display = ('doctor', 'patient', 'date', 'time_slot', 'reschedule_requested', 'is_approved', )
     list_filter = ('doctor', 'date', 'reschedule_requested', 'is_approved', )
     
-admin.site.register(Doctor)
-admin.site.register(Patient)
+class DoctorAdmin(admin.ModelAdmin):
+    list_display = ('user', 'specialty', )
+    list_filter = ('specialty', )
+
+class DoctorNonAvailabilityAdmin(admin.ModelAdmin):
+    list_display = ('doctor', 'day', 'start_time', 'end_time')
+    list_filter = ('doctor', 'day')
+    
+    class Meta:
+        verbose_name_plural = "Doctor Non Availability"
+
+class PatientAdmin(admin.ModelAdmin):
+    list_display = ('user', 'phone_number')
+    
+class PatientDetailsAdmin(admin.ModelAdmin):
+    list_display = ('patient', 'age', 'gender', 'email')
+    
+    class Meta:
+        verbose_name_plural = "Patient Details"
+    
+admin.site.register(Doctor, DoctorAdmin)
+admin.site.register(Patient, PatientAdmin)
 admin.site.register(TimeSlot, TimeSlotAdmin)
 admin.site.register(Appointment, AppointmentAdmin)
+admin.site.register(PatientDetails, PatientDetailsAdmin)
+admin.site.register(DoctorNonAvailability, DoctorNonAvailabilityAdmin)

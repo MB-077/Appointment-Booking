@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import *
 from django.contrib.auth.models import User
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -36,6 +37,12 @@ class TimeSlotSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AppointmentSerializer(serializers.ModelSerializer):
+    doctor = serializers.CharField(source='doctor.user.username', read_only=True)
+    patient = serializers.CharField(source='patient.user.username', read_only=True)
+    time_slot = TimeSlotSerializer()
+    
     class Meta:
         model = Appointment
         fields = '__all__'
+        
+    
