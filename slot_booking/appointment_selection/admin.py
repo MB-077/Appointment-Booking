@@ -21,17 +21,12 @@ class DoctorNonAvailabilityAdmin(admin.ModelAdmin):
     list_display = ('doctor', 'day', 'start_time', 'end_time')
     list_filter = ('doctor', 'day')
     
-    class Meta:
-        verbose_name_plural = "Doctor Non Availability"
-
 class PatientAdmin(admin.ModelAdmin):
     list_display = ('user', 'phone_number')
     
 class PatientDetailsAdmin(admin.ModelAdmin):
     list_display = ('patient', 'age', 'gender', 'email')
-    
-    class Meta:
-        verbose_name_plural = "Patient Details"
+    list_filter = ('age',)
     
 admin.site.register(Doctor, DoctorAdmin)
 admin.site.register(Patient, PatientAdmin)

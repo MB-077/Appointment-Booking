@@ -44,6 +44,9 @@ class DoctorNonAvailability(models.Model):
         # Delete the related TimeSlot objects
         TimeSlot.objects.filter(start_time__gte=self.start_time, end_time__lte=self.end_time).delete()
         super().delete(*args, **kwargs)
+        
+    class Meta:
+        verbose_name_plural = "Doctor Non Availability"
 
 class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -62,6 +65,9 @@ class PatientDetails(models.Model):
     
     def __str__(self):
         return f"{self.patient} - {self.age} years old"
+    
+    class Meta:
+        verbose_name_plural = "Patient Details"
 
 class TimeSlot(models.Model):
     start_time = models.TimeField()
