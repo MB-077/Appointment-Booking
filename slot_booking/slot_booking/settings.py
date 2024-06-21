@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     
     #OWN APPS
     'rest_framework',
-    'appointment_selection',    
+    'appointment_selection',
 ]
 
 MIDDLEWARE = [

@@ -18,8 +18,8 @@ class DoctorAdmin(admin.ModelAdmin):
     list_filter = ('specialty', )
 
 class DoctorNonAvailabilityAdmin(admin.ModelAdmin):
-    list_display = ('doctor', 'day', 'start_time', 'end_time')
-    list_filter = ('doctor', 'day')
+    list_display = ('doctor', 'start_date', 'start_time', 'end_date', 'end_time')
+    list_filter = ('doctor', 'start_date', 'end_date',)
     
 class PatientAdmin(admin.ModelAdmin):
     list_display = ('user', 'phone_number')
@@ -34,3 +34,5 @@ admin.site.register(TimeSlot, TimeSlotAdmin)
 admin.site.register(Appointment, AppointmentAdmin)
 admin.site.register(PatientDetails, PatientDetailsAdmin)
 admin.site.register(DoctorNonAvailability, DoctorNonAvailabilityAdmin)
+# admin.site.register(DoctorNonAvailability)
+

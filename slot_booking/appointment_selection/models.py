@@ -3,8 +3,6 @@ from django.db import models
 # Create your models here.
 
 from django.contrib.auth.models import User
-from datetime import datetime
-from datetime import timedelta
 
 class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -16,34 +14,35 @@ class Doctor(models.Model):
 
 class DoctorNonAvailability(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    day = models.DateField()
+    start_date = models.DateField()
     start_time = models.TimeField()
+    end_date = models.DateField()
     end_time = models.TimeField()
 
     def __str__(self):
-        return f"{self.doctor} is not available on {self.day} from {self.start_time} to {self.end_time}"
+        return f"{self.doctor} is not available on {self.start_date} from {self.start_time} to {self.end_date} till {self.end_time}"
     
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)  # Save DoctorNonAvailability first
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)  # Save DoctorNonAvailability first
         
-        # Create TimeSlot objects for the availability
-        slots = []
-        start_time = datetime.combine(self.day, self.start_time)
-        end_time = datetime.combine(self.day, self.end_time)
+    #     # Create TimeSlot objects for the availability
+    #     slots = []
+    #     start_time = datetime.combine(self.day, self.start_time)
+    #     end_time = datetime.combine(self.day, self.end_time)
         
-        while start_time < end_time:
-            slot_end_time = start_time + timedelta(minutes=60)
-            if slot_end_time > end_time:
-                break
-            slots.append(TimeSlot(start_time=start_time.time(), end_time=slot_end_time.time()))
-            start_time = slot_end_time
+    #     while start_time < end_time:
+    #         slot_end_time = start_time + timedelta(minutes=60)
+    #         if slot_end_time > end_time:
+    #             break
+    #         slots.append(TimeSlot(start_time=start_time.time(), end_time=slot_end_time.time()))
+    #         start_time = slot_end_time
         
-        TimeSlot.objects.bulk_create(slots)
+    #     TimeSlot.objects.bulk_create(slots)
     
-    def delete(self, *args, **kwargs):
-        # Delete the related TimeSlot objects
-        TimeSlot.objects.filter(start_time__gte=self.start_time, end_time__lte=self.end_time).delete()
-        super().delete(*args, **kwargs)
+    # def delete(self, *args, **kwargs):
+    #     # Delete the related TimeSlot objects
+    #     TimeSlot.objects.filter(start_time__gte=self.start_time, end_time__lte=self.end_time).delete()
+    #     super().delete(*args, **kwargs)
         
     class Meta:
         verbose_name_plural = "Doctor Non Availability"
@@ -94,15 +93,3 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f"Appointment with {self.doctor} for {self.patient} on {self.date} at {self.time_slot.start_time}"
-    
-    def save(self, *args, **kwargs):
-        # Update the is_booked field of the related TimeSlot
-        self.time_slot.is_booked = True
-        self.time_slot.save()
-        super().save(*args, **kwargs)
-    
-    def delete(self, *args, **kwargs):
-        # Reset the is_booked field of the related TimeSlot
-        self.time_slot.is_booked = False
-        self.time_slot.save()
-        super().delete(*args, **kwargs)
