@@ -11,9 +11,11 @@ const Layout = () => {
   ];
   return (
     <div>
-      {/* <Header /> */}
-      <SideBar list={list} />
-      <Outlet />
+      <Header />
+      <div className="flex ">
+        <SideBar list={list} />
+        <Outlet className="w-4/5 bg-red-200" />
+      </div>
       <Footer />
     </div>
   );
