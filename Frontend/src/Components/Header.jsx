@@ -7,7 +7,7 @@ const Header = () => {
     <nav className="flex fixed justify-between w-full h-[12vh] items-center ">
       <div className="flex justify-between w-[35%]  h-full items-center">
         <div className=" flex bg-n-1 w-[45%] h-full justify-center text-white text-[30px] font-openSans uppercase items-center tracking-wide">
-          MB077
+          Dr. Joe
         </div>
         <div className="flex justify-evenly bg-white w-[55%] h-[68%] items-center border-r border-r-n-1/50">
           <img
@@ -30,9 +30,9 @@ const Header = () => {
         <Button href="/">Appointment</Button>
         <Button href="/">Walk-in</Button>
       </div>
-      <div className="relative right-10 text-[25px] text-n-4/80 cursor-pointer">
+      {/* <div className="relative right-10 text-[25px] text-n-4/80 cursor-pointer">
         <IoSettingsSharp />
-      </div>
+      </div> */}
     </nav>
   );
 };
