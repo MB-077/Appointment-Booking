@@ -258,22 +258,13 @@ class AppointmentTest(APITestCase):
         self.patient.save()
         self.time_slot = TimeSlot.objects.create(start_time=(datetime.now() + timedelta(hours=1)).time(), end_time=(datetime.now() + timedelta(hours=2)).time())
         self.time_slot.save()
-        self.appointment = Appointment.objects.create(
-            doctor=self.doctor,
-            patient=self.patient,
-            date=datetime.now().date(),
-            time_slot=self.time_slot,
-            reschedule_requested=False,
-            is_approved=False
-            )
-        self.appointment.save()
         self.data = {
-            'doctor': self.doctor.id,
-            'patient': self.patient.id,
-            'date': datetime.now().date().isoformat(),
+            'doctor_id': self.doctor.id,
             'time_slot': self.time_slot.id,
-            'reschedule_requested': self.appointment.reschedule_requested,
-            'is_approved': self.appointment.is_approved
+            'patient_id': self.patient.id,
+            'date': datetime.now().date().isoformat(),
+            'reschedule_requested': False,
+            'is_approved': False
             }
         self.url = reverse('appointment_list')
         
@@ -286,6 +277,8 @@ class AppointmentTest(APITestCase):
         if response.status_code == status.HTTP_400_BAD_REQUEST:
             print(response.content)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Appointment.objects.count(), 1)
+        self.assertEqual(Appointment.objects.get().doctor, self.doctor)
         
 
 class AppointmentIndividualTest(APITestCase):
