@@ -20,10 +20,12 @@ class TimeSlotList(ListCreateAPIView):
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
 
+
 class TimeSlotIndividual(RetrieveUpdateDestroyAPIView):
     queryset = TimeSlot.objects.all()
     serializer_class = TimeSlotSerializer
     permission_classes = [IsAdminUser]
+    
     
 class PatientList(ListCreateAPIView):
     queryset = Patient.objects.all()
@@ -36,6 +38,7 @@ class PatientList(ListCreateAPIView):
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]    
 
+
 class PatientDetailList(ListCreateAPIView):
     queryset = PatientDetails.objects.all()
     serializer_class = PatientDetailsSerializer
@@ -46,6 +49,7 @@ class PatientDetailList(ListCreateAPIView):
         else :
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
+    
     
 class PatientDetailIndividual(RetrieveUpdateDestroyAPIView):
     queryset = PatientDetails.objects.all()
@@ -58,6 +62,7 @@ class PatientDetailIndividual(RetrieveUpdateDestroyAPIView):
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
 
+
 class DoctorList(ListCreateAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
@@ -69,18 +74,51 @@ class DoctorList(ListCreateAPIView):
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
     
+    
 class DoctorIndividual(RetrieveUpdateDestroyAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
-    permission_classes = [IsAdminUser]
+    
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            permission_classes = [IsAuthenticated]
+        else :
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
     
     
-    
-# class DoctorViewSet(viewsets.ModelViewSet):
-       
+class DoctorNonAvailabilityList(ListCreateAPIView):
+    queryset = DoctorNonAvailability.objects.all()
+    serializer_class = DoctorNonAvailabilitySerializer
 
-class AppointmentViewSet(viewsets.ModelViewSet):
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            permission_classes = [IsAuthenticated]
+        else :
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+
+
+class DoctorNonAvailabilityIndividual(RetrieveUpdateDestroyAPIView):
+    queryset = DoctorNonAvailability.objects.all()
+    serializer_class = DoctorNonAvailabilitySerializer
+   
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            permission_classes = [IsAuthenticated]
+        else :
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+    
+    
+class AppointmentList(ListCreateAPIView):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
-    # permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
+        
+    
+class AppointmentIndividual(RetrieveUpdateDestroyAPIView):
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer
+    permission_classes = [IsAuthenticated]
     

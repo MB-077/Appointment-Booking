@@ -29,10 +29,17 @@ class TimeSlotSerializer(serializers.ModelSerializer):
 class AppointmentSerializer(serializers.ModelSerializer):
     doctor = serializers.CharField(source='doctor.user.username', read_only=True)
     patient = serializers.CharField(source='patient.user.username', read_only=True)
-    time_slot = TimeSlotSerializer()
+    time_slot = serializers.PrimaryKeyRelatedField(queryset=TimeSlot.objects.all())
     
     class Meta:
         model = Appointment
+        fields = '__all__'
+        
+class DoctorNonAvailabilitySerializer(serializers.ModelSerializer):
+    doctor = serializers.CharField(source='doctor.user.username', read_only=True)
+    
+    class Meta:
+        model = DoctorNonAvailability
         fields = '__all__'
         
     
