@@ -3,6 +3,10 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
   const Navigate = useNavigate();
+  const [change, setChange] = React.useState({
+    username: "",
+    password: "",
+  });
 
   const handleMe = (e) => {
     e.target.id === "hideMeagain" ? Navigate(-1) : null;
@@ -14,6 +18,30 @@ const Login = () => {
 
   const handleDown = (e) => {
     e.key === "Escape" ? Navigate(-1) : null;
+  };
+
+  const handleChange = (e) => {
+    setChange((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const postData = async () => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/register/",
+        change
+      );
+      console.log("Success:", response.data);
+    } catch (error) {
+      console.error("Error:", error.response.data); // Log the response data for better error insight
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    postData();
   };
 
   return (
@@ -30,17 +58,27 @@ const Login = () => {
       >
         <div className="">
           {" "}
-          <form>
-            <div className="mb-4">
+          <form onClick={handleSubmit}>
+            <div>
               <label>Username</label>
-              <input type="text" placeholder="Username" />
+              <input
+                type="text"
+                placeholder="Username"
+                name="username"
+                onChange={handleChange}
+              />
             </div>
-            <div className="mb-4">
+            <div>
               <label>Password</label>
-              <input type="password" placeholder="Password" />
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                onChange={handleChange}
+              />
             </div>
             <div className="flex items-center justify-between">
-              <button type="button">Sign In</button>
+              <button type="button">Log In</button>
             </div>
           </form>
         </div>

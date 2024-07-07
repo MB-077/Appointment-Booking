@@ -47,6 +47,7 @@ const Register = () => {
         "http://127.0.0.1:8000/register/",
         change
       );
+      localStorage.setItem("token", response.data.token);
       console.log("Success:", response.data);
     } catch (error) {
       console.error("Error:", error.response.data); // Log the response data for better error insight
@@ -57,6 +58,7 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     postData();
+    navigate("/login");
   };
 
   return (
