@@ -25,7 +25,7 @@ class PatientAdmin(admin.ModelAdmin):
     list_display = ('user', 'phone_number')
     
 class PatientDetailsAdmin(admin.ModelAdmin):
-    list_display = ('patient', 'age', 'gender', 'email')
+    list_display = ('patient', 'age', 'gender',)
     list_filter = ('age',)
     
 admin.site.register(Doctor, DoctorAdmin)
@@ -34,5 +34,4 @@ admin.site.register(TimeSlot, TimeSlotAdmin)
 admin.site.register(Appointment, AppointmentAdmin)
 admin.site.register(PatientDetails, PatientDetailsAdmin)
 admin.site.register(DoctorNonAvailability, DoctorNonAvailabilityAdmin)
-# admin.site.register(DoctorNonAvailability)
 

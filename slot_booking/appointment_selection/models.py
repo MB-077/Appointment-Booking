@@ -22,28 +22,6 @@ class DoctorNonAvailability(models.Model):
     def __str__(self):
         return f"{self.doctor} is not available on {self.start_date} from {self.start_time} to {self.end_date} till {self.end_time}"
     
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)  # Save DoctorNonAvailability first
-        
-    #     # Create TimeSlot objects for the availability
-    #     slots = []
-    #     start_time = datetime.combine(self.day, self.start_time)
-    #     end_time = datetime.combine(self.day, self.end_time)
-        
-    #     while start_time < end_time:
-    #         slot_end_time = start_time + timedelta(minutes=60)
-    #         if slot_end_time > end_time:
-    #             break
-    #         slots.append(TimeSlot(start_time=start_time.time(), end_time=slot_end_time.time()))
-    #         start_time = slot_end_time
-        
-    #     TimeSlot.objects.bulk_create(slots)
-    
-    # def delete(self, *args, **kwargs):
-    #     # Delete the related TimeSlot objects
-    #     TimeSlot.objects.filter(start_time__gte=self.start_time, end_time__lte=self.end_time).delete()
-    #     super().delete(*args, **kwargs)
-        
     class Meta:
         verbose_name_plural = "Doctor Non Availability"
 
@@ -56,11 +34,10 @@ class Patient(models.Model):
 
 class PatientDetails(models.Model):
     patient = models.OneToOneField(Patient, on_delete=models.CASCADE)
-    age = models.PositiveIntegerField()
-    gender = models.CharField(max_length=50)
-    address = models.TextField()
+    age = models.PositiveIntegerField(blank=True)
+    gender = models.CharField(max_length=50, blank=True)
+    address = models.TextField(blank=True)
     blood_group = models.CharField(max_length=3, blank=True)
-    email = models.EmailField(blank=True, null=True)
     
     def __str__(self):
         return f"{self.patient} - {self.age} years old"
