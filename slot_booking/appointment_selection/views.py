@@ -5,51 +5,82 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .models import *
 from .serializers import *
-from rest_framework import generics
-from rest_framework.permissions import AllowAny
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 
-class RegisterUserView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class TimeSlotList(ListCreateAPIView):
+    queryset = TimeSlot.objects.all()
+    serializer_class = TimeSlotSerializer
 
-class RegisterPatientView(generics.CreateAPIView):
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            permission_classes = [IsAuthenticated]
+        elif self.request.method == 'POST':
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+
+class TimeSlotIndividual(RetrieveUpdateDestroyAPIView):
+    queryset = TimeSlot.objects.all()
+    serializer_class = TimeSlotSerializer
+    permission_classes = [IsAdminUser]
+    
+class PatientList(ListCreateAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
 
-class DoctorViewSet(viewsets.ModelViewSet):
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            permission_classes = [IsAuthenticated]
+        elif self.request.method == 'POST':
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]    
+
+class PatientDetailList(ListCreateAPIView):
+    queryset = PatientDetails.objects.all()
+    serializer_class = PatientDetailsSerializer
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            permission_classes = [IsAuthenticated]
+        else :
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+    
+class PatientDetailIndividual(RetrieveUpdateDestroyAPIView):
+    queryset = PatientDetails.objects.all()
+    serializer_class = PatientDetailsSerializer
+   
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            permission_classes = [IsAuthenticated]
+        else :
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+
+class DoctorList(ListCreateAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
 
-class PatientViewSet(viewsets.ModelViewSet):
-    queryset = Patient.objects.all()
-    serializer_class = PatientSerializer
-
-class TimeSlotViewSet(viewsets.ModelViewSet):
-    queryset = TimeSlot.objects.all()
-    serializer_class = TimeSlotSerializer
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            permission_classes = [IsAuthenticated]
+        else :
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+    
+class DoctorIndividual(RetrieveUpdateDestroyAPIView):
+    queryset = Doctor.objects.all()
+    serializer_class = DoctorSerializer
+    permission_classes = [IsAdminUser]
+    
+    
+    
+# class DoctorViewSet(viewsets.ModelViewSet):
+       
 
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
-    permission_classes = [AllowAny]
+    # permission_classes = [AllowAny]
     
-
-
-
-class AppointmentListCreateView(generics.ListCreateAPIView):
-    queryset = Appointment.objects.all()
-    serializer_class = AppointmentSerializer
-    permission_classes = [AllowAny]
-
-class AppointmentDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Appointment.objects.all()
-    serializer_class = AppointmentSerializer
-
-class TimeSlotListCreateView(generics.ListCreateAPIView):
-    queryset = TimeSlot.objects.all()
-    serializer_class = TimeSlotSerializer
-
-class TimeSlotDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = TimeSlot.objects.all()
-    serializer_class = TimeSlotSerializer
