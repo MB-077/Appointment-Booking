@@ -9,11 +9,10 @@ const Login = () => {
   };
 
   React.useEffect(() => {
-    document.addEventListener("keydown", handleown);
+    document.addEventListener("keydown", handleDown);
   }, []);
 
-  const handleown = (e) => {
-    console.log(e.key);
+  const handleDown = (e) => {
     e.key === "Escape" ? Navigate(-1) : null;
   };
 
@@ -25,9 +24,9 @@ const Login = () => {
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 2 }}
+        animate={{ opacity: 1, scale: 2, translateY: "250px" }}
         transition={{ duration: 0.5 }}
-        className="relative left-[40%] top-[40%] w-96 h-36 bg-red-200"
+        className="relative left-[40%] top-0 w-96 h-36 bg-red-200"
       >
         <div className="">
           {" "}

@@ -1,15 +1,16 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Login = () => {
   const Navigate = useNavigate();
   const [change, setChange] = React.useState({
-    username: "",
-    mobileNo: "",
+    text: "",
+    tel: "",
     email: "",
     password: "",
-    passwordConfirm: "",
   });
+
   const handleMe = (e) => {
     e.target.id === "hideMeagain2" ? Navigate(-1) : null;
   };
@@ -22,15 +23,29 @@ const Login = () => {
     e.key === "Escape" ? Navigate(-1) : null;
   };
 
+  //handling form change
+  const handleChange = (e) => {
+    setChange((prev) => ({
+      ...prev,
+      [e.target.type]: e.target.value,
+    }));
+  };
+
+  //login posting data
+  const postData = async () => {
+    try {
+      const response = await axios.post("", change);
+      console.log("Success:", response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  //handling form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    postData();
   };
-  const handleChange = (e)=>{
-setChange((prev)=>{
-{...prev,
-[e.target.type] : e.target.value,}
-})
-  }
   return (
     <div
       id="hideMeagain2"
@@ -39,9 +54,9 @@ setChange((prev)=>{
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 2 }}
+        animate={{ opacity: 1, scale: 2, translateY: "250px" }}
         transition={{ duration: 0.5 }}
-        className="relative left-[40%] top-[40%] w-96 h-36 bg-red-200"
+        className="relative left-[40%] top-0 w-96 h-36 bg-red-200"
       >
         <div>
           {" "}
@@ -49,34 +64,36 @@ setChange((prev)=>{
             <div>
               <input
                 type="text"
+                value={change.username}
                 placeholder="Username"
                 onChange={handleChange}
               />
             </div>
             <div>
-              <input type="email" placeholder="email" onChange={handleChange} />
+              <input
+                type="email"
+                value={change.email}
+                placeholder="email"
+                onChange={handleChange}
+              />
             </div>
             <div>
               <input
-                type="number"
+                value={change.number}
+                type="tel"
                 placeholder="number"
                 onChange={handleChange}
               />
             </div>
             <div>
               <input
+                value={change.password}
                 type="password"
                 placeholder="Password"
                 onChange={handleChange}
               />
             </div>
-            <div>
-              <input
-                type="password"
-                placeholder="Password confirmation"
-                onChange={handleChange}
-              />
-            </div>
+
             <div>
               <button type="button">Sign In</button>
             </div>
