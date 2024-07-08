@@ -13,7 +13,7 @@ class Doctor(models.Model):
         return self.user.username
 
 class DoctorNonAvailability(models.Model):
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='non_availability')
     start_date = models.DateField()
     start_time = models.TimeField()
     end_date = models.DateField()

@@ -2,23 +2,31 @@ from django.shortcuts import render
 
 # Create your views here.
 
-from rest_framework import viewsets
 from .models import *
 from .serializers import *
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.exceptions import ValidationError
+from rest_framework import mixins, viewsets, permissions
+from rest_framework.exceptions import PermissionDenied
 
+class IsAdminOrReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return request.user and request.user.is_staff
 
-class TimeSlotList(ListCreateAPIView):
-    queryset = TimeSlot.objects.all()
-    serializer_class = TimeSlotSerializer
-
+class PermissionMixin:
     def get_permissions(self):
         if self.request.method == 'GET':
             permission_classes = [IsAuthenticated]
-        elif self.request.method == 'POST':
+        else:
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
+
+class TimeSlotList(PermissionMixin, ListCreateAPIView):
+    queryset = TimeSlot.objects.all()
+    serializer_class = TimeSlotSerializer
 
 
 class TimeSlotIndividual(RetrieveUpdateDestroyAPIView):
@@ -27,98 +35,66 @@ class TimeSlotIndividual(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUser]
     
     
-class PatientList(ListCreateAPIView):
+class PatientList(PermissionMixin, ListCreateAPIView):
     queryset = Patient.objects.all()
-    serializer_class = PatientSerializer
-
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            permission_classes = [IsAuthenticated]
-        elif self.request.method == 'POST':
-            permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]    
+    serializer_class = PatientSerializer  
 
 
 class PatientDetailList(ListCreateAPIView):
     queryset = PatientDetails.objects.all()
     serializer_class = PatientDetailsSerializer
+    permission_classes = [IsAuthenticated]
 
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            permission_classes = [IsAuthenticated]
-        else :
-            permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
-    
     
 class PatientDetailIndividual(RetrieveUpdateDestroyAPIView):
     queryset = PatientDetails.objects.all()
     serializer_class = PatientDetailsSerializer
-   
+    
     def get_permissions(self):
-        if self.request.method == 'GET':
+        if self.request.method == 'GET' or self.request.method == 'PUT' or self.request.method == 'PATCH':
             permission_classes = [IsAuthenticated]
-        else :
-            permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
-
-
-class DoctorList(ListCreateAPIView):
-    queryset = Doctor.objects.all()
-    serializer_class = DoctorSerializer
-
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            permission_classes = [IsAuthenticated]
-        else :
-            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [IsAdminOrReadOnly]
         return [permission() for permission in permission_classes]
     
-    
-class DoctorIndividual(RetrieveUpdateDestroyAPIView):
+
+class DoctorList(PermissionMixin, ListCreateAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
     
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            permission_classes = [IsAuthenticated]
-        else :
-            permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
+    
+class DoctorIndividual(PermissionMixin, RetrieveUpdateDestroyAPIView):
+    queryset = Doctor.objects.all()
+    serializer_class = DoctorSerializer
     
     
-class DoctorNonAvailabilityList(ListCreateAPIView):
+class DoctorNonAvailabilityList(PermissionMixin, ListCreateAPIView):
     queryset = DoctorNonAvailability.objects.all()
     serializer_class = DoctorNonAvailabilitySerializer
 
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            permission_classes = [IsAuthenticated]
-        else :
-            permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
 
-
-class DoctorNonAvailabilityIndividual(RetrieveUpdateDestroyAPIView):
+class DoctorNonAvailabilityIndividual(PermissionMixin, RetrieveUpdateDestroyAPIView):
     queryset = DoctorNonAvailability.objects.all()
     serializer_class = DoctorNonAvailabilitySerializer
-   
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            permission_classes = [IsAuthenticated]
-        else :
-            permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
     
-    
+    def perform_update(self, serializer):
+        if 'doctor' in self.request.data and not self.request.user.is_staff:
+            raise PermissionDenied("Only admins can update the 'doctor' field.")
+        serializer.save()
+
+
 class AppointmentList(ListCreateAPIView):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
     permission_classes = [IsAuthenticated]
-        
+    
     
 class AppointmentIndividual(RetrieveUpdateDestroyAPIView):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
     permission_classes = [IsAuthenticated]
     
+    def perform_update(self, serializer):
+        if 'is_approved' in self.request.data and not self.request.user.is_staff:
+            raise PermissionDenied("Only admins can update the 'is_approved' field.")
+        serializer.save()

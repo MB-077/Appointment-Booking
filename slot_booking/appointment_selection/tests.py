@@ -69,11 +69,16 @@ class PatientTest(APITestCase):
 class PatientDetailsTest(APITestCase):
 
     def setUp(self):
+        super().setUp()
+        PatientDetails.objects.all().delete()
         self.user = User.objects.create_user(username='example', password='testtest456')
         self.token, _ = Token.objects.get_or_create(user=self.user)  
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
         self.patient = Patient.objects.create(user=self.user, phone_number='1234567890')
         self.patient.save()
+        self.url = reverse('patient_details_list')
+        
+    def test_get_patient_details_list(self):
         self.patient_details = PatientDetails.objects.create(
             patient=self.patient,
             age=20,
@@ -81,22 +86,26 @@ class PatientDetailsTest(APITestCase):
             address='testaddress',
             blood_group='A+'
             )
-        self.patient_details.save()
-        self.data = {'patient': self.patient.id, 'age': 20, 'gender': 'male', 'address': 'testaddress', 'bloodgroup': 'A+'}
-        self.url = reverse('patient_details_list')
-        
-    def test_get_patient_details_list(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        
+    
     def test_create_patient_details(self):
+        self.data = {
+            'patient_id': self.patient.id,  
+            'age': 20,
+            'gender': 'Male',  
+            'address': 'testaddress',
+            'blood_group': 'B+'
+        }
         response = self.client.post(self.url, self.data)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         
         
 class PatientDetailIndividualTest(APITestCase):
     
     def setUp(self):
+        super().setUp()
+        PatientDetails.objects.all().delete()
         self.user = User.objects.create_user(username='example', password='testtest456')
         self.token, _ = Token.objects.get_or_create(user=self.user)  
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
@@ -110,7 +119,7 @@ class PatientDetailIndividualTest(APITestCase):
             blood_group='A+'
             )
         self.patient_details.save()
-        self.data = {'patient': self.patient.id, 'age': 20, 'gender': 'male', 'address': 'testaddress', 'bloodgroup': 'A+'}
+        self.data = {'patient_id': self.patient.id, 'age': 20, 'gender': 'male', 'address': 'testaddress', 'bloodgroup': 'A+'}
         self.url = reverse('patient_details_individual', kwargs={'pk': self.patient_details.id})
             
     def test_get_patient_details(self):
@@ -118,8 +127,9 @@ class PatientDetailIndividualTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         
     def test_update_patient_details(self):
-        response = self.client.put(reverse('patient_details_individual', args=[self.patient_details.id]), self.data)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.data = {'patient_id': self.patient.id, 'age': 22, 'gender': 'male', 'address': 'testaddress', 'blood_group': 'A+'}  
+        response = self.client.put(reverse('patient_details_individual', args=[self.patient_details.id]), json.dumps(self.data), content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         
     def test_delete_patient_details(self):
         response = self.client.delete(reverse('patient_details_individual', args=[self.patient_details.id]))
@@ -258,22 +268,11 @@ class AppointmentTest(APITestCase):
         self.patient.save()
         self.time_slot = TimeSlot.objects.create(start_time=(datetime.now() + timedelta(hours=1)).time(), end_time=(datetime.now() + timedelta(hours=2)).time())
         self.time_slot.save()
-        self.appointment = Appointment.objects.create(
-            doctor=self.doctor,
-            patient=self.patient,
-            date=datetime.now().date(),
-            time_slot=self.time_slot,
-            reschedule_requested=False,
-            is_approved=False
-            )
-        self.appointment.save()
         self.data = {
             'doctor': self.doctor.id,
+            'time_slot': self.time_slot.id,
             'patient': self.patient.id,
             'date': datetime.now().date().isoformat(),
-            'time_slot': self.time_slot.id,
-            'reschedule_requested': self.appointment.reschedule_requested,
-            'is_approved': self.appointment.is_approved
             }
         self.url = reverse('appointment_list')
         
@@ -286,6 +285,60 @@ class AppointmentTest(APITestCase):
         if response.status_code == status.HTTP_400_BAD_REQUEST:
             print(response.content)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        
+    def test_create_appointment_invalid_doctor(self):
+        data = {
+            'doctor': 1000,
+            'time_slot': self.time_slot.id,
+            'patient': self.patient.id,
+            'date': datetime.now().date().isoformat(),
+        }
+        response = self.client.post(reverse('appointment_list'), json.dumps(data), content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        
+    def test_create_appointment_invalid_patient(self):
+        data = {
+            'doctor': self.doctor.id,
+            'time_slot': self.time_slot.id,
+            'patient': 1000,
+            'date': datetime.now().date().isoformat(),
+        }
+        response = self.client.post(reverse('appointment_list'), json.dumps(data), content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        
+    def test_create_appointment_invalid_time_slot(self):
+        data = {
+            'doctor': self.doctor.id,
+            'time_slot': 1000,
+            'patient': self.patient.id,
+            'date': datetime.now().date().isoformat(),
+        }
+        response = self.client.post(reverse('appointment_list'), json.dumps(data), content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        
+    def test_create_appointment_time_slot_booked(self):
+        appointment = Appointment.objects.create(
+            doctor=self.doctor,
+            patient=self.patient,
+            date=datetime.now().date().isoformat(),
+            time_slot=self.time_slot,
+            reschedule_requested=False,
+            )
+        appointment.save()
+        response = self.client.post(reverse('appointment_list'), json.dumps(self.data), content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        
+    def test_create_appointment_doctor_not_available(self):
+        doctor_non_availability = DoctorNonAvailability.objects.create(
+            doctor=self.doctor,
+            start_date=datetime.now().date(),
+            start_time=self.time_slot.start_time,
+            end_date=datetime.now().date(),
+            end_time=self.time_slot.end_time
+            )
+        doctor_non_availability.save()
+        response = self.client.post(reverse('appointment_list'), json.dumps(self.data), content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         
 
 class AppointmentIndividualTest(APITestCase):
@@ -302,23 +355,16 @@ class AppointmentIndividualTest(APITestCase):
         self.patient.save()
         self.time_slot = TimeSlot.objects.create(start_time=(datetime.now() + timedelta(hours=1)).time(), end_time=(datetime.now() + timedelta(hours=2)).time())
         self.time_slot.save()
+        self.time_slot2 = TimeSlot.objects.create(start_time=(datetime.now() + timedelta(hours=2)).time(), end_time=(datetime.now() + timedelta(hours=3)).time())
+        self.time_slot2.save()
         self.appointment = Appointment.objects.create(
             doctor=self.doctor,
             patient=self.patient,
             date=datetime.now().date().isoformat(),
             time_slot=self.time_slot,
             reschedule_requested=False,
-            is_approved=False
             )
         self.appointment.save()
-        self.data = {
-            'doctor': self.doctor.id,
-            'patient': self.patient.id,
-            'date': datetime.now().date().isoformat(),
-            'time_slot': self.time_slot.id,
-            'reschedule_requested': self.appointment.reschedule_requested,
-            'is_approved': self.appointment.is_approved
-        }
         self.url = reverse('appointment_individual', kwargs={'pk': self.appointment.id})
         
     def test_get_appointment(self):
@@ -330,9 +376,8 @@ class AppointmentIndividualTest(APITestCase):
             "doctor": self.doctor.id,
             "patient": self.patient.id,
             "date": datetime.now().date().isoformat(),
-            "time_slot": self.time_slot.id,
+            "time_slot": self.time_slot2.id,
             "reschedule_requested": True,
-            "is_approved": False
         }
         response = self.client.put(
             reverse('appointment_individual',
@@ -347,3 +392,10 @@ class AppointmentIndividualTest(APITestCase):
     def test_delete_appointment(self):
         response = self.client.delete(reverse('appointment_individual', args=[self.appointment.id]))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        
+        
+
+        
+       
+        
+            
