@@ -2,8 +2,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useMessage } from "../Context/MessageContext";
 
 const Register = () => {
+  const { setMessage } = useMessage();
+
   const navigate = useNavigate();
   const [change, setChange] = React.useState({
     username: "",
@@ -41,6 +44,7 @@ const Register = () => {
   };
 
   // register posting data
+
   const postData = async () => {
     try {
       const response = await axios.post(
@@ -49,16 +53,37 @@ const Register = () => {
       );
       localStorage.setItem("token", response.data.token);
       console.log("Success:", response.data);
+      const [message] = response.data.username;
+      console.log(message);
+      message ? setMessage(message) : null;
+      navigate("/login");
     } catch (error) {
-      console.error("Error:", error.response.data); // Log the response data for better error insight
+      console.log(error);
+      console.error("Error:", error.response.data);
     }
   };
+
+  //empty input fields
+  const [empty, setEmpty] = React.useState(false);
 
   // handling form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (
+      change.username === "" ||
+      change.email === "" ||
+      change.phone_number === "" ||
+      change.password === "" ||
+      change.password2 === ""
+    ) {
+      setEmpty(true);
+      setTimeout(() => {
+        setEmpty(false);
+      }, 3000);
+    }
+
     postData();
-    navigate("/login");
   };
 
   return (
@@ -73,6 +98,7 @@ const Register = () => {
         transition={{ duration: 0.5 }}
         className="relative left-[40%] top-0 w-96 h-36 bg-red-200"
       >
+        {empty ? <h2>Fill in all fields</h2> : null}
         <div>
           <form onSubmit={handleSubmit}>
             <div>

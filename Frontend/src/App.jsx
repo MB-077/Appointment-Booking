@@ -7,6 +7,8 @@ import {
   History,
   Register,
   Login,
+  Authrequire,
+  PageNotFound,
 } from "./im-ex-ports";
 import {
   Route,
@@ -15,11 +17,13 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { loginloaders } from "./Pages/Login";
-import { Authrequire } from "./authRequire";
+import ErrorComp from "./Components/ErrorComp";
+import { MessageProvider } from "./Context/MessageContext";
+
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Layout />}>
+      <Route path="/" element={<Layout />} errorElement={<ErrorComp />}>
         <Route index element={<Dashboard />} />
         <Route path="login" element={<Login />} loader={loginloaders} />
         <Route path="register" element={<Register />} />
@@ -43,11 +47,16 @@ function App() {
           element={<History />}
           loader={async () => await Authrequire()}
         />
+        <Route path="*" element={<PageNotFound />} />
       </Route>
     )
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <MessageProvider>
+      <RouterProvider router={router} />{" "}
+    </MessageProvider>
+  );
 }
 
 export default App;

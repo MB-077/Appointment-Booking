@@ -3,12 +3,14 @@ import { motion } from "framer-motion";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useMessage } from "../Context/MessageContext";
 
 export function loginloaders({ request }) {
   return new URL(request.url).searchParams.get("message");
 }
 
 const Login = () => {
+  const { message } = useMessage();
   const url = useLoaderData();
   console.log(url);
   const Navigate = useNavigate();
@@ -18,7 +20,7 @@ const Login = () => {
   });
 
   const handleMe = (e) => {
-    e.target.id === "hideMeagain" ? Navigate(-1) : null;
+    e.target.id === "hideMeagain" ? Navigate("/") : null;
   };
 
   React.useEffect(() => {
@@ -26,7 +28,7 @@ const Login = () => {
   }, []);
 
   const handleDown = (e) => {
-    e.key === "Escape" ? Navigate(-1) : null;
+    e.key === "Escape" ? Navigate("/") : null;
   };
 
   const handleChange = (e) => {
@@ -65,7 +67,7 @@ const Login = () => {
         className="relative left-[40%] top-0 w-96 h-36 bg-red-200"
       >
         {url ? <h2>{url}</h2> : null}
-
+        {message ? <h2>{message}</h2> : null}
         <div className="">
           {" "}
           <form onClick={handleSubmit}>
