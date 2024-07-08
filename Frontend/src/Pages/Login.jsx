@@ -1,8 +1,16 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Link } from "react-router-dom";
+
+export function loginloaders({ request }) {
+  return new URL(request.url).searchParams.get("message");
+}
+
 const Login = () => {
+  const url = useLoaderData();
+  console.log(url);
   const Navigate = useNavigate();
   const [change, setChange] = React.useState({
     username: "",
@@ -29,8 +37,14 @@ const Login = () => {
   };
 
   const postData = async () => {
-    const response = await axios.post("http://127.0.0.1:8000/login/", change);
-    console.log(response);
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/login/", change);
+      console.log("Success:", response.data);
+      localStorage.setItem("token", response.data.token); // Store the token in local storage
+      Navigate("/"); // Redirect to dashboard or another page after successful registration
+    } catch (error) {
+      console.error("Error:", error.response.data);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -50,6 +64,8 @@ const Login = () => {
         transition={{ duration: 0.5 }}
         className="relative left-[40%] top-0 w-96 h-36 bg-red-200"
       >
+        {url ? <h2>{url}</h2> : null}
+
         <div className="">
           {" "}
           <form onClick={handleSubmit}>
@@ -60,6 +76,7 @@ const Login = () => {
                 placeholder="Username"
                 name="username"
                 onChange={handleChange}
+                autoComplete="username"
               />
             </div>
             <div>
@@ -69,6 +86,7 @@ const Login = () => {
                 placeholder="Password"
                 name="password"
                 onChange={handleChange}
+                autoComplete="current-password"
               />
             </div>
             <div className="flex items-center justify-between">
@@ -76,6 +94,10 @@ const Login = () => {
             </div>
           </form>
         </div>
+        <h6>registered user?</h6>
+        <Link to="/register">
+          <button>Register Now</button>
+        </Link>
       </motion.div>
     </div>
   );
