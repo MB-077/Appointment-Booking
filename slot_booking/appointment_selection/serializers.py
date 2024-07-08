@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from datetime import datetime
 
 
 class DoctorSerializer(serializers.ModelSerializer):
@@ -44,12 +45,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
         patient_id = self.initial_data.get('patient')
         time_slot_id = self.initial_data.get('time_slot')
         doctor_non_availability = DoctorNonAvailability.objects.filter(doctor=doctor_id)
-        if doctor_non_availability.exists():
-            start_date = doctor_non_availability.first().start_date
-            end_date = doctor_non_availability.first().end_date
-        else:
-            start_date = None
-            end_date = None
+        appointment_date = self.initial_data.get('date')
+        appointment_date_obj = datetime.strptime(appointment_date, '%Y-%m-%d').date()        
         
         try:
             doctor = Doctor.objects.get(id=doctor_id)
@@ -74,15 +71,12 @@ class AppointmentSerializer(serializers.ModelSerializer):
         
         if doctor.user.id == patient.user.id:
             raise serializers.ValidationError({'doctor_id': 'Doctor and patient cannot be the same.'})
-        
-        if DoctorNonAvailability.objects.filter(
-                doctor=doctor,
-                start_date__lte=start_date,
-                end_date__gte=end_date,
-                start_time__lte=time_slot.start_time,
-                end_time__gte=time_slot.end_time
-                ).exists():
-            raise serializers.ValidationError({'doctor': 'Doctor is not available on this date.'})
+
+        if doctor_non_availability.exists():
+            for doctor_non_availability in doctor_non_availability:
+                if doctor_non_availability.start_date <= appointment_date_obj <= doctor_non_availability.end_date:
+                    if doctor_non_availability.start_time <= time_slot.start_time and doctor_non_availability.end_time >= time_slot.end_time:
+                        raise serializers.ValidationError({'doctor': 'Doctor is not available on this date.'})
         
         return data
     
@@ -111,7 +105,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
         
         instance.save()
         return instance
-    
+
+
 class DoctorNonAvailabilitySerializer(serializers.ModelSerializer):
     doctor = serializers.CharField(source='doctor.user.username', read_only=True)
     doctor_id = serializers.IntegerField(write_only=True)
