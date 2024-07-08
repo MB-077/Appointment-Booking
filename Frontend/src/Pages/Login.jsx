@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Login = () => {
   const Navigate = useNavigate();
   const [change, setChange] = React.useState({
@@ -28,15 +29,8 @@ const Login = () => {
   };
 
   const postData = async () => {
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/register/",
-        change
-      );
-      console.log("Success:", response.data);
-    } catch (error) {
-      console.error("Error:", error.response.data); // Log the response data for better error insight
-    }
+    const response = await axios.post("http://127.0.0.1:8000/login/", change);
+    console.log(response);
   };
 
   const handleSubmit = (e) => {
@@ -48,7 +42,7 @@ const Login = () => {
     <div
       id="hideMeagain"
       onClick={handleMe}
-      className="absolute backdrop-blur-md   w-full top-0 h-full"
+      className="absolute backdrop-blur-md backdrop-brightness-50 w-full top-0 h-full"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}

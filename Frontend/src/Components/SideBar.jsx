@@ -5,10 +5,9 @@ const SideBar = ({ list }) => {
     <NavLink
       to={el.path}
       className={({ isActive }) => (isActive ? "underline font-bold " : "")}
+      key={el.id}
     >
-      <li className="" key={el.id}>
-        {el.name}
-      </li>
+      <li className="">{el.name}</li>
     </NavLink>
   ));
   return <div className="bg-gray-500 w-1/5 h-[80vh]">{Display}</div>;

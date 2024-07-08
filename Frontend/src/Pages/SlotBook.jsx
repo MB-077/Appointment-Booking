@@ -1,18 +1,6 @@
 import React from "react";
-// import axios from "axios";
-const SlotBook = () => {
-  // const [slot, setSlot] = React.useState({});
-  // const SlotFetch = async () => {
-  //   const response = await axios.get("http://localhost:5000/timeslots");
-  //   // setSlot(response.data);
-  //   console.log(response.data);
-  //   console.log(response);
-  // };
-  // React.useEffect(() => {
-  //   SlotFetch();
-  // }, []);
 
-  console.log(slot);
+const SlotBook = () => {
   return <div>SlotBook</div>;
 };
 
