@@ -29,6 +29,7 @@ def registration_view(request):
         if serializer.is_valid():
             account, patient = serializer.save()
             data['response'] = 'Registration Successfully!'
+            data['id'] = account.id
             data['username'] = account.username
             data['email'] = account.email
             data['phone_no'] = patient.phone_number

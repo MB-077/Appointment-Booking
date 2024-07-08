@@ -10,6 +10,12 @@ from rest_framework.exceptions import ValidationError
 from rest_framework import mixins, viewsets, permissions
 from rest_framework.exceptions import PermissionDenied
 
+class IsAdminOrReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return request.user and request.user.is_staff
+
 class PermissionMixin:
     def get_permissions(self):
         if self.request.method == 'GET':
@@ -34,14 +40,22 @@ class PatientList(PermissionMixin, ListCreateAPIView):
     serializer_class = PatientSerializer  
 
 
-class PatientDetailList(PermissionMixin, ListCreateAPIView):
+class PatientDetailList(ListCreateAPIView):
     queryset = PatientDetails.objects.all()
     serializer_class = PatientDetailsSerializer
+    permission_classes = [IsAuthenticated]
 
     
-class PatientDetailIndividual(PermissionMixin, RetrieveUpdateDestroyAPIView):
+class PatientDetailIndividual(RetrieveUpdateDestroyAPIView):
     queryset = PatientDetails.objects.all()
     serializer_class = PatientDetailsSerializer
+    
+    def get_permissions(self):
+        if self.request.method == 'GET' or self.request.method == 'PUT' or self.request.method == 'PATCH':
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdminOrReadOnly]
+        return [permission() for permission in permission_classes]
     
 
 class DoctorList(PermissionMixin, ListCreateAPIView):
@@ -67,13 +81,6 @@ class DoctorNonAvailabilityIndividual(PermissionMixin, RetrieveUpdateDestroyAPIV
         if 'doctor' in self.request.data and not self.request.user.is_staff:
             raise PermissionDenied("Only admins can update the 'doctor' field.")
         serializer.save()
-        
-   
-class IsAdminOrReadOnly(permissions.BasePermission):
-    def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        return request.user and request.user.is_staff
 
 
 class AppointmentList(ListCreateAPIView):

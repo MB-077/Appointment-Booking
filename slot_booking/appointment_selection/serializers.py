@@ -19,6 +19,7 @@ class PatientSerializer(serializers.ModelSerializer):
     
 class PatientDetailsSerializer(serializers.ModelSerializer):
     patient = serializers.CharField(source='patient.user.username', read_only=True)
+    patient_id = serializers.IntegerField(write_only=True)
     
     class Meta:
         model = PatientDetails
