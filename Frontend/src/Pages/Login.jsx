@@ -3,16 +3,15 @@ import { motion } from "framer-motion";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { useMessage } from "../Context/MessageContext";
+// import { useMessage } from "../Context/MessageContext";
 
 export function loginloaders({ request }) {
   return new URL(request.url).searchParams.get("message");
 }
 
 const Login = () => {
-  const { message } = useMessage();
+  // const { message } = useMessage();
   const url = useLoaderData();
-  console.log(url);
   const Navigate = useNavigate();
   const [change, setChange] = React.useState({
     username: "",
@@ -67,7 +66,7 @@ const Login = () => {
         className="relative left-[40%] top-0 w-96 h-36 bg-red-200"
       >
         {url ? <h2>{url}</h2> : null}
-        {message ? <h2>{message}</h2> : null}
+        {/* {message ? <h2>{message}</h2> : null} */}
         <div className="">
           {" "}
           <form onClick={handleSubmit}>

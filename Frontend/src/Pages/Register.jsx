@@ -2,10 +2,10 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useMessage } from "../Context/MessageContext";
+// import { useMessage } from "../Context/MessageContext";
 
 const Register = () => {
-  const { setMessage } = useMessage();
+  // const { setMessage } = useMessage();
 
   const navigate = useNavigate();
   const [change, setChange] = React.useState({
@@ -44,7 +44,6 @@ const Register = () => {
   };
 
   // register posting data
-
   const postData = async () => {
     try {
       const response = await axios.post(
@@ -53,10 +52,8 @@ const Register = () => {
       );
       localStorage.setItem("token", response.data.token);
       console.log("Success:", response.data);
-      const [message] = response.data.username;
-      console.log(message);
-      message ? setMessage(message) : null;
-      navigate("/login");
+
+      response.data.token ? navigate("/login") : null;
     } catch (error) {
       console.log(error);
       console.error("Error:", error.response.data);
@@ -99,6 +96,7 @@ const Register = () => {
         className="relative left-[40%] top-0 w-96 h-36 bg-red-200"
       >
         {empty ? <h2>Fill in all fields</h2> : null}
+
         <div>
           <form onSubmit={handleSubmit}>
             <div>
