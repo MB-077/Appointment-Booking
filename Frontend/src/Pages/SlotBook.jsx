@@ -8,7 +8,7 @@ const SlotBook = () => {
 
   React.useEffect(() => {
     const slotBooking = async () => {
-      const token = "cc135a9f08311a827b62c1490bf4e7f656108231";
+      const token = localStorage.getItem("token");
       try {
         const response = await axios.get("http://127.0.0.1:8000/timeslots/", {
           headers: {
@@ -32,15 +32,15 @@ const SlotBook = () => {
     </div>
   ));
   return (
-    <>
-      <div>
+    <div className="bg-yellow-300 flex w-full justify-evenly items-start">
+      <div className="w-2/3 relative">
         <h2>slotBooking</h2>
-        <div> {elements} </div>
+        <div className="bg-pink-600 h-[250px] grid grid-cols-5">{elements}</div>
       </div>
       <div>
-        <Calendar />
+        <Calendar className="relative top-5" />
       </div>
-    </>
+    </div>
   );
 };
 

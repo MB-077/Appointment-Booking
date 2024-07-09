@@ -41,8 +41,8 @@ const Login = () => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/login/", change);
       console.log("Success:", response.data);
-      localStorage.setItem("token", response.data.token); // Store the token in local storage
-      Navigate("/"); // Redirect to dashboard or another page after successful registration
+      localStorage.setItem("token", response.data.token);
+      Navigate("/");
     } catch (error) {
       console.error("Error:", error.response.data);
     }

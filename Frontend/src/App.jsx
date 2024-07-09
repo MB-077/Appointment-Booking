@@ -18,7 +18,7 @@ import {
 } from "react-router-dom";
 import { loginloaders } from "./Pages/Login";
 import ErrorComp from "./Components/ErrorComp";
-import { MessageProvider } from "./Context/MessageContext";
+import { AllDataProvider } from "./Context/dataContext";
 
 function App() {
   const router = createBrowserRouter(
@@ -53,9 +53,9 @@ function App() {
   );
 
   return (
-    <MessageProvider>
-      <RouterProvider router={router} />{" "}
-    </MessageProvider>
+    <AllDataProvider>
+      <RouterProvider router={router} />
+    </AllDataProvider>
   );
 }
 
