@@ -1,5 +1,9 @@
 /vir_env
 db.sqlite3
 slot_booking/settings.py/
-slot_booking/__pycache__/
-user/__pycache__/
+slot_booking/_pycache_/
+users/_pycache_/
+appointment_selection/_pycache_/
+users/migrations/
+appointment_selection/migrations/
+slot_booking/migrations/
