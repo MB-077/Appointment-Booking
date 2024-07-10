@@ -4,38 +4,57 @@ import "react-calendar/dist/Calendar.css";
 import dataContext from "../Context/contextProvider";
 import { motion } from "framer-motion";
 const SlotBook = () => {
-  const { slots, setBookedSlotData, BookedslotData } = useContext(dataContext);
+  // hooks
+  const { slots, setBookedSlotData, BookedslotData, setSlots } =
+    useContext(dataContext);
   const [show, setShow] = React.useState(false);
+
+  // handling click
   const handleClick = (e) => {
     console.log(e.target);
-    const selected = slots.find(
-      (slot) => slot.start_time === e.target.innerText
-    );
-    console.log(selected);
-    setBookedSlotData((prev) => [...prev, selected]);
-    setShow(true);
-    setTimeout(() => {
-      setShow(false);
-    }, 2000);
-  };
+    let selected = slots.find((slot) => slot.start_time === e.target.innerText);
 
+    if (selected) {
+      const updatedSlot = { ...selected, is_booked: true };
+
+      // Update slots state
+      setSlots((prevSlots) =>
+        prevSlots.map((slot) =>
+          slot.id === updatedSlot.id ? updatedSlot : slot
+        )
+      );
+
+      // Update booked slots
+      setBookedSlotData((prev) =>
+        [...prev, updatedSlot].sort((a, b) => a.id - b.id)
+      );
+
+      setShow(true);
+      setTimeout(() => {
+        setShow(false);
+      }, 2000);
+    }
+  };
+  //   mapping the booked slots
   const newELement = BookedslotData.map((slot) => (
     <div key={slot.id}>
       <p>{slot.start_time}</p>
     </div>
   ));
 
+  // mapping the slots from the database
   const elements = slots.map((slot) => (
     <div key={slot.id}>
       <button
         key={slot.id}
         onClick={handleClick}
-        className={`${!slot.is_booked ? "line-through" : "font-bold"}`}
+        className={`${slot.is_booked ? "line-through" : "font-bold"}`}
       >
         {slot.start_time}
       </button>
     </div>
   ));
+
   return (
     <div className="bg-yellow-300 flex w-full justify-evenly items-start">
       <div className="w-2/3 relative">
