@@ -1,5 +1,4 @@
 /vir_env
 db.sqlite3
-slot_booking/settings.py/
-slot_booking/__pycache__/
-user/__pycache__/
+**/__pycache__/
+# **/migrations/
