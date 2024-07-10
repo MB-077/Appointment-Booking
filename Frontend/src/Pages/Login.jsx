@@ -38,7 +38,7 @@ const Login = () => {
   const postData = async () => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/login/", change);
-      console.log("Success:", response.data, response);
+      console.log("Success:", response.data);
       localStorage.setItem("token", response.data.token);
       Navigate("/");
     } catch (error) {
