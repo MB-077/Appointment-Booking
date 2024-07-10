@@ -31,12 +31,6 @@ class CustomAuthToken(ObtainAuthToken):
                 'phone_number': user.patient.phone_number,
             })
             return Response(data, status=status.HTTP_200_OK)
-        elif hasattr(user, 'doctor'):
-            data.update({
-                'doctor_id': user.doctor.id,
-                'doctor_email': user.doctor.email,
-            })
-            return Response(data, status=status.HTTP_200_OK)
         else:
             return Response({
                 'token': token.key,
