@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Doctor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='doctor')
     email = models.EmailField()
     specialty = models.CharField(max_length=100)
 
@@ -26,14 +26,14 @@ class DoctorNonAvailability(models.Model):
         verbose_name_plural = "Doctor Non Availability"
 
 class Patient(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='patient')
     phone_number = models.CharField(max_length=14)
 
     def __str__(self):
         return self.user.username
 
 class PatientDetails(models.Model):
-    patient = models.OneToOneField(Patient, on_delete=models.CASCADE)
+    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, related_name='patient_details')
     age = models.PositiveIntegerField(blank=True)
     gender = models.CharField(max_length=50, blank=True)
     address = models.TextField(blank=True)
