@@ -3,14 +3,12 @@ import { motion } from "framer-motion";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// import { useMessage } from "../Context/MessageContext";
 
 export function loginloaders({ request }) {
   return new URL(request.url).searchParams.get("message");
 }
 
 const Login = () => {
-  // const { message } = useMessage();
   const url = useLoaderData();
   const Navigate = useNavigate();
   const [change, setChange] = React.useState({
@@ -40,7 +38,7 @@ const Login = () => {
   const postData = async () => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/login/", change);
-      console.log("Success:", response.data);
+      console.log("Success:", response.data, response);
       localStorage.setItem("token", response.data.token);
       Navigate("/");
     } catch (error) {
