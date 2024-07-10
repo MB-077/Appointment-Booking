@@ -7,11 +7,15 @@ const Toggle = () => {
   };
   return (
     <div>
-      <div className="w-14 h-7 flex items-center rounded-[15px] bg-red-400">
+      <div
+        onClick={handleClick}
+        className="w-14 h-7 flex items-center rounded-[15px] bg-red-400"
+      >
         <motion.div
           className="w-5 h-5 mx-1 rounded-full bg-white"
           animate={move ? { x: "27px" } : {}}
-          onClick={handleClick}
+          transition={{ type: "spring", stiffness: 200 }}
+          whileHover={{ scale: 1.1 }}
         ></motion.div>
       </div>
     </div>

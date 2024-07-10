@@ -2,33 +2,13 @@ import axios from "axios";
 import React from "react";
 import dataContext from "./contextProvider";
 export const AllDataProvider = ({ children }) => {
-  // function parseJwt(token) {
-  //   if (!token) {
-  //     return;
-  //   }
-
-  //   const base64Url = token.split(".")[1];
-  //   const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  //   const jsonPayload = decodeURIComponent(
-  //     atob(base64)
-  //       .split("")
-  //       .map(function (c) {
-  //         return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-  //       })
-  //       .join("")
-  //   );
-
-  //   return JSON.parse(jsonPayload);
-  // }
-
+  // this is for all the users
+  const [Users, setUsers] = React.useState([]);
   const users = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       return;
     }
-
-    // const userinfo = parseJwt(token);
-    // console.log(userinfo);
 
     try {
       const res = await axios.get("http://127.0.0.1:8000/patients/", {
@@ -37,6 +17,7 @@ export const AllDataProvider = ({ children }) => {
         },
       });
       const info = await res.data;
+      setUsers(info);
       console.log(info);
     } catch (err) {
       console.log(err);
@@ -47,5 +28,44 @@ export const AllDataProvider = ({ children }) => {
     users();
   }, []);
 
-  return <dataContext.Provider value={{}}>{children}</dataContext.Provider>;
+  // this is for all the time slots
+  const [slots, setSlots] = React.useState([]);
+
+  React.useEffect(() => {
+    const slotBooking = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/timeslots/", {
+          headers: {
+            Authorization: `token ${token}`,
+          },
+        });
+        const info = await response.data;
+        console.log(info);
+        setSlots(info);
+      } catch (error) {
+        console.error("Error:", error.response.data);
+      }
+    };
+
+    slotBooking();
+  }, []);
+
+  // this is for booked time slots for adding and deleting
+  const [BookedslotData, setBookedSlotData] = React.useState([]);
+
+  return (
+    <dataContext.Provider
+      value={{
+        Users,
+        setUsers,
+        BookedslotData,
+        setBookedSlotData,
+        slots,
+        setSlots,
+      }}
+    >
+      {children}
+    </dataContext.Provider>
+  );
 };
