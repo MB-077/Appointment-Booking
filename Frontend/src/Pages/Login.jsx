@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import dataContext from "../Context/contextProvider";
 
 export function loginloaders({ request }) {
   return new URL(request.url).searchParams.get("message");
 }
 
 const Login = () => {
+  const { usersList, slotBookingList } = useContext(dataContext);
   const url = useLoaderData();
   const Navigate = useNavigate();
   const [change, setChange] = React.useState({
@@ -40,6 +42,8 @@ const Login = () => {
       const response = await axios.post("http://127.0.0.1:8000/login/", change);
       console.log("Success:", response.data);
       localStorage.setItem("token", response.data.token);
+      usersList();
+      slotBookingList();
       Navigate("/");
     } catch (error) {
       console.error("Error:", error.response.data);
