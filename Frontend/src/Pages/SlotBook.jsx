@@ -1,19 +1,22 @@
 import React, { useContext } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import Calendar from "../Components/Calendar";
 import dataContext from "../Context/contextProvider";
 import { motion } from "framer-motion";
 import Button from "../Components/Button";
 const SlotBook = () => {
   // hooks
   const {
+    //state1
     total_slots,
-    setBookedSlotData,
-    BookedslotData,
     settotal_Slots,
-    doctorSelected,
+    //state2
+    BookedslotData,
+    setBookedSlotData,
+    //normal array
+    newDoctorSelect,
   } = useContext(dataContext);
 
+  //internal hooks
   const [show, setShow] = React.useState(false);
   const [message, setMessage] = React.useState(false);
   const [timeoutId, setTimeoutId] = React.useState(null);
@@ -84,12 +87,17 @@ const SlotBook = () => {
     </div>
   ));
 
+  //getting the user data
+  const text = localStorage.getItem("userData");
+  const user = JSON.parse(text);
+  console.log(user);
+
   // handling the submit button
   const handleSubmit = () => {
-    console.log(doctorSelected);
+    console.log(BookedslotData);
     //data i want
-    //1 doctor doctorsSelected
-    //2 patient
+    //1 doctor newDoctorSelect
+    //2 patient user
     //3 time_slot BookedslotData
     //4 date
   };

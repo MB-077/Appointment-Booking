@@ -20,6 +20,7 @@ const SideBar = ({ list }) => {
         <Button
           func={() => {
             localStorage.removeItem("token");
+            localStorage.removeItem("userData");
             navigate("/");
           }}
         >

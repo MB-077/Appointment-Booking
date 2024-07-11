@@ -41,7 +41,8 @@ const Login = () => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/login/", change);
       console.log("Success:", response.data);
-
+      const { token, ...userData } = response.data;
+      localStorage.setItem("userData", JSON.stringify(userData));
       localStorage.setItem("token", response.data.token);
       usersList();
       slotBookingList();

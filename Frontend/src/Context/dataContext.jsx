@@ -3,11 +3,17 @@ import React from "react";
 import dataContext from "./contextProvider";
 export const AllDataProvider = ({ children }) => {
   //hooks
+  //total no of users
   const [Users, setUsers] = React.useState([]);
+  //total no f slots available
   const [total_slots, settotal_Slots] = React.useState([]);
+  //slots booked by the user
   const [BookedslotData, setBookedSlotData] = React.useState([]);
+  //total no of doctors available
   const [doctors, setDoctors] = React.useState([]);
+  //total no of doctors selected
   const [doctorsSelected, setDoctorsSelected] = React.useState({});
+  const newDoctorSelect = doctorsSelected;
 
   //FUCNTION NO1
   const usersList = async () => {
@@ -89,18 +95,23 @@ export const AllDataProvider = ({ children }) => {
   return (
     <dataContext.Provider
       value={{
+        //state1
         Users,
-        setUsers,
+        doctors,
+        //state2
         BookedslotData,
         setBookedSlotData,
+        //state3
         total_slots,
         settotal_Slots,
+        //state4
+        newDoctorSelect,
+        doctorsSelected,
+        setDoctorsSelected,
+        //functions
         usersList,
         slotBookingList,
         DocAvailable,
-        doctors,
-        setDoctorsSelected,
-        doctorsSelected,
       }}
     >
       {children}
