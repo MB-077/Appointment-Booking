@@ -2,10 +2,12 @@ import axios from "axios";
 import React from "react";
 import dataContext from "./contextProvider";
 export const AllDataProvider = ({ children }) => {
-  // this is for all the users
+  //hooks
   const [Users, setUsers] = React.useState([]);
-  const [slots, setSlots] = React.useState([]);
+  const [total_slots, settotal_Slots] = React.useState([]);
+  const [BookedslotData, setBookedSlotData] = React.useState([]);
 
+  //FUCNTION NO1
   const usersList = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -26,6 +28,7 @@ export const AllDataProvider = ({ children }) => {
     }
   };
 
+  //FUCNTION NO2
   const slotBookingList = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -36,19 +39,17 @@ export const AllDataProvider = ({ children }) => {
       });
       const info = await response.data;
       console.log(info);
-      setSlots(info);
+      settotal_Slots(info);
     } catch (error) {
       console.error("Error:", error.response.data);
     }
   };
 
+  //CALLING THE USEFFECT HOOK
   React.useEffect(() => {
     usersList();
     slotBookingList();
   }, []);
-
-  // this is for booked time slots for adding and deleting
-  const [BookedslotData, setBookedSlotData] = React.useState([]);
 
   return (
     <dataContext.Provider
@@ -57,8 +58,8 @@ export const AllDataProvider = ({ children }) => {
         setUsers,
         BookedslotData,
         setBookedSlotData,
-        slots,
-        setSlots,
+        total_slots,
+        settotal_Slots,
         usersList,
         slotBookingList,
       }}
