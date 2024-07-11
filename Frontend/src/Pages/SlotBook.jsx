@@ -3,10 +3,17 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import dataContext from "../Context/contextProvider";
 import { motion } from "framer-motion";
+import Button from "../Components/Button";
 const SlotBook = () => {
   // hooks
-  const { total_slots, setBookedSlotData, BookedslotData, settotal_Slots } =
-    useContext(dataContext);
+  const {
+    total_slots,
+    setBookedSlotData,
+    BookedslotData,
+    settotal_Slots,
+    doctorSelected,
+  } = useContext(dataContext);
+
   const [show, setShow] = React.useState(false);
   const [message, setMessage] = React.useState(false);
   const [timeoutId, setTimeoutId] = React.useState(null);
@@ -66,17 +73,26 @@ const SlotBook = () => {
   // mapping the slots from the database
   const elements = total_slots.map((slot) => (
     <div key={slot.id}>
-      <button
+      <Button
         key={slot.id}
-        onClick={handleClick}
+        func={handleClick}
         disabled={slot.is_booked}
         className={`${slot.is_booked ? "line-through" : "font-bold"}`}
       >
         {slot.start_time}
-      </button>
+      </Button>
     </div>
   ));
 
+  // handling the submit button
+  const handleSubmit = () => {
+    console.log(doctorSelected);
+    //data i want
+    //1 doctor doctorsSelected
+    //2 patient
+    //3 time_slot BookedslotData
+    //4 date
+  };
   return (
     <div className="bg-yellow-300 flex w-full justify-evenly items-start">
       <div className="w-2/3 relative">
@@ -103,6 +119,7 @@ const SlotBook = () => {
             {newELement}
           </motion.div>
         </div>
+        <Button func={handleSubmit}>Submit</Button>
       </div>
       <div>
         <Calendar className="relative top-5" />

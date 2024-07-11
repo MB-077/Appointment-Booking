@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import Button from "./Button";
 const SideBar = ({ list }) => {
   const navigate = useNavigate();
 
@@ -16,14 +17,14 @@ const SideBar = ({ list }) => {
     <>
       <div className="bg-gray-500 w-1/5 h-[80vh]">
         {Display}
-        <button
-          onClick={() => {
+        <Button
+          func={() => {
             localStorage.removeItem("token");
             navigate("/");
           }}
         >
           LogOut
-        </button>
+        </Button>
       </div>
     </>
   );

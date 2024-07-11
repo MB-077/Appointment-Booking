@@ -10,7 +10,7 @@ export function loginloaders({ request }) {
 }
 
 const Login = () => {
-  const { usersList, slotBookingList } = useContext(dataContext);
+  const { usersList, slotBookingList, DocAvailable } = useContext(dataContext);
   const url = useLoaderData();
   const Navigate = useNavigate();
   const [change, setChange] = React.useState({
@@ -41,9 +41,11 @@ const Login = () => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/login/", change);
       console.log("Success:", response.data);
+
       localStorage.setItem("token", response.data.token);
       usersList();
       slotBookingList();
+      DocAvailable();
       Navigate("/");
     } catch (error) {
       console.error("Error:", error.response.data);
