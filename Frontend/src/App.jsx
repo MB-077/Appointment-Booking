@@ -9,6 +9,7 @@ import {
   Login,
   Authrequire,
   PageNotFound,
+  SlotLayout,
 } from "./im-ex-ports";
 import {
   Route,
@@ -27,24 +28,26 @@ function App() {
         <Route index element={<Dashboard />} />
         <Route path="login" element={<Login />} loader={loginloaders} />
         <Route path="register" element={<Register />} />
-        <Route
-          path="slots"
-          element={<SlotBook />}
-          loader={async () => await Authrequire()}
-        />
+        <Route path="slots" element={<SlotLayout />}>
+          <Route
+            index
+            element={<SlotBook />}
+            loader={async () => await Authrequire()}
+          />
+          <Route
+            path="booked"
+            element={<ViewYours />}
+            loader={async () => await Authrequire()}
+          />
+          <Route
+            path="history"
+            element={<History />}
+            loader={async () => await Authrequire()}
+          />
+        </Route>
         <Route
           path="profile"
           element={<Profile />}
-          loader={async () => await Authrequire()}
-        />
-        <Route
-          path="booked"
-          element={<ViewYours />}
-          loader={async () => await Authrequire()}
-        />
-        <Route
-          path="history"
-          element={<History />}
           loader={async () => await Authrequire()}
         />
         <Route path="*" element={<PageNotFound />} />

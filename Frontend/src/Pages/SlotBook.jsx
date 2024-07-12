@@ -6,6 +6,7 @@ import Button from "../Components/Button";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
+
 const SlotBook = () => {
   // hooks
   const {
@@ -18,6 +19,8 @@ const SlotBook = () => {
     //normal array
     newDoctorSelect,
     doctors,
+    //variable
+    ramsBottom,
   } = useContext(dataContext);
 
   const dateObj2 = new Date();

@@ -1,7 +1,10 @@
-import React from "react";
-
+import React, { useContext } from "react";
+import { useOutletContext } from "react-router-dom";
+import dataContext from "../Context/contextProvider";
 const ViewYours = () => {
-  return <div>ViewYours</div>;
+  const { slotAppoint } = useOutletContext();
+  const { BookedslotData } = useContext(dataContext);
+  return <>Hello mr. Peter</>;
 };
 
 export default ViewYours;

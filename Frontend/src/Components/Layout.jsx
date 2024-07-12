@@ -3,11 +3,18 @@ import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   const list = [
-    { id: 1, path: "/", name: "Dashboard" },
-    { id: 2, path: "/slots", name: "Slot Booking" },
-    { id: 5, path: "/booked", name: "View Yours" },
-    { id: 3, path: "/profile", name: "Profile" },
-    { id: 4, path: "/history", name: "History" },
+    { id: 1, path: "/", name: "Dashboard", nested: false },
+    {
+      id: 2,
+      path: "/slots",
+      name: "Slot Booking",
+      nested: true,
+      nestedList: [
+        { id: 5, path: "/slots/booked", name: "View Yours" },
+        { id: 4, path: "/slots/history", name: "History" },
+      ],
+    },
+    { id: 3, path: "/profile", name: "Profile", nested: false },
   ];
   return (
     <div>

@@ -14,7 +14,8 @@ export const AllDataProvider = ({ children }) => {
   //total no of doctors selected
   const [doctorsSelected, setDoctorsSelected] = React.useState({});
   const newDoctorSelect = doctorsSelected;
-  //sending back the data to the database
+  //a variable that holds the final object
+  let ramsBottom;
 
   //FUCNTION NO1
   const usersList = async () => {

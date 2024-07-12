@@ -5,13 +5,36 @@ const SideBar = ({ list }) => {
   const navigate = useNavigate();
 
   const Display = list.map((el) => (
-    <NavLink
-      to={el.path}
-      className={({ isActive }) => (isActive ? "underline font-bold " : "")}
-      key={el.id}
-    >
-      <li className="">{el.name}</li>
-    </NavLink>
+    <div>
+      {el.nested ? (
+        <ul>
+          <NavLink
+            to={el.path}
+            className={({ isActive }) =>
+              isActive ? "underline font-bold " : ""
+            }
+            key={el.id}
+          >
+            {el.name}
+          </NavLink>
+          {el.nestedList.map((ele) => (
+            <ul>
+              <NavLink
+                to={ele.path}
+                className={({ isActive }) => (isActive ? "underline  " : "")}
+                key={ele.id}
+              >
+                {ele.name}
+              </NavLink>
+            </ul>
+          ))}
+        </ul>
+      ) : (
+        <li key={el.id} className="">
+          {el.name}
+        </li>
+      )}
+    </div>
   ));
   return (
     <>
