@@ -3,6 +3,9 @@ import Calendar from "../Components/Calendar";
 import dataContext from "../Context/contextProvider";
 import { motion } from "framer-motion";
 import Button from "../Components/Button";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import axios from "axios";
 const SlotBook = () => {
   // hooks
   const {
@@ -14,12 +17,22 @@ const SlotBook = () => {
     setBookedSlotData,
     //normal array
     newDoctorSelect,
+    doctors,
   } = useContext(dataContext);
+
+  const dateObj2 = new Date();
+  const year = dateObj2.getFullYear();
+  const month = String(dateObj2.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObj2.getDate()).padStart(2, "0");
+
+  const datePart2 = `${year}-${month}-${day}`;
 
   //internal hooks
   const [show, setShow] = React.useState(false);
   const [message, setMessage] = React.useState(false);
   const [timeoutId, setTimeoutId] = React.useState(null);
+  const [selectedDate, setSelectedDate] = React.useState(null);
+  const [finalObj, setFinalObj] = React.useState(null);
 
   // handling click
   const handleClick = (e) => {
@@ -90,17 +103,48 @@ const SlotBook = () => {
   //getting the user data
   const text = localStorage.getItem("userData");
   const user = JSON.parse(text);
-  console.log(user);
 
-  // handling the submit button
-  const handleSubmit = () => {
-    console.log(BookedslotData);
-    //data i want
-    //1 doctor newDoctorSelect
-    //2 patient user
-    //3 time_slot BookedslotData
-    //4 date
+  // Function to handle the change in date
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
   };
+  const dateObj = `${selectedDate?.$y}-${selectedDate?.$M + 1}-${
+    selectedDate?.$D
+  }`;
+  const [timeSlot] = BookedslotData.map((slot) => slot.id);
+  const dataObj = {
+    doctor: newDoctorSelect?.id || doctors[0]?.id,
+    patient: user.patient_id,
+    time_slot: timeSlot,
+    date: datePart2 ?? dateObj,
+  };
+  const handleSet = () => {
+    setFinalObj(dataObj);
+  };
+
+  const PostingFinalObj = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/appointments/",
+        finalObj,
+        {
+          headers: {
+            Authorization: `token ${token}`,
+          },
+        }
+      );
+      const info = await response.data;
+      console.log(`success : ${info}`);
+    } catch (error) {
+      console.error("Error:", error.response?.data || error.message);
+    }
+  };
+
+  const handleSubmit = () => {
+    PostingFinalObj();
+  };
+
   return (
     <div className="bg-yellow-300 flex w-full justify-evenly items-start">
       <div className="w-2/3 relative">
@@ -124,13 +168,21 @@ const SlotBook = () => {
             transition={{ type: "linear", ease: "easeOut" }}
             className="bg-pink-600 h-[50px] grid grid-cols-5"
           >
+            <div>Selected Date : {selectedDate ? `${dateObj}` : datePart2}</div>
             {newELement}
           </motion.div>
         </div>
+        <Button func={handleSet}>Set</Button>
         <Button func={handleSubmit}>Submit</Button>
       </div>
       <div>
-        <Calendar className="relative top-5" />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Calendar
+            func={handleDateChange}
+            className="relative top-5"
+            selecteDate={selectedDate}
+          />
+        </LocalizationProvider>
       </div>
     </div>
   );

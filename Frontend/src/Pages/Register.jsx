@@ -2,11 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// import { useMessage } from "../Context/MessageContext";
 
 const Register = () => {
-  // const { setMessage } = useMessage();
-
   const navigate = useNavigate();
   const [change, setChange] = React.useState({
     username: "",

@@ -14,6 +14,7 @@ export const AllDataProvider = ({ children }) => {
   //total no of doctors selected
   const [doctorsSelected, setDoctorsSelected] = React.useState({});
   const newDoctorSelect = doctorsSelected;
+  //sending back the data to the database
 
   //FUCNTION NO1
   const usersList = async () => {
@@ -70,20 +71,6 @@ export const AllDataProvider = ({ children }) => {
   };
 
   //FUNCTION NO4
-  const PostingFinalObj = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const response = await axios.post("", {
-        headers: {
-          Authorization: `token ${token}`,
-        },
-      });
-      const info = await response.data;
-      console.log(info);
-    } catch (error) {
-      console.error("Error:", error.response.data);
-    }
-  };
 
   //CALLING THE USEFFECT HOOK
   React.useEffect(() => {
@@ -108,6 +95,7 @@ export const AllDataProvider = ({ children }) => {
         newDoctorSelect,
         doctorsSelected,
         setDoctorsSelected,
+
         //functions
         usersList,
         slotBookingList,

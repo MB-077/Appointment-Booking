@@ -26,10 +26,10 @@ const Drop_down = () => {
   const handleSelect = (e) => {
     const Id = e.currentTarget.id;
     let selectedDoc = doctors.find((doc) => doc?.id === Number(Id));
+
     console.log(selectedDoc, typeof selectedDoc);
     setSelected(selectedDoc);
     setDoctorsSelected(selectedDoc);
-    console.log(doctorsSelected);
     setShowDrop(false);
   };
 
