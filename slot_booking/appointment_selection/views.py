@@ -10,11 +10,13 @@ from rest_framework.exceptions import ValidationError
 from rest_framework import mixins, viewsets, permissions
 from rest_framework.exceptions import PermissionDenied
 
+
 class IsAdminOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
             return True
         return request.user and request.user.is_staff
+
 
 class PermissionMixin:
     def get_permissions(self):
@@ -24,16 +26,31 @@ class PermissionMixin:
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
 
-class TimeSlotList(PermissionMixin, ListCreateAPIView):
-    queryset = TimeSlot.objects.all()
-    serializer_class = TimeSlotSerializer
 
+class TimeSlotList(PermissionMixin, ListCreateAPIView):
+    serializer_class = TimeSlotSerializer
+    
+    def get_queryset(self):
+        doctor_id = self.kwargs.get('pk')
+        return TimeSlot.objects.filter(doctor_id=doctor_id)
+    
 
 class TimeSlotIndividual(RetrieveUpdateDestroyAPIView):
-    queryset = TimeSlot.objects.all()
     serializer_class = TimeSlotSerializer
     permission_classes = [IsAdminUser]
-    
+
+    def get_object(self):
+        doctor_id = self.kwargs.get('pk')
+        time_slot_id = self.kwargs.get('time_slot_id')
+        try:
+            return TimeSlot.objects.get(doctor_id=doctor_id, id=time_slot_id)
+        except TimeSlot.DoesNotExist:
+            raise ValidationError("No TimeSlot matches the given query.")
+        
+    def get_queryset(self):
+        doctor_id = self.kwargs.get('pk')
+        time_slot_id = self.kwargs.get('time_slot_id')
+        return TimeSlot.objects.get(doctor_id=doctor_id, id=time_slot_id)
     
 class PatientList(PermissionMixin, ListCreateAPIView):
     queryset = Patient.objects.all()
@@ -71,10 +88,9 @@ class DoctorIndividual(PermissionMixin, RetrieveUpdateDestroyAPIView):
 class DoctorNonAvailabilityList(PermissionMixin, ListCreateAPIView):
     queryset = DoctorNonAvailability.objects.all()
     serializer_class = DoctorNonAvailabilitySerializer
-
+    
 
 class DoctorNonAvailabilityIndividual(PermissionMixin, RetrieveUpdateDestroyAPIView):
-    queryset = DoctorNonAvailability.objects.all()
     serializer_class = DoctorNonAvailabilitySerializer
     
     def perform_update(self, serializer):
@@ -82,6 +98,19 @@ class DoctorNonAvailabilityIndividual(PermissionMixin, RetrieveUpdateDestroyAPIV
             raise PermissionDenied("Only admins can update the 'doctor' field.")
         serializer.save()
 
+    def get_object(self):
+        doctor_id = self.kwargs.get('pk')
+        non_availability_id = self.kwargs.get('non_availability_id')
+        try:
+            return DoctorNonAvailability.objects.get(doctor_id=doctor_id, id=non_availability_id)
+        except DoctorNonAvailability.DoesNotExist:
+            raise ValidationError("No Doctor Non Availability matches the given query.")
+        
+    def get_queryset(self):
+        doctor_id = self.kwargs.get('pk')
+        non_availability_id = self.kwargs.get('non_availability_id')
+        return DoctorNonAvailability.objects.get(doctor_id=doctor_id, id=non_availability_id)
+    
 
 class AppointmentList(ListCreateAPIView):
     queryset = Appointment.objects.all()

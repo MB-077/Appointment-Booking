@@ -46,6 +46,7 @@ class PatientDetails(models.Model):
         verbose_name_plural = "Patient Details"
 
 class TimeSlot(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='time_slots') # added new
     start_time = models.TimeField()
     end_time = models.TimeField()
     is_booked = models.BooleanField(default=False)
@@ -58,7 +59,6 @@ class TimeSlot(models.Model):
             models.Index(fields=['start_time']),
             models.Index(fields=['end_time']),
         ]
-    
 
 class Appointment(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
@@ -70,3 +70,4 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f"Appointment with {self.doctor} for {self.patient} on {self.date} at {self.time_slot.start_time}"
+
