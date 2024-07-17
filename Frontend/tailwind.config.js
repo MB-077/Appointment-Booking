@@ -13,13 +13,13 @@ export default {
       colors: {
         n: {
           1: "#336ee0",
-          2: "#5E7CE2",
-          3: "#3bb55d",
           4: "#253237",
           5: "#FF3864",
           6: "#ffffff",
           7: "#E0FBFC",
           8: "#000000",
+          9: "#CE2D4F",
+          11: "#1c1c21",
         },
       },
       fontFamily: {
@@ -32,6 +32,9 @@ export default {
         0.25: "0.0625rem",
         7.5: "1.875rem",
         15: "3.75rem",
+      },
+      backgroundImage: {
+        gradient: "linear-gradient(45deg,#ce2d4f, #336ee0)",
       },
     },
   },

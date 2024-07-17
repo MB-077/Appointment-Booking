@@ -9,10 +9,10 @@ const Toggle = () => {
     <div>
       <div
         onClick={handleClick}
-        className="w-14 h-7 flex items-center rounded-[15px] bg-red-400"
+        className="w-14 h-7 flex items-center rounded-[15px] bg-n-5"
       >
         <motion.div
-          className="w-5 h-5 mx-1 rounded-full bg-white"
+          className="w-5 h-5 mx-1 rounded-full bg-n-8"
           animate={move ? { x: "27px" } : {}}
           transition={{ type: "spring", stiffness: 200 }}
           whileHover={{ scale: 1.1 }}

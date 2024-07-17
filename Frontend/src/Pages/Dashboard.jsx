@@ -1,10 +1,10 @@
 import React from "react";
 
-const Dashboard = () => {
+const Dashboard = ({ className }) => {
   const info = JSON.parse(localStorage.getItem("userData"));
 
   return (
-    <div>
+    <div className={`${className}`}>
       <h1>
         Welcome to MB077,{" "}
         {info

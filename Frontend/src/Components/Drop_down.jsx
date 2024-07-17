@@ -40,7 +40,7 @@ const Drop_down = () => {
       opacity: 0,
     },
     in: {
-      height: "18vh",
+      height: "13.5vh",
       opacity: 1,
     },
     out: {
@@ -60,32 +60,36 @@ const Drop_down = () => {
       id={doc.id}
       key={doc.id}
       onClick={handleSelect}
-      className="bg-pink-400 border-2 border-n-1 cursor-pointer"
+      className="bg-n-8 h-[12vh] rounded-md"
       initial="initial"
       animate="in"
       exit="out"
       variants={pageVariants}
       transition={pageTransition}
     >
-      <img
-        src={cat}
-        height={50}
-        width={50}
-        alt="cat"
-        className="rounded-full"
-      />
-      <div className="">
-        <h1 className="text-[24px] font-semibold">{doc.doctor}</h1>
-        <p className="text-[13px] font-openSans opacity-80">{doc.specialty}</p>
+      <div className="bg-n-5 rounded-md cursor-pointer mx-1 h-[12vh] flex justify-center items-center gap-4 px-4">
+        <img
+          src={cat}
+          height={50}
+          width={50}
+          alt="cat"
+          className="rounded-full"
+        />
+        <div className="">
+          <h1 className="text-[24px] font-semibold">{doc.doctor}</h1>
+          <p className="text-[13px] font-openSans opacity-80">
+            {doc.specialty}
+          </p>
+        </div>
       </div>
     </motion.div>
   ));
 
   return (
     // visible element
-    <div className="flex">
+    <div className="flex ">
       <div>
-        <div className="flex justify-evenly items-center border-r border-r-n-1/5">
+        <div className="flex justify-evenly gap-4 items-center ">
           <img
             src={cat}
             height={50}
@@ -108,7 +112,7 @@ const Drop_down = () => {
       {/* //Drop_down */}
       <AnimatePresence>
         {showDrop ? (
-          <motion.div className=" absolute top-[12vh] left-[187.5px] w-[350px] z-10">
+          <motion.div className=" absolute top-[13vh] left-[75px] w-[273px] z-10 ">
             {el}
           </motion.div>
         ) : null}
