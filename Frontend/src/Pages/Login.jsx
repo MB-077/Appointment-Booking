@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { motion } from "framer-motion";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import dataContext from "../Context/contextProvider";
 
 export function loginloaders({ request }) {

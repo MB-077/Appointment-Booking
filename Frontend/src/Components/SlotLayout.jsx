@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
 const SlotLayout = () => {
-  const [slotAppoint, setSlotAppoint] = React.useState([]);
+  const [slotAppoint, setSlotAppoint] = React.useState(null);
 
   //FUCNTION NO2
   const getAppoint = async () => {
