@@ -33,7 +33,7 @@ admin.site.register(Doctor, DoctorAdmin)
 class PatientDetails(admin.StackedInline):
     model = PatientDetails
     extra = 0
-    
+
 class PatientAdmin(admin.ModelAdmin):
     inlines = [PatientDetails]
     list_display = ('user', 'phone_number')

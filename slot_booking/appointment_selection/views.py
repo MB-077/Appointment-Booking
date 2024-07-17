@@ -9,6 +9,8 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.exceptions import ValidationError
 from rest_framework import mixins, viewsets, permissions
 from rest_framework.exceptions import PermissionDenied
+from datetime import datetime
+
 
 
 class IsAdminOrReadOnly(permissions.BasePermission):
@@ -127,3 +129,12 @@ class AppointmentIndividual(RetrieveUpdateDestroyAPIView):
         if 'is_approved' in self.request.data and not self.request.user.is_staff:
             raise PermissionDenied("Only admins can update the 'is_approved' field.")
         serializer.save()
+
+
+class PastAppointmentList(ListCreateAPIView):
+    serializer_class = AppointmentSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        patient_id = self.kwargs.get('pk')
+        return Appointment.objects.filter(patient_id=patient_id, date__lt=datetime.date(datetime.now()))

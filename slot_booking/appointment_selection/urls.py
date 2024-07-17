@@ -14,4 +14,5 @@ urlpatterns = [
     path('doctors/<int:pk>/doctor-non-availability/<int:non_availability_id>/', DoctorNonAvailabilityIndividual.as_view(), name='doctor_non_availability_individual'),
     path('appointments/', AppointmentList.as_view(), name='appointment_list'),
     path('appointments/<int:pk>/', AppointmentIndividual.as_view(), name='appointment_individual'),
+    path('patients/<int:pk>/past-appointments/', PastAppointmentList.as_view(), name='past_appointment_list'),
 ]

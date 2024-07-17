@@ -140,5 +140,3 @@ class DoctorNonAvailabilitySerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         validated_data.pop('doctor_id', None)
         return super().update(instance, validated_data)
-        
-    
