@@ -19,7 +19,7 @@ export default {
           7: "#E0FBFC",
           8: "#000000",
           9: "#CE2D4F",
-          11: "#1c1c21",
+          11: "#131314",
         },
       },
       fontFamily: {

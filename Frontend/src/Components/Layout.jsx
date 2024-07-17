@@ -44,7 +44,7 @@ const Layout = () => {
         <Header className={`my-2 rounded-lg`} />
         <div className="flex gap-2 ">
           <SideBar list={list} className={`rounded-lg`} />
-          <div className={`w-full bg-n-11 rounded-lg `}>
+          <div className={`w-full bg-n-11 rounded-lg`}>
             <Outlet />
           </div>
         </div>
