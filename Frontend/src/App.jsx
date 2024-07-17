@@ -10,7 +10,6 @@ import {
   Authrequire,
   PageNotFound,
   SlotLayout,
-  AllDataProvider,
   ErrorComp,
 } from "./im-ex-ports";
 import {
@@ -20,6 +19,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { loginloaders } from "./Pages/Login";
+import { AllDataProvider } from "./Context/dataContext";
 
 function App() {
   const router = createBrowserRouter(

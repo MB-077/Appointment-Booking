@@ -18,4 +18,4 @@ export { default as SlotLayout } from "./Components/SlotLayout";
 export { default as ErrorComp } from "./Components/ErrorComp";
 //js components
 export { default as Authrequire } from "./authRequire";
-export { default as AllDataProvider } from "./Context/dataContext";
+// export { default as AllDataProvider } from "./Context/dataContext";

@@ -7,7 +7,7 @@ const SideBar = ({ list }) => {
   const Display = list.map((el) => (
     <div>
       {el.nested ? (
-        <ul>
+        <ul key={el.id}>
           <NavLink
             to={el.path}
             className={({ isActive }) =>
@@ -37,20 +37,18 @@ const SideBar = ({ list }) => {
     </div>
   ));
   return (
-    <>
-      <div className="bg-gray-500 w-1/5 h-[80vh]">
-        {Display}
-        <Button
-          func={() => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("userData");
-            navigate("/");
-          }}
-        >
-          LogOut
-        </Button>
-      </div>
-    </>
+    <div className="bg-gray-500 w-1/5 h-[80vh]">
+      {Display}
+      <Button
+        func={() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userData");
+          navigate("/");
+        }}
+      >
+        LogOut
+      </Button>
+    </div>
   );
 };
 
