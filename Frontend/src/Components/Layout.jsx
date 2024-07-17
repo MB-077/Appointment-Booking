@@ -20,15 +20,6 @@ const Layout = () => {
       name: "Slot Booking",
       nested: true,
       icon: <ImBooks />,
-      nestedList: [
-        {
-          id: 5,
-          path: "/slots/booked",
-          name: "View Yours",
-          icon: <MdApproval />,
-        },
-        { id: 4, path: "/slots/history", name: "History", icon: <FaHistory /> },
-      ],
     },
     {
       id: 3,
@@ -37,6 +28,13 @@ const Layout = () => {
       nested: false,
       icon: <CgProfile />,
     },
+    {
+      id: 5,
+      path: "/booked",
+      name: "View Yours",
+      icon: <MdApproval />,
+    },
+    { id: 4, path: "/history", name: "History", icon: <FaHistory /> },
   ];
   return (
     <div className="bg-n-8 h-[100vh] w-full absolute">

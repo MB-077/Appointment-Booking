@@ -61,7 +61,7 @@ const Login = () => {
     <div
       id="hideMeagain"
       onClick={handleMe}
-      className="absolute backdrop-blur-md backdrop-brightness-50 w-full top-0 h-full"
+      className="absolute backdrop-blur-md backdrop-brightness-50 w-full top-0 left-0 h-full"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}

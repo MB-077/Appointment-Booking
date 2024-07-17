@@ -84,7 +84,7 @@ const Register = () => {
     <div
       id="hideMeagain2"
       onClick={handleMe}
-      className="absolute backdrop-blur-md w-full backdrop-brightness-50 top-0 h-full"
+      className="absolute backdrop-blur-md w-full backdrop-brightness-50 top-0 left-0 h-full"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}

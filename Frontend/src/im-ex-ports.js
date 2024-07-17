@@ -14,7 +14,7 @@ export { default as Header } from "./Components/Header";
 export { default as Footer } from "./Components/Footer";
 export { default as Toggle } from "./Components/Toggle";
 export { default as Button } from "./Components/Button";
-export { default as SlotLayout } from "./Components/SlotLayout";
+// export { default as SlotLayout } from "./Components/SlotLayout";
 export { default as ErrorComp } from "./Components/ErrorComp";
 //js components
 export { default as Authrequire } from "./authRequire";
