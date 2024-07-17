@@ -3,6 +3,10 @@ import { motion } from "framer-motion";
 import { useLoaderData, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import dataContext from "../Context/contextProvider";
+import InputFields from "../Components/InputFields";
+import { CiUser } from "react-icons/ci";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { FaGoogle } from "react-icons/fa";
 
 export function loginloaders({ request }) {
   return new URL(request.url).searchParams.get("message");
@@ -67,42 +71,56 @@ const Login = () => {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 2, translateY: "250px" }}
         transition={{ duration: 0.5 }}
-        className="relative left-[40%] top-0 w-96 h-36 bg-red-200"
+        className="relative left-[40%] -top-11 w-[280px] h-[41vh] bg-n-11 rounded-md"
       >
-        {url ? <h2>{url}</h2> : null}
+        {url ? (
+          <h2 className="text-blacks text-[9px] relative top-3 flex justify-center items-center bg-white mx-5 rounded-sm py-1">
+            {url}
+          </h2>
+        ) : null}
         {/* {message ? <h2>{message}</h2> : null} */}
-        <div className="">
-          {" "}
-          <form onClick={handleSubmit}>
-            <div>
-              <label>Username</label>
-              <input
-                type="text"
-                placeholder="Username"
-                name="username"
-                onChange={handleChange}
-                autoComplete="username"
-              />
-            </div>
-            <div>
-              <label>Password</label>
-              <input
-                type="password"
-                placeholder="Password"
-                name="password"
-                onChange={handleChange}
-                autoComplete="current-password"
-              />
-            </div>
-            <div className="flex items-center justify-between">
-              <button type="button">Log In</button>
-            </div>
+
+        <div className="flex flex-col justify-center items-center h-full ">
+          <h4 className="text-white text-[14px] relative -top-3">
+            Welcome Back to <span className="text-n-5"> EasySlot</span>
+          </h4>
+          <span className="text-[7px] text-white/70 relative -top-2">
+            Please enter your details to continue
+          </span>
+          <form onSubmit={handleSubmit}>
+            <InputFields
+              label={"username"}
+              type={`text`}
+              icon={<CiUser />}
+              name={"username"}
+              func={handleChange}
+            />
+
+            <InputFields
+              label={"password"}
+              type={"password"}
+              icon={<RiLockPasswordLine />}
+              func={handleChange}
+              name={"password"}
+            />
+
+            <button
+              type="submit"
+              className="bg-n-1 mt-4 w-[100%] rounded-sm text-[10px] py-[3.5px] text-white hover:bg-blue-900"
+            >
+              Login
+            </button>
+            <button className="bg-white hover:bg-gray-500 mt-2 w-[100%] rounded-sm text-[10px] py-[3.5px] text-black flex justify-center items-center gap-2 font-semibold">
+              <FaGoogle />
+              Login using Google
+            </button>
+            <Link to="/register">
+              <span className="text-[8px] text-white mt-2 hover:underline">
+                New User? Register Here
+              </span>
+            </Link>
           </form>
         </div>
-        <h6>registered user?</h6>
-        <Link to="/register">
-          <button>Register Now</button>
-        </Link>
       </motion.div>
     </div>
   );
