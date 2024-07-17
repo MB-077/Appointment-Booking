@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import dataContext from "./contextProvider";
-export const AllDataProvider = ({ children }) => {
+const AllDataProvider = ({ children }) => {
   //hooks
   //total no of users
   const [Users, setUsers] = React.useState([]);
@@ -15,7 +15,6 @@ export const AllDataProvider = ({ children }) => {
   const [doctorsSelected, setDoctorsSelected] = React.useState({});
   const newDoctorSelect = doctorsSelected;
   //a variable that holds the final object
-  let ramsBottom;
 
   //FUCNTION NO1
   const usersList = async () => {
@@ -31,7 +30,7 @@ export const AllDataProvider = ({ children }) => {
         },
       });
       const info = await res.data;
-      console.log(info);
+
       setUsers(info);
     } catch (err) {
       console.log(err);
@@ -39,19 +38,22 @@ export const AllDataProvider = ({ children }) => {
   };
 
   //FUCNTION NO2
-  const slotBookingList = async () => {
+  const slotBookingList = async (id = 1) => {
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.get("http://127.0.0.1:8000/timeslots/", {
-        headers: {
-          Authorization: `token ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `http://127.0.0.1:8000/doctors/${id}/timeslots/   `,
+        {
+          headers: {
+            Authorization: `token ${token}`,
+          },
+        }
+      );
       const info = await response.data;
       console.log(info);
       settotal_Slots(info);
     } catch (error) {
-      console.error("Error:", error.response.data);
+      console.error("Error:", error.response);
     }
   };
 
@@ -65,9 +67,10 @@ export const AllDataProvider = ({ children }) => {
         },
       });
       const info = await response.data;
+      console.log(info);
       setDoctors(info);
     } catch (error) {
-      console.error("Error:", error.response.data);
+      console.error("Error:", error.response);
     }
   };
 
@@ -107,3 +110,4 @@ export const AllDataProvider = ({ children }) => {
     </dataContext.Provider>
   );
 };
+export default AllDataProvider;

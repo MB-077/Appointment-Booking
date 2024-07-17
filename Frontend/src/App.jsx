@@ -19,7 +19,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { loginloaders } from "./Pages/Login";
-import { AllDataProvider } from "./Context/dataContext";
+import AllDataProvider from "./Context/dataContext";
 
 function App() {
   const router = createBrowserRouter(

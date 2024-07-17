@@ -6,14 +6,15 @@ import cat from "./../images/catto.jpg";
 import { motion, AnimatePresence } from "framer-motion";
 const Drop_down = () => {
   //hooks context
-  const { doctors, setDoctorsSelected } = useContext(dataContext);
+  const { doctors, setDoctorsSelected, slotBookingList } =
+    useContext(dataContext);
   //internal hooks
   const [showDrop, setShowDrop] = React.useState(false);
   const [selected, setSelected] = React.useState({
     id: 1,
     doctor: "doctor1",
     email: "doctor1@doctor.com",
-    specialty: "general",
+    specialty: "Pathologist",
     user: 8,
   });
 
@@ -26,7 +27,7 @@ const Drop_down = () => {
   const handleSelect = (e) => {
     const Id = e.currentTarget.id;
     let selectedDoc = doctors.find((doc) => doc?.id === Number(Id));
-
+    slotBookingList(selectedDoc.id);
     console.log(selectedDoc, typeof selectedDoc);
     setSelected(selectedDoc);
     setDoctorsSelected(selectedDoc);

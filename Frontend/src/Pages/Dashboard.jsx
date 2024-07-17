@@ -2,7 +2,7 @@ import React from "react";
 
 const Dashboard = () => {
   const info = JSON.parse(localStorage.getItem("userData"));
-  console.log(info);
+
   return (
     <div>
       <h1>

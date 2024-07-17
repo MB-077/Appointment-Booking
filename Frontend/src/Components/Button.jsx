@@ -5,7 +5,7 @@ const Button = ({ children, func, className, disabled }) => {
     <div>
       <button
         disabled={disabled}
-        className={`bg-blue-500 ${className}`}
+        className={`bg-blue-500 ${className} hover:bg-blue-900 hover:text-white transition-all`}
         onClick={func}
       >
         {children}

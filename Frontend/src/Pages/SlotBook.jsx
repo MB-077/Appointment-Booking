@@ -19,8 +19,6 @@ const SlotBook = () => {
     //normal array
     newDoctorSelect,
     doctors,
-    //variable
-    ramsBottom,
   } = useContext(dataContext);
 
   const dateObj2 = new Date();

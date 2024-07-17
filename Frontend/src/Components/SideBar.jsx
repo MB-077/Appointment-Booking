@@ -1,41 +1,46 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import Button from "./Button";
+
+import { useNavigate, NavLink } from "react-router-dom";
+import Button from "./Button"; // Adjust the import according to your file structure
+
 const SideBar = ({ list }) => {
   const navigate = useNavigate();
 
   const Display = list.map((el) => (
-    <div>
+    <div key={el.id}>
       {el.nested ? (
-        <ul key={el.id}>
+        <ul>
           <NavLink
             to={el.path}
             className={({ isActive }) =>
-              isActive ? "underline font-bold " : ""
+              isActive ? "underline font-bold" : ""
             }
-            key={el.id}
           >
             {el.name}
           </NavLink>
           {el.nestedList.map((ele) => (
-            <ul>
+            <li key={ele.id}>
               <NavLink
                 to={ele.path}
-                className={({ isActive }) => (isActive ? "underline  " : "")}
-                key={ele.id}
+                className={({ isActive }) => (isActive ? "underline" : "")}
               >
                 {ele.name}
               </NavLink>
-            </ul>
+            </li>
           ))}
         </ul>
       ) : (
-        <li key={el.id} className="">
+        <NavLink
+          to={el.path}
+          key={el.id}
+          className={({ isActive }) => (isActive ? "underline font-bold" : "")}
+        >
           {el.name}
-        </li>
+        </NavLink>
       )}
     </div>
   ));
+
   return (
     <div className="bg-gray-500 w-1/5 h-[80vh]">
       {Display}
