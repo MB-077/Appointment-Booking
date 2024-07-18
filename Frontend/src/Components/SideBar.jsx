@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate, NavLink } from "react-router-dom";
-import Button from "./Button"; // Adjust the import according to your file structure
+import Button from "./Button";
 import { CiLogout } from "react-icons/ci";
 import { RiMenuUnfold2Line } from "react-icons/ri";
 import { RiMenuUnfoldLine } from "react-icons/ri";
@@ -10,24 +10,31 @@ const SideBar = ({ list, className }) => {
   const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
   const AnimateMe = () => {
-    setTimeout(() => {
-      setOpen(!open);
-    }, 200);
+    setOpen(!open);
   };
 
   const Display = list.map((el) => (
     <div key={el.id}>
       <li className="list-none">
         <NavLink
-          id="navs"
           to={el.path}
           className={({ isActive }) =>
             isActive
-              ? "bg-n-5 mx-2 py-3 font-semibold px-4 my-5 rounded-md flex justify-start items-center "
-              : "flex justify-start items-center text-white my-5 mx-2 px-4   py-3 "
+              ? "bg-n-5 mx-2 py-3 font-semibold px-4 my-5 rounded-md flex justify-start items-center"
+              : "flex justify-start items-center text-white my-5 mx-2 px-4 py-3"
           }
         >
-          {open ? el.name : <div className="text-[20px]"> {el.icon}</div>}
+          {open ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              {el.name}
+            </motion.div>
+          ) : (
+            <div className="text-[20px] "> {el.icon}</div>
+          )}
         </NavLink>
       </li>
     </div>
@@ -35,11 +42,13 @@ const SideBar = ({ list, className }) => {
 
   return (
     <motion.div
-      className={`bg-n-11 w-[320px] h-[84vh] ${className}`}
+      className={`bg-n-11 h-[84vh] ${className} overflow-hidden relative`}
       animate={open ? { width: "320px" } : { width: "70px" }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
     >
-      {Display}
-
+      <div className={`transition-all duration-500 ease-in-out `}>
+        {Display}
+      </div>
       <div
         className={`${
           open ? "flex" : "flex flex-col"

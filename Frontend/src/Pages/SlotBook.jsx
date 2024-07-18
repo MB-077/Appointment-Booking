@@ -103,7 +103,7 @@ const SlotBook = () => {
 
   //getting the user data
   const text = localStorage.getItem("userData");
-  const user = JSON.parse(text);
+  // const user = JSON.parse(text);
 
   // Function to handle the change in date
   const handleDateChange = (date) => {
@@ -115,7 +115,7 @@ const SlotBook = () => {
   const [timeSlot] = BookedslotData.map((slot) => slot.id);
   const dataObj = {
     doctor: newDoctorSelect?.id || doctors[0]?.id,
-    patient: user.patient_id,
+    // patient: user.patient_id,
     time_slot: timeSlot,
     date: datePart2 ?? dateObj,
   };

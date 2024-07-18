@@ -95,7 +95,7 @@ const Register = () => {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 2, translateY: "250px" }}
         transition={{ duration: 0.5 }}
-        className="relative left-[40%] -top-11 w-[280px] h-[44vh] bg-n-11 rounded-md"
+        className="relative left-[40%] -top-11 w-[280px] h-[44vh] bg-n-11 rounded-md border-[1px] border-n-5/30 shadow-n-5/50 shadow-sm"
       >
         {/* {empty ? <h2>Fill in all fields</h2> : null} */}
 
@@ -123,7 +123,7 @@ const Register = () => {
             />
             <InputFields
               label={"phone-number"}
-              type={"number"}
+              type={"tel"}
               icon={<CiPhone />}
               name={"phone_number"}
               func={handleChange}

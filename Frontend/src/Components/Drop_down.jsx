@@ -121,7 +121,7 @@ const Drop_down = () => {
 
       <AnimatePresence>
         {showDrop ? (
-          <motion.div className=" absolute top-[13vh] left-[75px] w-[273px] z-10 ">
+          <motion.div className=" absolute top-[13vh] w-[273px] z-10 ">
             {el}
           </motion.div>
         ) : null}

@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const InputFields = ({ label, type, icon, name, func }) => {
+const InputFields = ({ label, type, icon, name, func, auto }) => {
   const [isFocused, setIsFocused] = React.useState(false);
   return (
     <div>
@@ -28,6 +28,7 @@ const InputFields = ({ label, type, icon, name, func }) => {
         onFocus={() => setIsFocused(true)}
         onBlur={(e) => (e.target.value ? null : setIsFocused(false))}
         onChange={func}
+        autoComplete={auto}
       />
     </div>
   );
