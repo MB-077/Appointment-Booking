@@ -3,9 +3,9 @@ import { motion } from "framer-motion";
 import { useLoaderData, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import dataContext from "../Context/contextProvider";
-import InputFields from "../Components/InputFields";
-import { CiUser } from "react-icons/ci";
-import { RiLockPasswordLine } from "react-icons/ri";
+// import InputFields from "../Components/InputFields";
+// import { CiUser } from "react-icons/ci";
+// import { RiLockPasswordLine } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";
 
 export function loginloaders({ request }) {
@@ -41,6 +41,7 @@ const Login = () => {
   };
 
   const postData = async () => {
+    console.log(change);
     try {
       const response = await axios.post("http://127.0.0.1:8000/login/", change);
       console.log("Success:", response.data);
@@ -87,10 +88,10 @@ const Login = () => {
           <span className="text-[7px] text-white/70 relative -top-2">
             Please enter your details to continue
           </span>
-          <form onSubmit={handleSubmit}>
-            <InputFields
+          <form onClick={handleSubmit}>
+            {/* <InputFields
               label={"username"}
-              type={`text`}
+              type={"text"}
               icon={<CiUser />}
               name={"username"}
               func={handleChange}
@@ -102,24 +103,49 @@ const Login = () => {
               icon={<RiLockPasswordLine />}
               func={handleChange}
               name={"password"}
-            />
+            /> */}
+
+            <div>
+              <label>Username</label>
+              <input
+                type="text"
+                placeholder="Username"
+                name="username"
+                onChange={handleChange}
+                autoComplete="username"
+              />
+            </div>
+            <div>
+              <label>Password</label>
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                onChange={handleChange}
+                autoComplete="current-password"
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <button type="button">Log In</button>
+            </div>
 
             <button
-              type="submit"
+              type="button"
               className="bg-n-1 mt-4 w-[100%] rounded-sm text-[10px] py-[3.5px] text-white hover:bg-blue-900"
             >
               Login
             </button>
-            <button className="bg-white hover:bg-gray-500 mt-2 w-[100%] rounded-sm text-[10px] py-[3.5px] text-black flex justify-center items-center gap-2 font-semibold">
-              <FaGoogle />
-              Login using Google
-            </button>
-            <Link to="/register">
-              <span className="text-[8px] text-white mt-2 hover:underline">
-                New User? Register Here
-              </span>
-            </Link>
           </form>
+
+          <button className="bg-white hover:bg-gray-500 mt-2 w-[100%] rounded-sm text-[10px] py-[3.5px] text-black flex justify-center items-center gap-2 font-semibold">
+            <FaGoogle />
+            Login using Google
+          </button>
+          <Link to="/register">
+            <span className="text-[8px] text-white mt-2 hover:underline">
+              New User? Register Here
+            </span>
+          </Link>
         </div>
       </motion.div>
     </div>

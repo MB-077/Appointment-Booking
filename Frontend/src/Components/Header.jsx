@@ -3,6 +3,9 @@ import Drop_down from "./Drop_down";
 import { useNavigate } from "react-router-dom";
 
 const Header = ({ className }) => {
+  const text = localStorage.getItem("userData");
+  const user = JSON.parse(text);
+
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/login");
@@ -19,19 +22,37 @@ const Header = ({ className }) => {
           EazySlots
         </div>
       </div>
-      <div className="w-[42%]  bg-gradient h-[12vh] rounded-md"></div>
-      <div className="flex h-full  gap-2 items-center justify-end relative ">
-        <div className="bg-n-11 text-n-7 rounded-lg mr-2 h-[12vh] flex items-center justify-center">
-          <Drop_down />
-        </div>
-        <Button func={handleClick2} className={`w-[110px]`}>
-          Register
-        </Button>
-        <Button func={handleClick} className={`w-[110px]`}>
-          Login
-        </Button>
+      <div className="w-[50%]  bg-gradient h-[12vh] rounded-md">
+        {user && (
+          <div className=" h-[12vh] w-[300px] flex justify-start px-10 items-center font-semibold gap-3">
+            <p className="text-[20px] text-white/70 relative top-[2px]">
+              Welcome back ,{" "}
+            </p>
+            <p className=" text-[25px] text-white">
+              {" "}
+              {user.username.charAt(0).toUpperCase() + user.username.slice(1)}
+            </p>
+          </div>
+        )}
       </div>
-      <div className="relative right-2 text-[25px] text-n-4/80 cursor-pointer">
+      {user ? (
+        <div className="flex h-full  gap-2 items-center justify-end relative ">
+          <div className="bg-n-11 text-n-7 rounded-lg mr-2 h-[12vh] flex items-center justify-center">
+            <Drop_down />
+          </div>
+        </div>
+      ) : (
+        <div className="flex gap-4">
+          <Button func={handleClick2} className={`w-[110px] bg-n-1`}>
+            Register
+          </Button>
+          <Button func={handleClick} className={`w-[110px] bg-n-1`}>
+            Login
+          </Button>
+        </div>
+      )}
+
+      <div className="relative right-6 text-[25px] text-n-4/80 cursor-pointer">
         <Toggle />
       </div>
     </nav>

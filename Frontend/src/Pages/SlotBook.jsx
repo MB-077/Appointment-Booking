@@ -41,7 +41,7 @@ const SlotBook = () => {
       (slot) => slot.start_time === e.target.innerText
     );
 
-    if (selected && BookedslotData.length < 2) {
+    if (selected && BookedslotData.length < 1) {
       // Update selected slot
       const updatedSlot = { ...selected, is_booked: true };
 
@@ -82,7 +82,10 @@ const SlotBook = () => {
   };
   //   mapping the booked slots
   const newELement = BookedslotData.map((slot) => (
-    <div key={slot.id}>
+    <div
+      key={slot.id}
+      className="bg-white h-fit px-3 py-1 rounded-md border-none"
+    >
       <p>{slot.start_time}</p>
     </div>
   ));
@@ -94,7 +97,11 @@ const SlotBook = () => {
         key={slot.id}
         func={handleClick}
         disabled={slot.is_booked}
-        className={`${slot.is_booked ? "line-through" : "font-bold"}`}
+        className={`${
+          slot.is_booked
+            ? "text-black/70 font-semibold bg-white/50 cursor-not-allowed "
+            : "font-bold"
+        } bg-white`}
       >
         {slot.start_time}
       </Button>
@@ -103,7 +110,7 @@ const SlotBook = () => {
 
   //getting the user data
   const text = localStorage.getItem("userData");
-  // const user = JSON.parse(text);
+  const user = JSON.parse(text);
 
   // Function to handle the change in date
   const handleDateChange = (date) => {
@@ -115,12 +122,9 @@ const SlotBook = () => {
   const [timeSlot] = BookedslotData.map((slot) => slot.id);
   const dataObj = {
     doctor: newDoctorSelect?.id || doctors[0]?.id,
-    // patient: user.patient_id,
+    patient: user.patient_id,
     time_slot: timeSlot,
     date: datePart2 ?? dateObj,
-  };
-  const handleSet = () => {
-    setFinalObj(dataObj);
   };
 
   const PostingFinalObj = async () => {
@@ -143,38 +147,65 @@ const SlotBook = () => {
   };
 
   const handleSubmit = () => {
+    setFinalObj(dataObj);
     PostingFinalObj();
   };
 
   return (
-    <div className="bg-yellow-300 flex w-full justify-evenly items-start">
+    <div className=" flex w-full justify-evenly items-start">
       <div className="w-2/3 relative">
         <div>
-          <div className="flex gap-3">
-            <h2>slotBooking</h2>
-            {show ? <h2>selected slot will appear at the bottom</h2> : null}
+          <div className="flex gap-3 ">
+            {show ? (
+              <h2 className="w-fit bg-white text-green-800 font-openSans font-semibold rounded-sm py-[1px] mx-10 px-10 relative top-5">
+                selected slot will appear at the bottom
+              </h2>
+            ) : null}
           </div>
-          <div className="bg-pink-600 h-[250px] grid grid-cols-5">
+          <div className=" h-[220px] absolute grid grid-cols-5 top-[75px] w-full pl-8">
             {elements}
           </div>
         </div>
-        <div>
+        <div className="absolute top-[275px]">
           <div className="flex gap-3">
-            <h2>selected slots</h2>
-            {message ? <h2>Sorry! No further bookings</h2> : null}
+            <h2 className="text-white mb-2 mx-2 text-[20px]">Selected Slot</h2>
+            {message ? (
+              <h2 className="w-fit bg-white text-red-800 font-openSans font-semibold rounded-sm mx-10 px-10 flex items-center text-[15px]">
+                Sorry! No further bookings available
+              </h2>
+            ) : null}
           </div>
           <motion.div
             initial={{ height: "50px" }}
-            animate={BookedslotData.length !== 0 ? { height: "200px" } : null}
+            animate={BookedslotData.length !== 0 ? { height: "100px" } : null}
             transition={{ type: "linear", ease: "easeOut" }}
-            className="bg-pink-600 h-[50px] grid grid-cols-5"
+            className=" h-[100px] grid grid-cols-5"
           >
-            <div>Selected Date : {selectedDate ? `${dateObj}` : datePart2}</div>
-            {newELement}
+            <div className="relative top-4 flex flex-col gap-4 mx-5">
+              <div className="  w-[400px] flex gap-4 text-white">
+                Selected Date :{" "}
+                <div className="text-black  bg-white h-fit px-3 py-1 rounded-md ">
+                  {selectedDate ? `${dateObj}` : datePart2}
+                </div>
+              </div>
+              <div className="text-white flex gap-3 w-[300px] items-center">
+                Time Slot :
+                <div
+                  className={`text-black  ${
+                    !newELement ? "hidden" : " visible "
+                  } `}
+                >
+                  {newELement}
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
-        <Button func={handleSet}>Set</Button>
-        <Button func={handleSubmit}>Submit</Button>
+        {BookedslotData.length !== 0 && (
+          <div className="absolute top-[490px] bg-green-600 text-white rounded-md flex">
+            <Button func={handleSubmit}>Submit</Button>
+          </div>
+        )}
       </div>
       <div>
         <LocalizationProvider dateAdapter={AdapterDayjs}>

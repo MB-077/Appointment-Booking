@@ -97,7 +97,7 @@ const Drop_down = () => {
 
   return (
     // visible element
-    <div className="flex w-[270px] justify-center items-center">
+    <div className="flex w-[300px] justify-center items-center">
       <div>
         <div className="flex justify-evenly gap-4 items-center ">
           <img
@@ -121,13 +121,13 @@ const Drop_down = () => {
 
       <AnimatePresence>
         {showDrop ? (
-          <motion.div className=" absolute top-[13vh] w-[273px] z-10 ">
+          <motion.div className=" absolute top-[13vh] w-[300px] z-10 ">
             {el}
           </motion.div>
         ) : null}
       </AnimatePresence>
 
-      <div className="absolute top-[13.5vh]  w-[273px] z-10">
+      <div className="absolute top-[13.5vh]  w-[300px] z-10">
         {isVisible && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}

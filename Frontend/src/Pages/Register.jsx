@@ -52,7 +52,7 @@ const Register = () => {
         "http://127.0.0.1:8000/register/",
         change
       );
-      localStorage.setItem("token", response.data.token);
+      // localStorage.setItem("token", response.data.token);
       console.log("Success:", response.data);
 
       response.data.token ? navigate("/login") : null;

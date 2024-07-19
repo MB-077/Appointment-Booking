@@ -15,13 +15,13 @@ const SideBar = ({ list, className }) => {
 
   const Display = list.map((el) => (
     <div key={el.id}>
-      <li className="list-none">
+      <li className="list-none h-12 flex m-2">
         <NavLink
           to={el.path}
           className={({ isActive }) =>
             isActive
-              ? "bg-n-5 mx-2 py-3 font-semibold px-4 my-5 rounded-md flex justify-start items-center"
-              : "flex justify-start items-center text-white my-5 mx-2 px-4 py-3"
+              ? "bg-n-5 font-semibold rounded-md p-3 w-full "
+              : " text-white font-semibold  rounded-md p-3 w-full  bg-transparent"
           }
         >
           {open ? (
@@ -33,7 +33,10 @@ const SideBar = ({ list, className }) => {
               {el.name}
             </motion.div>
           ) : (
-            <div className="text-[20px] "> {el.icon}</div>
+            <div className="text-[20px] flex justify-center items-center ">
+              {" "}
+              {el.icon}
+            </div>
           )}
         </NavLink>
       </li>
@@ -43,7 +46,7 @@ const SideBar = ({ list, className }) => {
   return (
     <motion.div
       className={`bg-n-11 h-[84vh] ${className} overflow-hidden relative`}
-      animate={open ? { width: "320px" } : { width: "70px" }}
+      animate={open ? { width: "350px" } : { width: "70px" }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <div className={`transition-all duration-500 ease-in-out `}>
@@ -52,7 +55,7 @@ const SideBar = ({ list, className }) => {
       <div
         className={`${
           open ? "flex" : "flex flex-col"
-        } gap-3 absolute bottom-10 justify-around items-center mx-2`}
+        } gap-3 absolute bottom-10 justify-around items-center mx-1`}
       >
         <Button
           func={() => {
@@ -60,6 +63,7 @@ const SideBar = ({ list, className }) => {
             localStorage.removeItem("userData");
             navigate("/");
           }}
+          className={`bg-n-1`}
         >
           {open ? (
             <div className="w-[180px]">logout</div>
@@ -67,7 +71,7 @@ const SideBar = ({ list, className }) => {
             <CiLogout className="text-[20px]" />
           )}
         </Button>
-        <Button func={AnimateMe}>
+        <Button func={AnimateMe} className={`bg-n-1`}>
           {!open ? (
             <RiMenuUnfoldLine className="text-[20px]" />
           ) : (
