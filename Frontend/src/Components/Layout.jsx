@@ -47,7 +47,7 @@ const Layout = () => {
           </div>
         </div>
       </div>
-      {/* <Footer className={`bg-n-11 w-full h-[34px]`} /> */}
+      <Footer className={`bg-n-11 w-full tracking-wider`} />
     </div>
   );
 };

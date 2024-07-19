@@ -3,9 +3,9 @@ import { motion } from "framer-motion";
 import { useLoaderData, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import dataContext from "../Context/contextProvider";
-// import InputFields from "../Components/InputFields";
-// import { CiUser } from "react-icons/ci";
-// import { RiLockPasswordLine } from "react-icons/ri";
+import InputFields from "../Components/InputFields";
+import { CiUser } from "react-icons/ci";
+import { RiLockPasswordLine } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";
 
 export function loginloaders({ request }) {
@@ -89,7 +89,7 @@ const Login = () => {
             Please enter your details to continue
           </span>
           <form onClick={handleSubmit}>
-            {/* <InputFields
+            <InputFields
               label={"username"}
               type={"text"}
               icon={<CiUser />}
@@ -103,9 +103,9 @@ const Login = () => {
               icon={<RiLockPasswordLine />}
               func={handleChange}
               name={"password"}
-            /> */}
+            />
 
-            <div>
+            {/* <div>
               <label>Username</label>
               <input
                 type="text"
@@ -124,10 +124,7 @@ const Login = () => {
                 onChange={handleChange}
                 autoComplete="current-password"
               />
-            </div>
-            <div className="flex items-center justify-between">
-              <button type="button">Log In</button>
-            </div>
+            </div> */}
 
             <button
               type="button"
@@ -135,17 +132,17 @@ const Login = () => {
             >
               Login
             </button>
-          </form>
 
-          <button className="bg-white hover:bg-gray-500 mt-2 w-[100%] rounded-sm text-[10px] py-[3.5px] text-black flex justify-center items-center gap-2 font-semibold">
-            <FaGoogle />
-            Login using Google
-          </button>
-          <Link to="/register">
-            <span className="text-[8px] text-white mt-2 hover:underline">
-              New User? Register Here
-            </span>
-          </Link>
+            <button className="bg-white hover:bg-gray-500 mt-2 w-[100%] rounded-sm text-[10px] py-[3.5px] text-black flex justify-center items-center gap-2 font-semibold">
+              <FaGoogle />
+              Login using Google
+            </button>
+            <Link to="/register">
+              <span className="text-[8px] text-white mt-2 hover:underline">
+                New User? Register Here
+              </span>
+            </Link>
+          </form>
         </div>
       </motion.div>
     </div>

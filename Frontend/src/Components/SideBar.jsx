@@ -45,7 +45,7 @@ const SideBar = ({ list, className }) => {
 
   return (
     <motion.div
-      className={`bg-n-11 h-[84vh] ${className} overflow-hidden relative`}
+      className={`bg-n-11 h-[81vh] ${className} overflow-hidden relative`}
       animate={open ? { width: "350px" } : { width: "70px" }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
@@ -55,7 +55,7 @@ const SideBar = ({ list, className }) => {
       <div
         className={`${
           open ? "flex" : "flex flex-col"
-        } gap-3 absolute bottom-10 justify-around items-center mx-1`}
+        } gap-2 absolute bottom-10 justify-around items-center ml-1`}
       >
         <Button
           func={() => {
@@ -63,15 +63,18 @@ const SideBar = ({ list, className }) => {
             localStorage.removeItem("userData");
             navigate("/");
           }}
-          className={`bg-n-1`}
+          className={`bg-n-1 text-[16.5px] hover:bg-blue-900 transition-colors duration-300 text-white`}
         >
           {open ? (
-            <div className="w-[180px]">logout</div>
+            <div className="w-[180px]">Logout</div>
           ) : (
             <CiLogout className="text-[20px]" />
           )}
         </Button>
-        <Button func={AnimateMe} className={`bg-n-1`}>
+        <Button
+          func={AnimateMe}
+          className={`bg-n-1 hover:bg-blue-900 transition-colors duration-300 text-white`}
+        >
           {!open ? (
             <RiMenuUnfoldLine className="text-[20px]" />
           ) : (

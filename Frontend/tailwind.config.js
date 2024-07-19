@@ -42,8 +42,8 @@ export default {
     plugin(function ({ addBase, addComponents, addUtilities }) {
       addBase({});
       addComponents({
-        ".flex": {
-          "flex justify-content items-center gap": {},
+        "": {
+          "": {},
         },
       });
     }),

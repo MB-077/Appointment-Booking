@@ -101,7 +101,7 @@ const SlotBook = () => {
           slot.is_booked
             ? "text-black/70 font-semibold bg-white/50 cursor-not-allowed "
             : "font-bold"
-        } bg-white`}
+        } bg-white text-black hover:bg-gray-300 transition-colors duration-300 `}
       >
         {slot.start_time}
       </Button>
@@ -120,34 +120,36 @@ const SlotBook = () => {
     selectedDate?.$D
   }`;
   const [timeSlot] = BookedslotData.map((slot) => slot.id);
-  const dataObj = {
-    doctor: newDoctorSelect?.id || doctors[0]?.id,
-    patient: user.patient_id,
-    time_slot: timeSlot,
-    date: datePart2 ?? dateObj,
-  };
-
-  const PostingFinalObj = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/appointments/",
-        finalObj,
-        {
-          headers: {
-            Authorization: `token ${token}`,
-          },
-        }
-      );
-      const info = await response.data;
-      console.log(`success : ${info}`);
-    } catch (error) {
-      console.error("Error:", error.response?.data || error.message);
-    }
-  };
 
   const handleSubmit = () => {
+    const dataObj = {
+      doctor: newDoctorSelect?.id || doctors[0]?.id,
+      patient: user.patient_id,
+      time_slot: timeSlot,
+      date: datePart2 ?? dateObj,
+    };
+
     setFinalObj(dataObj);
+
+    const PostingFinalObj = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/appointments/",
+          finalObj,
+          {
+            headers: {
+              Authorization: `token ${token}`,
+            },
+          }
+        );
+        const info = await response.data;
+        console.log(`success : ${info}`);
+      } catch (error) {
+        console.error("Error:", error.response?.data || error.message);
+      }
+    };
+
     PostingFinalObj();
   };
 
@@ -170,7 +172,7 @@ const SlotBook = () => {
           <div className="flex gap-3">
             <h2 className="text-white mb-2 mx-2 text-[20px]">Selected Slot</h2>
             {message ? (
-              <h2 className="w-fit bg-white text-red-800 font-openSans font-semibold rounded-sm mx-10 px-10 flex items-center text-[15px]">
+              <h2 className="w-fit bg-white text-red-800 font-openSans font-semibold rounded-sm mx-10 px-10 flex items-center text-[15px] h-fit relative top-2">
                 Sorry! No further bookings available
               </h2>
             ) : null}

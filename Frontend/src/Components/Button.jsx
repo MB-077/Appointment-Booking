@@ -5,7 +5,7 @@ const Button = ({ children, func, className, disabled }) => {
     <div>
       <button
         disabled={disabled}
-        className={` ${className} hover:bg-gray-400 font-openSans hover:text-black transition-all px-4 py-2 rounded-lg`}
+        className={` ${className}  font-openSans font-medium transition-all px-4 py-2 rounded-lg`}
         onClick={func}
       >
         {children}

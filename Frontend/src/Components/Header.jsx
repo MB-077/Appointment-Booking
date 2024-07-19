@@ -42,11 +42,17 @@ const Header = ({ className }) => {
           </div>
         </div>
       ) : (
-        <div className="flex gap-4">
-          <Button func={handleClick2} className={`w-[110px] bg-n-1`}>
+        <div className="flex gap-5">
+          <Button
+            func={handleClick2}
+            className={`w-[110px] text-[16.5px] bg-n-1 hover:bg-blue-900 transition-colors duration-300`}
+          >
             Register
           </Button>
-          <Button func={handleClick} className={`w-[110px] bg-n-1`}>
+          <Button
+            func={handleClick}
+            className={`w-[110px] text-[16.5px] bg-n-1 hover:bg-blue-900 transition-colors duration-300`}
+          >
             Login
           </Button>
         </div>
