@@ -1,5 +1,6 @@
 import React from "react";
 import Box from "../Components/Box";
+
 const Dashboard = ({ className }) => {
   const text = localStorage.getItem("userData");
   const user = JSON.parse(text);
@@ -27,7 +28,8 @@ const Dashboard = ({ className }) => {
               text={
                 "Easily book a time slot for your doctor visit with just a few clicks. Choose your preferred time and date."
               }
-              button={"Book Now"}
+              button={"Go to the Slots"}
+              paragraph={"Book a slot now!!"}
             />
             <Box
               path={"/booked"}
@@ -36,6 +38,7 @@ const Dashboard = ({ className }) => {
                 "Keep track of your upcoming appointments. View and manage your bookings with ease."
               }
               button={"View Bookings"}
+              paragraph={"View your current appointments"}
             />
             <Box
               path={"/history"}
@@ -44,6 +47,7 @@ const Dashboard = ({ className }) => {
                 "Check your previous appointments. Our history feature allows you to review all your past bookings."
               }
               button={"View History"}
+              paragraph={"Get access to your past appointments in no time"}
             />
             <Box
               path={"/profile"}
@@ -52,6 +56,7 @@ const Dashboard = ({ className }) => {
                 "Manage your profile information. Update your contact details, preferences, and more."
               }
               button={"Go to Profile"}
+              paragraph={"Manage your profile"}
             />
           </div>
         </main>

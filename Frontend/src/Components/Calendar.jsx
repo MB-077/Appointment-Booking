@@ -7,6 +7,7 @@ const Calendar = ({ func, selecteDate }) => {
       defaultValue={new Date()}
       onChange={func}
       // showDaysOutsideCurrentMonth
+      disablePast
       fixedWeekNumber={5}
       className="bg-white relative top-5 rounded-md "
       sx={{

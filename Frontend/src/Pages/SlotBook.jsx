@@ -33,14 +33,13 @@ const SlotBook = () => {
   const [message, setMessage] = React.useState(false);
   const [timeoutId, setTimeoutId] = React.useState(null);
   const [selectedDate, setSelectedDate] = React.useState(null);
-  const [finalObj, setFinalObj] = React.useState(null);
+  const [confirm, setConfirm] = React.useState("");
 
   // handling click
   const handleClick = (e) => {
     let selected = total_slots.find(
       (slot) => slot.start_time === e.target.innerText
     );
-
     if (selected && BookedslotData.length < 1) {
       // Update selected slot
       const updatedSlot = { ...selected, is_booked: true };
@@ -116,41 +115,68 @@ const SlotBook = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
-  const dateObj = `${selectedDate?.$y}-${selectedDate?.$M + 1}-${
-    selectedDate?.$D
-  }`;
+
   const [timeSlot] = BookedslotData.map((slot) => slot.id);
 
-  const handleSubmit = () => {
-    const dataObj = {
-      doctor: newDoctorSelect?.id || doctors[0]?.id,
-      patient: user.patient_id,
-      time_slot: timeSlot,
-      date: datePart2 ?? dateObj,
-    };
+  const dataObj = {
+    doctor: newDoctorSelect?.id || doctors[0]?.id,
+    patient: user.patient_id,
+    time_slot: timeSlot,
+    date: datePart2,
+  };
 
-    setFinalObj(dataObj);
+  const PostingFinalObj = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/appointments/",
+        dataObj,
+        {
+          headers: {
+            Authorization: `token ${token}`,
+          },
+        }
+      );
+      const info = await response.data;
+      console.log(`success : ${info}`);
+    } catch (error) {
+      console.error("Error:", error.response?.data || error.message);
+    }
+  };
 
-    const PostingFinalObj = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const response = await axios.post(
-          "http://127.0.0.1:8000/appointments/",
-          finalObj,
-          {
-            headers: {
-              Authorization: `token ${token}`,
-            },
-          }
-        );
-        const info = await response.data;
-        console.log(`success : ${info}`);
-      } catch (error) {
-        console.error("Error:", error.response?.data || error.message);
-      }
-    };
-
+  const handleSubmit = async () => {
+    setConfirm(
+      <h2 className="text-white text-xl">
+        Your booking has been set successfully
+      </h2>
+    );
     PostingFinalObj();
+    setTimeout(() => {
+      setConfirm("");
+      setBookedSlotData([]);
+    }, 2000);
+  };
+
+  const handleRemove = () => {
+    setConfirm(
+      <h2 className="text-white text-xl">
+        Your booking has been successfully Removed
+      </h2>
+    );
+
+    setTimeout(() => {
+      setConfirm("");
+      setBookedSlotData([]);
+    }, 2000);
+
+    // Update selected slot
+    const [el] = BookedslotData;
+    const updatedSlot = { ...el, is_booked: false };
+
+    // Update slots state
+    settotal_Slots((prevSlots) =>
+      prevSlots.map((slot) => (slot.id === updatedSlot.id ? updatedSlot : slot))
+    );
   };
 
   return (
@@ -158,6 +184,9 @@ const SlotBook = () => {
       <div className="w-2/3 relative">
         <div>
           <div className="flex gap-3 ">
+            <h1 className="text-white font-semibold text-[20px] relative top-5 mx-2">
+              Slots
+            </h1>
             {show ? (
               <h2 className="w-fit bg-white text-green-800 font-openSans font-semibold rounded-sm py-[1px] mx-10 px-10 relative top-5">
                 selected slot will appear at the bottom
@@ -177,35 +206,58 @@ const SlotBook = () => {
               </h2>
             ) : null}
           </div>
-          <motion.div
-            initial={{ height: "50px" }}
-            animate={BookedslotData.length !== 0 ? { height: "100px" } : null}
-            transition={{ type: "linear", ease: "easeOut" }}
-            className=" h-[100px] grid grid-cols-5"
-          >
-            <div className="relative top-4 flex flex-col gap-4 mx-5">
-              <div className="  w-[400px] flex gap-4 text-white">
-                Selected Date :{" "}
-                <div className="text-black  bg-white h-fit px-3 py-1 rounded-md ">
-                  {selectedDate ? `${dateObj}` : datePart2}
-                </div>
-              </div>
-              <div className="text-white flex gap-3 w-[300px] items-center">
-                Time Slot :
-                <div
-                  className={`text-black  ${
-                    !newELement ? "hidden" : " visible "
-                  } `}
-                >
-                  {newELement}
-                </div>
+
+          <div className="   mx-3 rounded-md relative top-7 flex justify-between pr-8 items-center w-[800px] ">
+            <div className=" gap-2  flex  text-white items-center ">
+              Current Date :{" "}
+              <div className="text-black  bg-white h-fit px-3 py-1 rounded-md ">
+                {datePart2}
               </div>
             </div>
-          </motion.div>
+            <div className="gap-2 text-white flex   items-center">
+              Time Slot :
+              <div
+                className={`text-black h-fit px-3 py-1 rounded-md ${
+                  !newELement ? "hidden" : " visible "
+                } `}
+              >
+                {newELement}
+              </div>
+            </div>
+            <div className="gap-2   flex  text-white items-center ">
+              Doctor:
+              <div className="text-black  bg-white h-fit px-3 py-1 rounded-md ">
+                {newDoctorSelect?.doctor || doctors[0]?.doctor}
+              </div>
+            </div>
+          </div>
         </div>
         {BookedslotData.length !== 0 && (
-          <div className="absolute top-[490px] bg-green-600 text-white rounded-md flex">
-            <Button func={handleSubmit}>Submit</Button>
+          <div className=" absolute top-[435px] ">
+            <div className="text-white text-sm mx-2">
+              <pre>Only current date can be selected </pre>
+              <pre>
+                User cannot select more than one of the give time slots on any
+                particular day
+              </pre>
+            </div>
+            <div className="flex gap-5 mt-4">
+              <div className="  rounded-md flex gap-5">
+                <Button
+                  className={`bg-red-700 text-white hover:bg-red-900`}
+                  func={handleRemove}
+                >
+                  Remove
+                </Button>
+                <Button
+                  className={`bg-green-600 text-white hover:bg-green-800`}
+                  func={handleSubmit}
+                >
+                  Submit
+                </Button>
+              </div>
+              <div>{confirm}</div>
+            </div>
           </div>
         )}
       </div>
