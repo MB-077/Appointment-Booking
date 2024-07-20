@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import axios from "axios";
 import InputFields from "../Components/InputFields";
 import { CiUser } from "react-icons/ci";
@@ -62,27 +62,11 @@ const Register = () => {
     }
   };
 
-  //empty input fields
-  // const [empty, setEmpty] = React.useState(false);
-
   // handling form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // if (
-    //   change.username === "" ||
-    //   change.email === "" ||
-    //   change.phone_number === "" ||
-    //   change.password === "" ||
-    //   change.password2 === ""
-    // ) {
-    //   setEmpty(true);
-    //   setTimeout(() => {
-    //     setEmpty(false);
-    //   }, 3000);
-    // }
-
     postData();
+    throw redirect("/profile?message=Please fill all your details to progress");
   };
 
   return (

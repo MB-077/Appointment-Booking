@@ -12,7 +12,7 @@ const Box = ({ text, button, path, header, paragraph }) => {
       onHoverEnd={() => setHovered(false)}
     >
       <motion.h2
-        className="text-2xl font-semibold text-pink-500"
+        className="text-2xl font-semibold text-n-5"
         animate={hovered ? { opacity: 0 } : { opacity: 1 }}
         transition={{ duration: 0.5 }}
       >

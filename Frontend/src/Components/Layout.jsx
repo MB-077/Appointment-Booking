@@ -27,6 +27,7 @@ const Layout = () => {
       name: "Appointments",
       icon: <MdApproval />,
     },
+    { id: 5, path: "/history", name: "History", icon: <FaHistory /> },
     {
       id: 3,
       path: "/profile",
@@ -34,7 +35,6 @@ const Layout = () => {
       nested: false,
       icon: <CgProfile />,
     },
-    { id: 5, path: "/history", name: "History", icon: <FaHistory /> },
   ];
   return (
     <div className="bg-n-8 h-[100vh] w-full absolute">

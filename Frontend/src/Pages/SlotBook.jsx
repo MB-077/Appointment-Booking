@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import Calendar from "../Components/Calendar";
 import dataContext from "../Context/contextProvider";
-import { motion } from "framer-motion";
 import Button from "../Components/Button";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const SlotBook = () => {
   // hooks
@@ -20,6 +20,8 @@ const SlotBook = () => {
     newDoctorSelect,
     doctors,
   } = useContext(dataContext);
+
+  const navigate = useNavigate();
 
   const dateObj2 = new Date();
   const year = dateObj2.getFullYear();
@@ -146,7 +148,7 @@ const SlotBook = () => {
 
   const handleSubmit = async () => {
     setConfirm(
-      <h2 className="text-white text-xl">
+      <h2 className="text-white text-base">
         Your booking has been set successfully
       </h2>
     );
@@ -154,7 +156,8 @@ const SlotBook = () => {
     setTimeout(() => {
       setConfirm("");
       setBookedSlotData([]);
-    }, 2000);
+      navigate("/booked");
+    }, 1000);
   };
 
   const handleRemove = () => {

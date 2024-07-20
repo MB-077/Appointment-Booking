@@ -19,7 +19,7 @@ import {
 } from "react-router-dom";
 import { loginloaders } from "./Pages/Login";
 import AllDataProvider from "./Context/dataContext";
-
+// import { profileLoader } from "./Pages/Profile";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -47,7 +47,10 @@ function App() {
         <Route
           path="profile"
           element={<Profile />}
-          loader={async () => await Authrequire()}
+          loader={
+            async () => await Authrequire()
+            // await profileLoader();
+          }
         />
         <Route path="*" element={<PageNotFound />} />
       </Route>

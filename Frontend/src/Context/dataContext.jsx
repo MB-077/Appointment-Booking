@@ -30,7 +30,7 @@ const AllDataProvider = ({ children }) => {
         },
       });
       const info = await res.data;
-
+      console.log(info);
       setUsers(info);
     } catch (err) {
       console.log(err);
@@ -73,8 +73,6 @@ const AllDataProvider = ({ children }) => {
       console.error("Error:", error.response);
     }
   };
-
-  //FUNCTION NO4
 
   //CALLING THE USEFFECT HOOK
   React.useEffect(() => {
