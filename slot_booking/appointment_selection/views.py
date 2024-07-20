@@ -70,7 +70,7 @@ class PatientDetailIndividual(RetrieveUpdateDestroyAPIView):
     serializer_class = PatientDetailsSerializer
     
     def get_permissions(self):
-        if self.request.method == 'GET' or self.request.method == 'PUT' or self.request.method == 'PATCH':
+        if self.request.method == 'GET' or self.request.method == 'PUT' or self.request.method == 'PATCH' or self.request.method == 'POST':
             permission_classes = [IsAuthenticated]
         else:
             permission_classes = [IsAdminOrReadOnly]
