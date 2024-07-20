@@ -1,26 +1,165 @@
 import React from "react";
-import Test1 from "./../images/catto.jpg";
-const PatientProfile = () => {
-  // const user = localStorage.getItem("user");
-  // const info = JSON.parse(user);
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import InputFields from "../Components/InputFields";
+import Button from "./../Components/Button";
+// export function profileLoader({ request }) {
+//   return newURL(request.url).searchParams.get("message");
+// }
 
-  const patientData = {
-    name: "Test1",
-    phone: "123-456-7890",
-    age: 30,
-    bloodGroup: "O+",
-    gender: "Male",
-    occupation: "Software Engineer",
-    address:
-      "Bhadson Rd, Adarsh Nagar, Prem Nagar, Patiala, Punjab 145004, India",
-    lastAppointments: ["2023-07-01", "2023-06-15"],
-    diagnostics: "Healthy",
-    emergencyContact: "Jane Doe - 987-654-3210",
-    insurance: "Yamraj Health Insurance",
+const PatientProfile = ({ userId }) => {
+  const [profileData, setProfileData] = React.useState(null);
+  const [formData, setFormData] = React.useState({
+    name: "",
+    email: "",
+    age: "",
+    zipCode: "",
+    contact: "",
+    gender: "",
+    blood_group: "",
+    address: "",
+    occupation: "",
+    diagnostics: "",
+  });
+  const [isFormSubmitted, setIsFormSubmitted] = React.useState(false);
+
+  React.useEffect(() => {
+    // Fetch profile data after form is submitted
+    if (isFormSubmitted) {
+      axios
+        .get(`http://127.0.0.1:8000/patients/${userId}`)
+        .then((response) => setProfileData(response.data))
+        .catch((error) => console.error(error));
+    }
+
+    // Reminder to fill out the profile form every 5 minutes
+    const interval = setInterval(() => {
+      if (!isFormSubmitted) {
+        toast.info("Please fill out your profile form.", { autoClose: false });
+      }
+    }, 300000);
+
+    return () => clearInterval(interval);
+  }, [isFormSubmitted, userId]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Submit form data to the server
+    axios
+      .post(`http://127.0.0.1:8000/patients/${userId}`, formData)
+      .then(() => {
+        setIsFormSubmitted(true);
+        toast.dismiss();
+      })
+      .catch((error) => console.error(error));
   };
 
   return (
-    <div className="w-full  bg-gradient text-white p-6 font-semibold rounded-lg shadow-md h-[80vh]">
+    <div className="p-6 bg-red-300 h-[80vh] shadow-lg rounded-lg text-white">
+      {!isFormSubmitted ? (
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 h-full bg-green-400 w-full"
+        >
+          <div className="grid grid-cols-3 h-[85%] bg-purple-600  place-items-center  w-full">
+            <InputFields
+              label={"Name"}
+              type={"text"}
+              name={"name"}
+              func={handleChange}
+            />
+            <InputFields
+              label={"Email"}
+              type={"email"}
+              name={"email"}
+              func={handleChange}
+            />
+            <InputFields
+              label={"Age"}
+              type={"number"}
+              name={"age"}
+              func={handleChange}
+            />
+            <InputFields
+              label={"ZipCode"}
+              type={"number"}
+              name={"zipCode"}
+              func={handleChange}
+            />
+            <InputFields
+              label={"Address"}
+              type={"address"}
+              name={"address"}
+              func={handleChange}
+            />
+            <InputFields
+              label={"Contact"}
+              type={"number"}
+              name={"contact"}
+              func={handleChange}
+            />
+            <InputFields
+              label={"Gender"}
+              type={"text"}
+              name={"gender"}
+              func={handleChange}
+            />
+            <InputFields
+              label={"Blood Group"}
+              type={"text"}
+              name={"blood_group"}
+              func={handleChange}
+            />
+            <InputFields
+              label={"Occupation"}
+              type={"text"}
+              name={"occupation"}
+              func={handleChange}
+            />
+            <InputFields
+              label={"Diagnostics"}
+              type={"text"}
+              name={"diagnostics"}
+              func={handleChange}
+            />
+          </div>
+          <Button
+            type="submit"
+            className={`px-4 py-2 bg-blue-500 rounded-lg hover:bg-blue-700`}
+          >
+            Submit
+          </Button>
+        </form>
+      ) : (
+        <div>
+          <h2 className="text-2xl font-semibold">Profile Information</h2>
+          <p className="mt-4">
+            <strong>Name:</strong> {profileData?.name}
+          </p>
+          <p className="mt-4">
+            <strong>Email:</strong> {profileData?.email}
+          </p>
+          <p className="mt-4">
+            <strong>Age:</strong> {profileData?.age}
+          </p>
+        </div>
+      )}
+      <ToastContainer />
+    </div>
+  );
+};
+
+export default PatientProfile;
+{
+  /* <div className="w-full  bg-gradient text-white p-6 font-semibold rounded-lg shadow-md h-[80vh]">
       <div className="absolute left-[22rem]">
         <div className="flex items-center space-x-6 mb-[26px] ">
           <img
@@ -109,15 +248,15 @@ const PatientProfile = () => {
             </p>
           </div>
 
-          <div className="mt-6 relative ">
+          <div className="mt-6 relative -top-2 flex gap-5">
             <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
               Change Password
+            </button>
+            <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
+              Edit Profile
             </button>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-export default PatientProfile;
+    </div> */
+}

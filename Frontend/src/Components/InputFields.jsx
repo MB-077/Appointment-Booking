@@ -28,7 +28,7 @@ const InputFields = ({ label, type, icon, name, func, auto }) => {
         onFocus={() => setIsFocused(true)}
         onBlur={(e) => (e.target.value ? null : setIsFocused(false))}
         onChange={func}
-        // autoComplete={auto}
+        autoComplete={auto}
       />
     </div>
   );
