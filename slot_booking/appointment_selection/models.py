@@ -34,7 +34,7 @@ class Patient(models.Model):
 
 class PatientDetails(models.Model):
     patient = models.OneToOneField(Patient, on_delete=models.CASCADE, related_name='patient_details')
-    age = models.PositiveIntegerField(blank=True)
+    age = models.CharField(max_length=3, blank=True)
     gender = models.CharField(max_length=50, blank=True)
     blood_group = models.CharField(max_length=3, blank=True)
     address = models.TextField(blank=True)
