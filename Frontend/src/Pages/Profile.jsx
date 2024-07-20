@@ -1,8 +1,8 @@
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import InputFields from "../Components/InputFields";
 import Button from "./../Components/Button";
+import axios from "axios";
 // export function profileLoader({ request }) {
 //   return newURL(request.url).searchParams.get("message");
 // }
@@ -10,29 +10,42 @@ import Button from "./../Components/Button";
 const PatientProfile = ({ userId }) => {
   const [profileData, setProfileData] = React.useState(null);
   const [formData, setFormData] = React.useState({
-    name: "",
-    email: "",
+    patient: "",
     age: "",
-    zipCode: "",
-    contact: "",
     gender: "",
-    blood_group: "",
     address: "",
-    occupation: "",
-    diagnostics: "",
+    blood_group: "",
+    zip_code: "",
   });
   const [isFormSubmitted, setIsFormSubmitted] = React.useState(false);
 
-  React.useEffect(() => {
-    // Fetch profile data after form is submitted
-    if (isFormSubmitted) {
-      axios
-        .get(`http://127.0.0.1:8000/patients/${userId}`)
-        .then((response) => setProfileData(response.data))
-        .catch((error) => console.error(error));
-    }
+  //getting the user Id
+  const user = localStorage.getItem("userData");
+  const token = localStorage.getItem("token");
+  const info = JSON.parse(user);
+  const id_main = info.patient_id;
 
-    // Reminder to fill out the profile form every 5 minutes
+  React.useEffect(() => {
+    const fetchData = async (userId) => {
+      if (isFormSubmitted) {
+        try {
+          const response = await axios.get(
+            `http://127.0.0.1:8000/patients-detail/${userId}/`,
+            {
+              headers: {
+                Authorization: `token ${token}`,
+              },
+            }
+          );
+          setProfileData(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+
+    fetchData(id_main);
+
     const interval = setInterval(() => {
       if (!isFormSubmitted) {
         toast.info("Please fill out your profile form.", { autoClose: false });
@@ -50,94 +63,122 @@ const PatientProfile = ({ userId }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const postData = async (userId) => {
+    try {
+      await axios.post(
+        `http://127.0.0.1:8000/patients-detail/${userId}/`,
+        formData,
+        {
+          headers: {
+            Authorization: `token ${token}`,
+          },
+        }
+      );
+      setIsFormSubmitted(true);
+      toast.dismiss();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Submit form data to the server
-    axios
-      .post(`http://127.0.0.1:8000/patients/${userId}`, formData)
-      .then(() => {
-        setIsFormSubmitted(true);
-        toast.dismiss();
-      })
-      .catch((error) => console.error(error));
+    console.log(id_main);
+    console.log(formData);
+    postData(id_main);
   };
 
   return (
-    <div className="p-6 bg-red-300 h-[80vh] shadow-lg rounded-lg text-white">
+    <div className="p-6  h-[80vh]  rounded-lg text-white">
       {!isFormSubmitted ? (
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-4 h-full bg-green-400 w-full"
-        >
-          <div className="grid grid-cols-3 h-[85%] bg-purple-600  place-items-center  w-full">
-            <InputFields
-              label={"Name"}
-              type={"text"}
-              name={"name"}
-              func={handleChange}
-            />
-            <InputFields
-              label={"Email"}
-              type={"email"}
-              name={"email"}
-              func={handleChange}
-            />
-            <InputFields
-              label={"Age"}
-              type={"number"}
-              name={"age"}
-              func={handleChange}
-            />
-            <InputFields
-              label={"ZipCode"}
-              type={"number"}
-              name={"zipCode"}
-              func={handleChange}
-            />
-            <InputFields
-              label={"Address"}
-              type={"address"}
-              name={"address"}
-              func={handleChange}
-            />
-            <InputFields
-              label={"Contact"}
-              type={"number"}
-              name={"contact"}
-              func={handleChange}
-            />
-            <InputFields
-              label={"Gender"}
-              type={"text"}
-              name={"gender"}
-              func={handleChange}
-            />
-            <InputFields
-              label={"Blood Group"}
-              type={"text"}
-              name={"blood_group"}
-              func={handleChange}
-            />
-            <InputFields
-              label={"Occupation"}
-              type={"text"}
-              name={"occupation"}
-              func={handleChange}
-            />
-            <InputFields
-              label={"Diagnostics"}
-              type={"text"}
-              name={"diagnostics"}
-              func={handleChange}
-            />
-          </div>
-          <Button
-            type="submit"
-            className={`px-4 py-2 bg-blue-500 rounded-lg hover:bg-blue-700`}
-          >
-            Submit
-          </Button>
-        </form>
+        <div>
+          <h2 className="text-2xl text-center mb-8 ">
+            Fill in the details to book a slots
+          </h2>
+          <form onSubmit={handleSubmit} className=" h-[64.6vh]">
+            <div className="grid grid-cols-3  h-full  m-5">
+              <div className="flex flex-col ">
+                <p className="text-lg font-semibold">Name</p>
+                <input
+                  type="text"
+                  name="patient"
+                  placeholder=" Your name here"
+                  className=" px-3 py-2 w-[300px] rounded-[3px] text-[17px] bg-transparent border-[2px] border-white outline-none"
+                  autoComplete="off"
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <p className="text-lg font-semibold">Age</p>
+                <input
+                  type="number"
+                  name="age"
+                  placeholder=" Your age here"
+                  className=" px-3 py-2 w-[300px] rounded-[3px] text-[17px] bg-transparent border-[2px] border-white outline-none"
+                  autoComplete="off"
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <p className="text-lg font-semibold">Gender</p>
+                <input
+                  name="gender"
+                  type="text"
+                  placeholder=" Your gender here"
+                  className=" px-3 py-2 w-[300px] rounded-[3px] text-[17px] bg-transparent border-[2px] border-white outline-none"
+                  onChange={handleChange}
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <p className="text-lg font-semibold">Address</p>
+                <textarea
+                  rows={5}
+                  name="address"
+                  type="address"
+                  placeholder=" Your address here"
+                  className=" px-3 py-2 w-[300px] rounded-[3px] text-[17px] bg-transparent border-[2px] border-white outline-none"
+                  autoComplete="off"
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <p className="text-lg font-semibold">Blood Group</p>
+                <input
+                  name="blood_group"
+                  type="text"
+                  placeholder=" Your blood group here"
+                  className=" px-3 py-2 w-[300px] rounded-[3px] text-[17px] bg-transparent border-[2px] border-white outline-none"
+                  onChange={handleChange}
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <p className="text-lg font-semibold">ZipCode</p>
+                <input
+                  type="text"
+                  name="zip_code"
+                  placeholder=" Your zip code here"
+                  className=" px-3 py-2 w-[300px] rounded-[3px] text-[17px] bg-transparent border-[2px] border-white outline-none"
+                  autoComplete="off"
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              className={`px-6 py-2 relative -top-[68px] mx-5 bg-blue-500 rounded-lg hover:bg-blue-700`}
+            >
+              Submit
+            </Button>
+          </form>
+        </div>
       ) : (
         <div>
           <h2 className="text-2xl font-semibold">Profile Information</h2>

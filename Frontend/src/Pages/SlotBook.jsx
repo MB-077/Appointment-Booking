@@ -148,9 +148,11 @@ const SlotBook = () => {
 
   const handleSubmit = async () => {
     setConfirm(
-      <h2 className="text-white text-base">
-        Your booking has been set successfully
-      </h2>
+      <div className=" py-2">
+        <h2 className="text-white text-base  ">
+          Your booking has been set successfully
+        </h2>
+      </div>
     );
     PostingFinalObj();
     setTimeout(() => {
@@ -162,9 +164,11 @@ const SlotBook = () => {
 
   const handleRemove = () => {
     setConfirm(
-      <h2 className="text-white text-xl">
-        Your booking has been successfully Removed
-      </h2>
+      <div className=" py-2">
+        <h2 className="text-white text-base  ">
+          Your booking has been successfully Removed
+        </h2>
+      </div>
     );
 
     setTimeout(() => {
@@ -229,7 +233,7 @@ const SlotBook = () => {
             </div>
             <div className="gap-2   flex  text-white items-center ">
               Doctor:
-              <div className="text-black  bg-white h-fit px-3 py-1 rounded-md ">
+              <div className="text-black  bg-white h-fit px-5 py-1 rounded-md ">
                 {newDoctorSelect?.doctor || doctors[0]?.doctor}
               </div>
             </div>

@@ -23,7 +23,11 @@ const Header = ({ className }) => {
           EazySlots
         </div>
       </div>
-      <div className="w-[50%]  bg-gradient h-[12vh] rounded-md">
+      <div
+        className={`${
+          hideComponent ? "w-[70%]" : "w-[50%]"
+        } bg-gradient h-[12vh] rounded-md`}
+      >
         {user && !hideComponent ? (
           <div className=" h-[12vh] w-[300px] flex justify-start px-10 items-center font-semibold gap-3">
             <p className="text-[20px] text-white/70 relative top-[2px]">
