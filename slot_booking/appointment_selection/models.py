@@ -38,6 +38,7 @@ class PatientDetails(models.Model):
     gender = models.CharField(max_length=50, blank=True)
     address = models.TextField(blank=True)
     blood_group = models.CharField(max_length=3, blank=True)
+    zip_code = models.CharField(max_length=6, blank=True)
     
     def __str__(self):
         return f"{self.patient} - {self.age} years old"
