@@ -1,7 +1,7 @@
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Button from "./../Components/Button";
+import { Button } from "./../im-ex-ports";
 import axios from "axios";
 import cat from "./../images/catto.jpg";
 

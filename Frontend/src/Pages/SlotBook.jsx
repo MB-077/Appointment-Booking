@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import Calendar from "../Components/Calendar";
 import dataContext from "../Context/contextProvider";
-import Button from "../Components/Button";
+import { Button } from "../im-ex-ports";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SlotBook = () => {
   // hooks
@@ -214,8 +214,8 @@ const SlotBook = () => {
             ) : null}
           </div>
 
-          <div className="mx-3 rounded-md relative top-7 flexR pr-8 w-[800px]">
-            <div className=" gap-2 flex text-white items-center">
+          <div className="   mx-3 rounded-md relative top-7 flexRB pr-8  w-[800px] ">
+            <div className=" gap-2  flex  text-white items-center ">
               Current Date :{" "}
               <div className="text-black  bg-white h-fit px-3 py-1 rounded-md ">
                 {datePart2}
@@ -253,7 +253,7 @@ const SlotBook = () => {
                 <Button className={`cancel`} func={handleRemove}>
                   Remove
                 </Button>
-                <Button className={`remove`} func={handleSubmit}>
+                <Button className={`success`} func={handleSubmit}>
                   Submit
                 </Button>
               </div>
