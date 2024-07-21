@@ -1,5 +1,5 @@
 import React from "react";
-import Box from "../Components/Box";
+import { Box } from "../im-ex-ports";
 
 const Dashboard = () => {
   const text = localStorage.getItem("userData");

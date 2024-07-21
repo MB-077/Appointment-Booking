@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useLoaderData, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import dataContext from "../Context/contextProvider";
-import InputFields from "../Components/InputFields";
+import { InputFields } from "../im-ex-ports";
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";

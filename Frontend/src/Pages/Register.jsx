@@ -1,11 +1,10 @@
 import React from "react";
+import axios from "axios";
 import { motion } from "framer-motion";
 import { redirect, useNavigate } from "react-router-dom";
-import axios from "axios";
-import InputFields from "../Components/InputFields";
-import { CiUser } from "react-icons/ci";
+import { InputFields } from "../im-ex-ports";
+import { CiUser, CiPhone } from "react-icons/ci";
 import { MdAlternateEmail } from "react-icons/md";
-import { CiPhone } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";
 const Register = () => {

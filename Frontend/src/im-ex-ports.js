@@ -14,8 +14,12 @@ export { default as Header } from "./Components/Header";
 export { default as Footer } from "./Components/Footer";
 export { default as Toggle } from "./Components/Toggle";
 export { default as Button } from "./Components/Button";
-// export { default as SlotLayout } from "./Components/SlotLayout";
+export { default as Box } from "./Components/Box";
+export { default as Drop_down } from "./Components/Drop_down";
 export { default as ErrorComp } from "./Components/ErrorComp";
+export { default as InputFields } from "./Components/InputFields";
+export { default as Calendar } from "./Components/Calendar";
+
 //js components
 export { default as Authrequire } from "./authRequire";
 // export { default as AllDataProvider } from "./Context/dataContext";
