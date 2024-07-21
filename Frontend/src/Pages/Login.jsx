@@ -63,7 +63,7 @@ const Login = () => {
   };
 
   return (
-    <div id="hideMeagain" onClick={handleMe} className="backhazy">
+    <div id="hideMeagain" onClick={handleMe} className="backHazy">
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 2, translateY: "250px" }}
@@ -98,7 +98,7 @@ const Login = () => {
 
             <button
               type="button"
-              className=" mt-4 w-[100%]  text-[10px] [3.5px] btnBlue"
+              className=" mt-4 w-[100%] rounded-sm text-[10px] py-[3.5px] btnBlue"
             >
               Login
             </button>

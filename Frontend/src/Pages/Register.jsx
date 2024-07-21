@@ -124,7 +124,7 @@ const Register = () => {
               func={handleChange}
             />
 
-            <button className=" mt-4 w-[100%]  text-[10px] py-[3.5px] btnBlue">
+            <button className=" mt-4 w-[100%] rounded-sm text-[10px] py-[3.5px] btnBlue">
               Register
             </button>
             <button className="google">
