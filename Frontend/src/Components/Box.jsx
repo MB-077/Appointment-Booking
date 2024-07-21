@@ -7,7 +7,7 @@ const Box = ({ text, button, path, header, paragraph }) => {
 
   return (
     <motion.div
-      className="relative p-6 bg-n-8/30 shadow-lg h-48 flex flex-col justify-center items-center gap-3 rounded-lg overflow-hidden"
+      className="relative p-6 bg-n-8/30 shadow-lg h-48 flexC gap-3 rounded-lg overflow-hidden"
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
     >
@@ -28,16 +28,14 @@ const Box = ({ text, button, path, header, paragraph }) => {
       <AnimatePresence>
         {hovered && (
           <motion.div
-            className="absolute inset-0 flex flex-col items-center justify-center bg-n-8/80 bg-opacity-75"
+            className="absolute inset-0 flexC bg-n-8/80 bg-opacity-75"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
             <NavLink to={path} className="mb-2">
-              <Button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-900">
-                {button}
-              </Button>
+              <Button className="btnBlue">{button}</Button>
             </NavLink>
             <motion.p
               className="text-white/50 text-lg mt-2"

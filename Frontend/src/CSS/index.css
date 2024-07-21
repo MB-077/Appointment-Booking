@@ -10,17 +10,28 @@
   --font-korean: "Noto Sans KR", sans-serif;
 }
 
-* {
-  scroll-behavior: smooth;
-}
+@layer base {
+  .flexR {
+    @apply justify-center items-center flex;
+  }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+  .flexC {
+    @apply flex flex-col justify-center items-center;
+  }
+  .flexRE {
+    @apply flex justify-end items-center;
+  }
+  .flexRB {
+    @apply flex justify-between items-center;
+  }
+  .flexRS {
+    @apply flex justify-start items-center;
+  }
 
-input[type="number"] {
-  -moz-appearance: textfield; /* Firefox */
-  appearance: textfield; /* Standard */
+  .btnBlue {
+    @apply bg-n-1 text-white hover:bg-blue-900;
+  }
+  .SideD {
+    @apply font-semibold rounded-md p-3 w-full;
+  }
 }

@@ -1,8 +1,8 @@
 import React from "react";
 
-const Footer = ({ className }) => {
+const Footer = () => {
   return (
-    <div className={`${className} `}>
+    <div className="bg-n-11 w-full tracking-wider">
       <footer className=" text-center">
         <p className="text-gray-500 leading-6">
           © 2024 EasySlot. All rights reserved.

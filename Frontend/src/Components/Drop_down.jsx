@@ -77,7 +77,7 @@ const Drop_down = () => {
       variants={pageVariants}
       transition={pageTransition}
     >
-      <div className="bg-n-5 rounded-md cursor-pointer mx-1 h-[12vh] flex justify-center items-center gap-4 px-4">
+      <div className="bg-n-5 rounded-md cursor-pointer mx-1 h-[12vh] flexR gap-4 px-4">
         <img
           src={cat}
           height={50}
@@ -97,9 +97,9 @@ const Drop_down = () => {
 
   return (
     // visible element
-    <div className="flex w-[300px] justify-center items-center">
+    <div className="flexR w-[300px]">
       <div>
-        <div className="flex justify-evenly gap-4 items-center ">
+        <div className="flexR gap-4">
           <img
             src={cat}
             height={50}

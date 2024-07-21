@@ -39,15 +39,15 @@ const Layout = () => {
   return (
     <div className="bg-n-8 h-[100vh] w-full absolute">
       <div className=" m-2 ">
-        <Header className={`my-2 rounded-lg`} />
+        <Header />
         <div className="flex gap-2 ">
-          <SideBar list={list} className={`rounded-lg`} />
+          <SideBar list={list} />
           <div className={`w-full bg-n-11 rounded-lg`}>
             <Outlet />
           </div>
         </div>
       </div>
-      <Footer className={`bg-n-11 w-full tracking-wider`} />
+      <Footer />
     </div>
   );
 };
