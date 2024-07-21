@@ -63,25 +63,16 @@ const Login = () => {
   };
 
   return (
-    <div
-      id="hideMeagain"
-      onClick={handleMe}
-      className="absolute backdrop-blur-md backdrop-brightness-50 w-full top-0 left-0 h-full"
-    >
+    <div id="hideMeagain" onClick={handleMe} className="backhazy">
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 2, translateY: "250px" }}
         transition={{ duration: 0.5 }}
         className="relative left-[40%] -top-11 w-[280px] h-[41vh] bg-n-11 rounded-md"
       >
-        {url ? (
-          <h2 className="text-blacks text-[9px] relative top-3 flex justify-center items-center bg-white mx-5 rounded-sm py-1">
-            {url}
-          </h2>
-        ) : null}
-        {/* {message ? <h2>{message}</h2> : null} */}
+        {url ? <h2 className="url_login">{url}</h2> : null}
 
-        <div className="flex flex-col justify-center items-center h-full ">
+        <div className="flexC h-full ">
           <h4 className="text-white text-[14px] relative -top-3">
             Welcome Back to <span className="text-n-5"> EasySlot</span>
           </h4>
@@ -105,35 +96,14 @@ const Login = () => {
               name={"password"}
             />
 
-            {/* <div>
-              <label>Username</label>
-              <input
-                type="text"
-                placeholder="Username"
-                name="username"
-                onChange={handleChange}
-                autoComplete="username"
-              />
-            </div>
-            <div>
-              <label>Password</label>
-              <input
-                type="password"
-                placeholder="Password"
-                name="password"
-                onChange={handleChange}
-                autoComplete="current-password"
-              />
-            </div> */}
-
             <button
               type="button"
-              className="bg-n-1 mt-4 w-[100%] rounded-sm text-[10px] py-[3.5px] text-white hover:bg-blue-900"
+              className=" mt-4 w-[100%]  text-[10px] [3.5px] btnBlue"
             >
               Login
             </button>
 
-            <button className="bg-white hover:bg-gray-500 mt-2 w-[100%] rounded-sm text-[10px] py-[3.5px] text-black flex justify-center items-center gap-2 font-semibold">
+            <button className="google">
               <FaGoogle />
               Login using Google
             </button>

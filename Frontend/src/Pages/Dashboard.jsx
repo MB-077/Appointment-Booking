@@ -1,17 +1,13 @@
 import React from "react";
 import Box from "../Components/Box";
 
-const Dashboard = ({ className }) => {
+const Dashboard = () => {
   const text = localStorage.getItem("userData");
   const user = JSON.parse(text);
 
   return (
     <div className="">
-      <div
-        className={` flex flex-col items-center justify-center p-4  ${
-          user && `relative top-14`
-        }`}
-      >
+      <div className={` flexC p-4  ${user && `relative top-14`}`}>
         {!user && (
           <header className="text-center mb-8">
             <h1 className="text-4xl font-bold text-n-5">Welcome to EasySlot</h1>

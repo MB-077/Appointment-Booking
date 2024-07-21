@@ -81,9 +81,7 @@ const Register = () => {
         transition={{ duration: 0.5 }}
         className="relative left-[40%] -top-11 w-[280px] h-[44vh] bg-n-11 rounded-md border-[1px] border-n-5/30 shadow-n-5/50 shadow-sm"
       >
-        {/* {empty ? <h2>Fill in all fields</h2> : null} */}
-
-        <div className="flex flex-col justify-center items-center h-full">
+        <div className="flexC h-full">
           <h4 className="text-white text-[14px] relative -top-3">
             Welcome to <span className="text-n-5"> EasySlot</span>
           </h4>
@@ -127,10 +125,10 @@ const Register = () => {
               func={handleChange}
             />
 
-            <button className="bg-n-1 mt-4 w-[100%] rounded-sm text-[10px] py-[3.5px] text-white hover:bg-blue-900">
+            <button className=" mt-4 w-[100%]  text-[10px] py-[3.5px] btnBlue">
               Register
             </button>
-            <button className="bg-white hover:bg-gray-500 mt-2 w-[100%] rounded-sm text-[10px] py-[3.5px] text-black flex justify-center items-center gap-2 font-semibold">
+            <button className="google">
               <FaGoogle />
               Google
             </button>

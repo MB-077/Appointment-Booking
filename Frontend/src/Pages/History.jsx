@@ -30,10 +30,7 @@ const History = () => {
       <h1 className="text-2xl mb-5 text-white">
         No past appointments, go for it now!
       </h1>
-      <Link
-        to="/slots"
-        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-900"
-      >
+      <Link to="/slots" className="btnBlue">
         Slot Bookings
       </Link>
     </div>

@@ -67,7 +67,7 @@ const ViewYours = () => {
     appointments.map((el) => {
       return (
         <div key={el.id} className="bg-white shadow-lg rounded-lg p-4 mb-4">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flexRB mb-2">
             <h2 className="text-lg font-bold">{el.doctor}</h2>
             <span className="text-md text-gray-700">{el.date}</span>
           </div>
@@ -83,29 +83,18 @@ const ViewYours = () => {
           >
             Status: {el.is_approved ? "Approved" : "Pending"}
           </p>
-          <div className="flex gap-5 justify-center items-center">
+          <div className="flexR gap-5">
             <p className="text-gray-700 mb-2">
               Reschedule Requested: {el.reschedule_requested ? "Yes" : "No"}
             </p>
-            <Button
-              id={el.id}
-              className={`rounded - md p-2 bg-n-1 hover:bg-blue-900 transition-colors duration-300 text-white`}
-            >
+            <Button id={el.id} className={`btnBlue`}>
               Reschedule Now
             </Button>
           </div>
           <div className="">
             <p className="text-gray-700 mb-2">Fee : &#8377; 500</p>
-            <Button
-              className={`rounded - md my-2 p-2 w-full bg-n-1 hover:bg-blue-900 transition-colors duration-300 text-white `}
-            >
-              Pay
-            </Button>
-            <Button
-              id={el.id}
-              className={`rounded - md p-2 w-full bg-n-1 hover:bg-blue-900 transition-colors duration-300 text-white`}
-              func={handleCancel}
-            >
+            <Button className={`my-2 w-full btnBlue`}>Pay</Button>
+            <Button id={el.id} className={`w-full btnBlue`} func={handleCancel}>
               Cancel
             </Button>
           </div>

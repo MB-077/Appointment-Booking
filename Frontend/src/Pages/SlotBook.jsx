@@ -214,8 +214,8 @@ const SlotBook = () => {
             ) : null}
           </div>
 
-          <div className="   mx-3 rounded-md relative top-7 flex justify-between pr-8 items-center w-[800px] ">
-            <div className=" gap-2  flex  text-white items-center ">
+          <div className="mx-3 rounded-md relative top-7 flexR pr-8 w-[800px]">
+            <div className=" gap-2 flex text-white items-center">
               Current Date :{" "}
               <div className="text-black  bg-white h-fit px-3 py-1 rounded-md ">
                 {datePart2}
@@ -250,16 +250,10 @@ const SlotBook = () => {
             </div>
             <div className="flex gap-5 mt-4">
               <div className="  rounded-md flex gap-5">
-                <Button
-                  className={`bg-red-700 text-white hover:bg-red-900`}
-                  func={handleRemove}
-                >
+                <Button className={`cancel`} func={handleRemove}>
                   Remove
                 </Button>
-                <Button
-                  className={`bg-green-600 text-white hover:bg-green-800`}
-                  func={handleSubmit}
-                >
+                <Button className={`remove`} func={handleSubmit}>
                   Submit
                 </Button>
               </div>

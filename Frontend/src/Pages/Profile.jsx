@@ -135,7 +135,7 @@ const PatientProfile = ({ userId }) => {
                   type="number"
                   name="age"
                   placeholder=" Your age here"
-                  className=" px-3 py-2 w-[300px] rounded-[3px] text-[17px] bg-transparent border-[2px] border-white outline-none"
+                  className="profile_inputs"
                   autoComplete="off"
                   onChange={handleChange}
                   value={formData.age}
@@ -148,7 +148,7 @@ const PatientProfile = ({ userId }) => {
                   name="gender"
                   type="text"
                   placeholder=" Your gender here"
-                  className=" px-3 py-2 w-[300px] rounded-[3px] text-[17px] bg-transparent border-[2px] border-white outline-none"
+                  className="profile_inputs"
                   onChange={handleChange}
                   autoComplete="off"
                   value={formData.gender}
@@ -162,7 +162,7 @@ const PatientProfile = ({ userId }) => {
                   name="address"
                   type="address"
                   placeholder=" Your address here"
-                  className=" px-3 py-2 w-[300px] rounded-[3px] text-[17px] bg-transparent border-[2px] border-white outline-none"
+                  className="profile_inputs"
                   autoComplete="off"
                   onChange={handleChange}
                   value={formData.address}
@@ -175,7 +175,7 @@ const PatientProfile = ({ userId }) => {
                   name="blood_group"
                   type="text"
                   placeholder=" Your blood group here"
-                  className=" px-3 py-2 w-[300px] rounded-[3px] text-[17px] bg-transparent border-[2px] border-white outline-none"
+                  className=" profile_inputs"
                   onChange={handleChange}
                   autoComplete="off"
                   value={formData.blood_group}
@@ -188,7 +188,7 @@ const PatientProfile = ({ userId }) => {
                   type="text"
                   name="zip_code"
                   placeholder=" Your zip code here"
-                  className=" px-3 py-2 w-[300px] rounded-[3px] text-[17px] bg-transparent border-[2px] border-white outline-none"
+                  className=" profile_inputs"
                   autoComplete="off"
                   onChange={handleChange}
                   value={formData.zip_code}
@@ -226,58 +226,48 @@ const PatientProfile = ({ userId }) => {
             </div>
             <div className="space-y-7 grid grid-cols-3 gap-5 ">
               <div className="relative top-3">
-                <h3 className="text-lg font-semibold text-gray-500 relative">
+                <h3 className="profile_span text-gray-500 relative">
                   Personal Information
                 </h3>
 
                 <div>
-                  <p className="bg-transparent text-white px-2 py-1 w-[75%] h-full m-1 list-none rounded-sm">
-                    <span className="font-semibold text-lg">Age:</span> {el.age}
+                  <p className="profile_full">
+                    <span className="profile_span">Age:</span> {el.age}
                   </p>
-                  <p className="bg-transparent text-white px-2 py-1 w-[75%] h-full m-1 list-none rounded-sm">
-                    <span className="font-semibold text-lg">Blood Group:</span>{" "}
-                    {el.blood_group}
+                  <p className="profile_full">
+                    <span className="">Blood Group:</span> {el.blood_group}
                   </p>
-                  <p className="bg-transparent text-white px-2 py-1 w-[75%] h-full m-1 list-none rounded-sm">
-                    <span className="font-semibold text-lg">Gender:</span>{" "}
-                    {el.gender}
+                  <p className="profile_full">
+                    <span className="profile_span">Gender:</span> {el.gender}
                   </p>
-                  <p className="bg-transparent text-white px-2 py-1 w-[75%] h-full m-1 list-none rounded-sm">
-                    <span className="font-semibold text-lg">ZipCode: </span>{" "}
+                  <p className="profile_full">
+                    <span className="profile_span">ZipCode: </span>{" "}
                     {el.zip_code}
                   </p>
-                  <p className="bg-transparent text-white px-2 py-1 w-[75%] h-full m-1 list-none rounded-sm">
-                    <span className="font-semibold text-lg">Mobile: </span>{" "}
+                  <p className="profile_full">
+                    <span className="profile_span">Mobile: </span>{" "}
                     {info.phone_number}
                   </p>
                 </div>
               </div>
 
               <div className="relative -top-4">
-                <h3 className="text-lg font-semibold text-gray-500">Address</h3>
-                <p className="bg-transparent text-white px-2 py-1 w-[75%] h-[60%] m-1 list-none rounded-sm">
-                  {el.address}
-                </p>
+                <h3 className="profile_span text-gray-500">Address</h3>
+                <p className="profile_60">{el.address}</p>
               </div>
 
               <div className="relative -top-4">
-                <h3 className="text-lg font-semibold text-gray-500">
+                <h3 className="profile_span text-gray-500">
                   Last Appointments
                 </h3>
                 <p>No Appointments till now</p>
               </div>
 
               <div className="mt-6 relative h-[50px] top-[45px] flex gap-10">
-                <Button
-                  className={`bg-blue-500 text-white px-4  hover:bg-blue-900 transition-all duration-300 rounded-md`}
-                  func={handlePassword}
-                >
+                <Button className={`btnBlue`} func={handlePassword}>
                   Change Password
                 </Button>
-                <Button
-                  className={`bg-blue-500 text-white px-4 rounded-md hover:bg-blue-900 transition-all duration-300`}
-                  func={handleEdit}
-                >
+                <Button className={`btnBlue`} func={handleEdit}>
                   Edit Profile
                 </Button>
               </div>
