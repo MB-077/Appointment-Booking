@@ -13,15 +13,37 @@ export function loginloaders({ request }) {
 }
 
 const Login = () => {
-  const { usersList, slotBookingList, DocAvailable } = useContext(dataContext);
+  //urls and hooks
   const url = useLoaderData();
   const Navigate = useNavigate();
+  const { usersList, slotBookingList, DocAvailable } = useContext(dataContext);
   const [change, setChange] = React.useState({
     username: "",
     password: "",
   });
 
-  const handleMe = (e) => {
+  /////////////////////////////////////////////////////////////////
+
+  // posting data
+  const postData = async () => {
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/login/", change);
+      const { token, ...userData } = response.data;
+      localStorage.setItem("userData", JSON.stringify(userData));
+      localStorage.setItem("token", response.data.token);
+      usersList();
+      slotBookingList();
+      DocAvailable();
+      Navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //////////////////////////////////////////////////////
+
+  // all the functions
+  const handleOut = (e) => {
     e.target.id === "hideMeagain" ? Navigate("/") : null;
   };
 
@@ -40,30 +62,15 @@ const Login = () => {
     }));
   };
 
-  const postData = async () => {
-    console.log(change);
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/login/", change);
-      console.log("Success:", response.data);
-      const { token, ...userData } = response.data;
-      localStorage.setItem("userData", JSON.stringify(userData));
-      localStorage.setItem("token", response.data.token);
-      usersList();
-      slotBookingList();
-      DocAvailable();
-      Navigate("/");
-    } catch (error) {
-      console.error("Error:", error.response.data);
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     postData();
   };
 
+  //////////////////////////////////////////////////////
+
   return (
-    <div id="hideMeagain" onClick={handleMe} className="backHazy">
+    <div id="hideMeagain" onClick={handleOut} className="backHazy">
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 2, translateY: "250px" }}

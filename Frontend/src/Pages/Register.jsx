@@ -17,6 +17,27 @@ const Register = () => {
     password2: "",
   });
 
+  //////////////////////////////////////////////////////////////
+  // register posting data
+  const postData = async () => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/register/",
+        change
+      );
+      console.log("Success:", response.data);
+      navigate("/login");
+    } catch (err) {
+      throw {
+        message: "Failed To Register",
+        statusText: res.statusText,
+        status: res.status,
+      };
+    }
+  };
+
+  ////////////////////////////////////////////////////////////
+  //all the functions
   const handleMe = (e) => {
     if (e.target.id === "hideMeagain2") {
       navigate(-1);
@@ -36,7 +57,6 @@ const Register = () => {
     };
   }, [navigate]);
 
-  // handling form change
   const handleChange = (e) => {
     setChange((prev) => ({
       ...prev,
@@ -44,28 +64,9 @@ const Register = () => {
     }));
   };
 
-  // register posting data
-  const postData = async () => {
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/register/",
-        change
-      );
-      // localStorage.setItem("token", response.data.token);
-      console.log("Success:", response.data);
-
-      response.data.token ? navigate("/login") : null;
-    } catch (error) {
-      console.log(error);
-      console.error("Error:", error.response.data);
-    }
-  };
-
-  // handling form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     postData();
-    throw redirect("/profile?message=Please fill all your details to progress");
   };
 
   return (

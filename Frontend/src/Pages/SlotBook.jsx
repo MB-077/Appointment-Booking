@@ -26,7 +26,6 @@ const SlotBook = () => {
   const year = dateObj2.getFullYear();
   const month = String(dateObj2.getMonth() + 1).padStart(2, "0");
   const day = String(dateObj2.getDate()).padStart(2, "0");
-
   const datePart2 = `${year}-${month}-${day}`;
 
   //internal hooks
@@ -80,6 +79,7 @@ const SlotBook = () => {
       setTimeoutId(id);
     }
   };
+
   //   mapping the booked slots
   const newELement = BookedslotData.map((slot) => (
     <div

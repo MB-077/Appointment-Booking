@@ -19,7 +19,6 @@ import {
 } from "react-router-dom";
 import { loginloaders } from "./Pages/Login";
 import AllDataProvider from "./Context/dataContext";
-// import { profileLoader } from "./Pages/Profile";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -31,26 +30,23 @@ function App() {
         <Route
           path="slots"
           element={<SlotBook />}
-          loader={async () => await Authrequire()}
+          loader={async () => Authrequire()}
         />
         <Route
           path="booked"
           element={<ViewYours />}
-          loader={async () => await Authrequire()}
+          loader={async () => Authrequire()}
         />
         <Route
           path="history"
           element={<History />}
-          loader={async () => await Authrequire()}
+          loader={async () => Authrequire()}
         />
 
         <Route
           path="profile"
           element={<Profile />}
-          loader={
-            async () => await Authrequire()
-            // await profileLoader();
-          }
+          loader={async () => Authrequire()}
         />
         <Route path="*" element={<PageNotFound />} />
       </Route>

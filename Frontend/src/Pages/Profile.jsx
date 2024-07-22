@@ -4,19 +4,22 @@ import "react-toastify/dist/ReactToastify.css";
 import { Button } from "./../im-ex-ports";
 import axios from "axios";
 import cat from "./../images/catto.jpg";
+import { useLoaderData } from "react-router-dom";
 
-// export function profileLoader({ request }) {
-//   return newURL(request.url).searchParams.get("message");
-// }
+export function profileLoader({ request }) {
+  return newURL(request.url).searchParams.get("message");
+}
 
-const PatientProfile = ({ userId }) => {
+const PatientProfile = () => {
   //getting the user Id
   const userME = localStorage.getItem("userData");
   const token = localStorage.getItem("token");
   const info = JSON.parse(userME);
   const id_main = info.patient_id;
+  const url = useLoaderData();
 
   const [profileData, setProfileData] = React.useState([]);
+  const [isFormEditing, setIsFormEditing] = React.useState(false);
   const [formData, setFormData] = React.useState({
     patient_id: `${id_main}`,
     age: "",
@@ -25,8 +28,6 @@ const PatientProfile = ({ userId }) => {
     blood_group: "",
     zip_code: "",
   });
-  // const [isFormSubmitted, setIsFormSubmitted] = React.useState(false);
-  const [isFormEditing, setIsFormEditing] = React.useState(false);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -50,16 +51,10 @@ const PatientProfile = ({ userId }) => {
     fetchData();
   }, [token]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name !== "patient_id") {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
-  };
-  const [el] = profileData;
+  console.log(profileData);
+  const el = profileData.find((el) => el.id);
+  console.log(el);
+
   const postData = async () => {
     if (isFormEditing) {
       console.log(formData);
@@ -73,8 +68,7 @@ const PatientProfile = ({ userId }) => {
             },
           }
         );
-        console.log(response.data);
-        setProfileData(response.data);
+        console.log(response);
       } catch (error) {
         console.error(error);
       } finally {
@@ -91,19 +85,22 @@ const PatientProfile = ({ userId }) => {
             },
           }
         );
-        console.log(response.data);
-        setProfileData(response.data);
+        console.log(response);
       } catch (error) {
         console.error(error);
       }
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    postData();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name !== "patient_id") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
-
   const handleEdit = () => {
     setFormData({
       patient_id: `${id_main}`,
@@ -116,17 +113,21 @@ const PatientProfile = ({ userId }) => {
     setIsFormEditing(true);
     console.log(formData);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    postData();
+  };
+
   const handlePassword = () => {};
 
   return (
     <div className="p-6  h-[80vh]  rounded-lg text-white">
-      {profileData.length === 0 || isFormEditing ? (
-        <div>
-          <h2 className="text-2xl text-center mb-8 ">
-            {isFormEditing
-              ? "Edit your profile"
-              : "Fill in the details to book a slot"}
-          </h2>
+      <div>
+        <h2 className="text-2xl text-center mb-8 text-white">
+          {isFormEditing ? "Edit your profile" : url}
+        </h2>
+        {isFormEditing || !el ? (
           <form onSubmit={handleSubmit} className=" h-[64.6vh]">
             <div className="grid grid-cols-3  h-full  m-5">
               <div className="flex flex-col gap-1">
@@ -204,77 +205,77 @@ const PatientProfile = ({ userId }) => {
               {isFormEditing ? "Update" : "Submit"}
             </Button>
           </form>
-        </div>
-      ) : (
-        <div className="w-full  bg-gradient text-white p-6 font-semibold rounded-lg shadow-md h-[76vh]">
-          <div className="absolute left-[22rem]">
-            <div className="flex items-center space-x-6 mb-[26px] ">
-              <img
-                className="w-28 h-28 rounded-full object-cover"
-                src={cat}
-                alt="Patient"
-              />
-              <div>
-                <h2 className="text-4xl tracking-wider font-bold ">
-                  {el.patient.charAt(0).toUpperCase() + el.patient.slice(1)}
-                </h2>
-              </div>
-            </div>
-
-            <div className="w-[1230px] bg-n-11 top-[130px] rounded-b-md absolute h-[56vh] -left-[54px]">
-              {" "}
-            </div>
-            <div className="space-y-7 grid grid-cols-3 gap-5 ">
-              <div className="relative top-3">
-                <h3 className="profile_span text-gray-500 relative">
-                  Personal Information
-                </h3>
-
+        ) : (
+          <div className="w-full  bg-gradient text-white p-6 font-semibold rounded-lg shadow-md h-[76vh]">
+            <div className="absolute left-[22rem]">
+              <div className="flex items-center space-x-6 mb-[26px] ">
+                <img
+                  className="w-28 h-28 rounded-full object-cover"
+                  src={cat}
+                  alt="Patient"
+                />
                 <div>
-                  <p className="profile_full">
-                    <span className="profile_span">Age:</span> {el.age}
-                  </p>
-                  <p className="profile_full">
-                    <span className="">Blood Group:</span> {el.blood_group}
-                  </p>
-                  <p className="profile_full">
-                    <span className="profile_span">Gender:</span> {el.gender}
-                  </p>
-                  <p className="profile_full">
-                    <span className="profile_span">ZipCode: </span>{" "}
-                    {el.zip_code}
-                  </p>
-                  <p className="profile_full">
-                    <span className="profile_span">Mobile: </span>{" "}
-                    {info.phone_number}
-                  </p>
+                  <h2 className="text-4xl tracking-wider font-bold ">
+                    {el?.patient.charAt(0).toUpperCase() + el?.patient.slice(1)}
+                  </h2>
                 </div>
               </div>
 
-              <div className="relative -top-4">
-                <h3 className="profile_span text-gray-500">Address</h3>
-                <p className="profile_60">{el.address}</p>
+              <div className="w-[1230px] bg-n-11 top-[130px] rounded-b-md absolute h-[56vh] -left-[54px]">
+                {" "}
               </div>
+              <div className="space-y-7 grid grid-cols-3 gap-5 ">
+                <div className="relative top-3">
+                  <h3 className="profile_span text-gray-500 relative">
+                    Personal Information
+                  </h3>
 
-              <div className="relative -top-4">
-                <h3 className="profile_span text-gray-500">
-                  Last Appointments
-                </h3>
-                <p>No Appointments till now</p>
-              </div>
+                  <div>
+                    <p className="profile_full">
+                      <span className="profile_span">Age:</span> {el.age}
+                    </p>
+                    <p className="profile_full">
+                      <span className="">Blood Group:</span> {el.blood_group}
+                    </p>
+                    <p className="profile_full">
+                      <span className="profile_span">Gender:</span> {el.gender}
+                    </p>
+                    <p className="profile_full">
+                      <span className="profile_span">ZipCode: </span>
+                      {el.zip_code}
+                    </p>
+                    <p className="profile_full">
+                      <span className="profile_span">Mobile: </span>
+                      {info.phone_number}
+                    </p>
+                  </div>
+                </div>
 
-              <div className="mt-6 relative h-[50px] top-[45px] flex gap-10">
-                <Button className={`btnBlue`} func={handlePassword}>
-                  Change Password
-                </Button>
-                <Button className={`btnBlue`} func={handleEdit}>
-                  Edit Profile
-                </Button>
+                <div className="relative -top-4">
+                  <h3 className="profile_span text-gray-500">Address</h3>
+                  <p className="profile_60">{el.address}</p>
+                </div>
+
+                <div className="relative -top-4">
+                  <h3 className="profile_span text-gray-500">
+                    Last Appointments
+                  </h3>
+                  <p>No Appointments till now</p>
+                </div>
+
+                <div className="mt-6 relative h-[50px] top-[45px] flex gap-10">
+                  <Button className={`btnBlue`} func={handlePassword}>
+                    Change Password
+                  </Button>
+                  <Button className={`btnBlue`} func={handleEdit}>
+                    Edit Profile
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
