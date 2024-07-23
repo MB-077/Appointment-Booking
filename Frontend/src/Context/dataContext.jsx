@@ -15,7 +15,7 @@ const AllDataProvider = ({ children }) => {
   const [doctorsSelected, setDoctorsSelected] = React.useState({});
   const newDoctorSelect = doctorsSelected;
   //a variable that holds the final object
-
+  const [darkMode, setDarkMode] = React.useState(false);
   //FUCNTION NO1
   const usersList = async () => {
     const token = localStorage.getItem("token");
@@ -42,7 +42,7 @@ const AllDataProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/doctors/${id}/timeslots/   `,
+        `http://127.0.0.1:8000/doctors/${id}/timeslots/`,
         {
           headers: {
             Authorization: `token ${token}`,
@@ -74,6 +74,14 @@ const AllDataProvider = ({ children }) => {
     }
   };
 
+  React.useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
+
   //CALLING THE USEFFECT HOOK
   React.useEffect(() => {
     usersList();
@@ -97,7 +105,9 @@ const AllDataProvider = ({ children }) => {
         newDoctorSelect,
         doctorsSelected,
         setDoctorsSelected,
-
+        //state5
+        darkMode,
+        setDarkMode,
         //functions
         usersList,
         slotBookingList,
