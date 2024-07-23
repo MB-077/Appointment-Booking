@@ -84,7 +84,7 @@ const SlotBook = () => {
   const newELement = BookedslotData.map((slot) => (
     <div
       key={slot.id}
-      className="bg-white h-fit px-3 py-1 rounded-md border-none"
+      className="bg-white h-fit px-3 py-1 rounded-md border-none dark:bg-black dark:text-white"
     >
       <p>{slot.start_time}</p>
     </div>
@@ -99,9 +99,9 @@ const SlotBook = () => {
         disabled={slot.is_booked}
         className={`${
           slot.is_booked
-            ? "text-black/70 font-semibold bg-white/50 cursor-not-allowed "
+            ? "text-black/70 font-semibold bg-white/50 dark:bg-black/40 cursor-not-allowed "
             : "font-bold"
-        } bg-white text-black hover:bg-gray-300 transition-colors duration-300 `}
+        } bg-white text-black hover:bg-gray-300 transition-colors duration-300 dark:bg-black dark:text-white dark:hover:bg-gray-800 dark:hover:text-white`}
       >
         {slot.start_time}
       </Button>
@@ -148,7 +148,7 @@ const SlotBook = () => {
   const handleSubmit = async () => {
     setConfirm(
       <div className=" py-2">
-        <h2 className="text-white text-base  ">
+        <h2 className="text-white text-base dark:text-black ">
           Your booking has been set successfully
         </h2>
       </div>
@@ -164,7 +164,7 @@ const SlotBook = () => {
   const handleRemove = () => {
     setConfirm(
       <div className=" py-2">
-        <h2 className="text-white text-base  ">
+        <h2 className="text-white text-base dark:text-black ">
           Your booking has been successfully Removed
         </h2>
       </div>
@@ -190,11 +190,11 @@ const SlotBook = () => {
       <div className="w-2/3 relative">
         <div>
           <div className="flex gap-3 ">
-            <h1 className="text-white font-semibold text-[20px] relative top-5 mx-2">
+            <h1 className="text-white dark:text-black font-semibold text-[20px] relative top-5 mx-2">
               Slots
             </h1>
             {show ? (
-              <h2 className="w-fit bg-white text-green-800 font-openSans font-semibold rounded-sm py-[1px] mx-10 px-10 relative top-5">
+              <h2 className="w-fit bg-white text-green-800 font-openSans font-semibold rounded-sm py-[1px] mx-10 px-10 relative top-5 dark:bg-black dark:text-white">
                 selected slot will appear at the bottom
               </h2>
             ) : null}
@@ -205,33 +205,35 @@ const SlotBook = () => {
         </div>
         <div className="absolute top-[275px]">
           <div className="flex gap-3">
-            <h2 className="text-white mb-2 mx-2 text-[20px]">Selected Slot</h2>
+            <h2 className="text-white dark:text-black mb-2 mx-2 text-[20px]">
+              Selected Slot
+            </h2>
             {message ? (
-              <h2 className="w-fit bg-white text-red-800 font-openSans font-semibold rounded-sm mx-10 px-10 flex items-center text-[15px] h-fit relative top-2">
+              <h2 className="w-fit bg-white text-red-800 font-openSans font-semibold rounded-sm mx-10 px-10 flex items-center text-[15px] h-fit relative top-2 dark:bg-black dark:text-white">
                 Sorry! No further bookings available
               </h2>
             ) : null}
           </div>
 
           <div className="   mx-3 rounded-md relative top-7 flexRB pr-8  w-[800px] ">
-            <div className=" gap-2  flex  text-white items-center ">
+            <div className=" gap-2  flex  text-white items-center dark:text-black">
               Current Date :{" "}
-              <div className="text-black  bg-white h-fit px-3 py-1 rounded-md ">
+              <div className="text-black dark:text-white bg-white dark:bg-black h-fit px-3 py-1 rounded-md ">
                 {datePart2}
               </div>
             </div>
-            <div className="gap-2 text-white flex   items-center">
+            <div className="gap-2 text-white flex dark:text-black  items-center">
               Time Slot :
               <div
-                className={`text-black h-fit px-3 py-1 rounded-md ${
+                className={`text-black h-fit dark:text-white px-3 py-1 rounded-md ${
                   !newELement ? "hidden" : " visible "
                 } `}
               >
                 {newELement}
               </div>
             </div>
-            <div className="gap-2   flex  text-white items-center ">
-              <div className="text-black relative top-4 rounded-md ">
+            <div className="gap-2   flex dark:text-black text-white items-center ">
+              <div className="text-black dark:text-white relative top-4 rounded-md ">
                 <DoctorSearch />
               </div>
             </div>
@@ -239,7 +241,7 @@ const SlotBook = () => {
         </div>
         {BookedslotData.length !== 0 && (
           <div className=" absolute top-[435px] ">
-            <div className="text-white text-sm mx-2">
+            <div className="text-white dark:text-black text-sm mx-2">
               <pre>Only current date can be selected </pre>
               <pre>
                 User cannot select more than one of the give time slots on any

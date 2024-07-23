@@ -21,7 +21,7 @@ const InputFields = ({ label, type, icon, name, func, auto }) => {
       <motion.input
         name={name}
         type={type}
-        className="w-[180px] px-5 border-b-[1px] border-gray-300 outline-none bg-n-11 text-white text-[10px] focus:outline-none focus:bg-n-11 focus:text-white"
+        className="w-[180px] px-5 border-b-[1px] border-gray-300 outline-none bg-n-11 text-white text-[10px] focus:outline-none focus:bg-n-11 focus:text-white dark:bg-white dark:text-black dark:border-black"
         initial={{ borderColor: "#d1d5db" }}
         animate={{ borderColor: isFocused ? "#CE2D4F" : "#d1d5db" }}
         transition={{ type: "spring", stiffness: 100 }}

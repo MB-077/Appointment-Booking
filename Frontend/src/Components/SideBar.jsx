@@ -17,11 +17,13 @@ const SideBar = ({ list }) => {
   const hideComponent = location.pathname === "/profile";
   const Display = list.map((el) => (
     <div key={el.id}>
-      <li className="list-none h-12 flex m-2">
+      <li className="list-none h-12 flex m-2 dark:text-black">
         <NavLink
           to={el.path}
           className={({ isActive }) =>
-            isActive ? "bg-n-5 SideD" : " text-white SideD bg-transparent"
+            isActive
+              ? "bg-n-5 SideD"
+              : " text-white SideD bg-transparent dark:text-black"
           }
         >
           {open || hideComponent ? (
@@ -42,13 +44,11 @@ const SideBar = ({ list }) => {
 
   return (
     <motion.div
-      className={`bg-n-11 h-[81vh] rounded-lg overflow-hidden relative`}
+      className={`bg-n-11 h-[81vh] rounded-lg overflow-hidden relative dark:bg-white`}
       animate={open || hideComponent ? { width: "350px" } : { width: "70px" }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
-      <div className={`transition-all duration-500 ease-in-out `}>
-        {Display}
-      </div>
+      <div className={`transition-all duration-500 ease-in-out`}>{Display}</div>
       <div
         className={`${
           open || hideComponent ? "flexR" : "flexC"

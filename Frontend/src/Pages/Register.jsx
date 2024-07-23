@@ -123,7 +123,7 @@ const Register = () => {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 2, translateY: "250px" }}
         transition={{ duration: 0.5 }}
-        className="relative left-[40%] -top-11 w-[280px] h-[45vh] bg-n-11 rounded-md border-[1px] border-n-5/30 shadow-n-5/50 shadow-sm"
+        className="relative left-[40%] -top-11 w-[280px] h-[45vh] bg-n-11 dark:bg-white rounded-md shadow-sm"
       >
         <div className="flexC h-full">
           <Message variable={samePassword} message={"Incorrect Password"} />
@@ -149,10 +149,10 @@ const Register = () => {
           />
           <Message variable={userExist} message={"User already exist!!"} />
           <Message variable={emptyCondition} message={"Empty field detected"} />
-          <h4 className="text-white text-[17px] relative ">
+          <h4 className="text-white dark:text-black text-[17px] relative ">
             Welcome to <span className="text-n-5"> EasySlot</span>
           </h4>
-          <span className="text-[7px] text-white/70 relative  ">
+          <span className="text-[8px] text-white/70 relative dark:text-black ">
             Please enter your details
           </span>
           <form onSubmit={handleSubmit}>

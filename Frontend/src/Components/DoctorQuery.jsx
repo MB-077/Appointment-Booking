@@ -49,7 +49,7 @@ const DoctorSearch = () => {
           value={query}
           onChange={handleSearch}
           placeholder="doctor1"
-          className="mb-4 p-2 border border-gray-300 rounded w-full max-w-md placeholder:text-black"
+          className="mb-4 p-2 border border-gray-300 dark:border-black rounded w-full max-w-md placeholder:text-black dark:text-black "
         />
         <div className="w-full max-w-md h-[15vh] overflow-y-auto ">
           {touch ? (
@@ -64,7 +64,7 @@ const DoctorSearch = () => {
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ delay: index * 0.1 }}
                       onClick={handleSelect}
-                      className="p-4 mb-2 bg-white border border-gray-300 rounded cursor-pointer flex gap-2"
+                      className="p-4 mb-2 bg-white border dark:bg-black border-gray-300 rounded cursor-pointer flex gap-2"
                     >
                       <h2 className="text-xl font-semibold">{doctor.doctor}</h2>
                       <p>{doctor.specialty}</p>

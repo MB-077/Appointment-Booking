@@ -7,7 +7,7 @@ const Box = ({ text, button, path, header, paragraph }) => {
 
   return (
     <motion.div
-      className="relative p-6 bg-n-8/30 shadow-lg h-48 flexC gap-3 rounded-lg overflow-hidden"
+      className="relative p-6 bg-n-8/30 shadow-lg h-48 flexC gap-3 rounded-lg overflow-hidden dark:shadow-xl dark:shadow-gray-300"
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
     >
@@ -19,7 +19,7 @@ const Box = ({ text, button, path, header, paragraph }) => {
         {header}
       </motion.h2>
       <motion.p
-        className="mt-4 text-white/50"
+        className="mt-4 text-white/50 dark:text-white"
         animate={hovered ? { opacity: 0 } : { opacity: 1 }}
         transition={{ duration: 0.5 }}
       >

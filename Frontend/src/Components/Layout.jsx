@@ -42,7 +42,7 @@ const Layout = () => {
         <Header />
         <div className="flex gap-2 ">
           <SideBar list={list} />
-          <div className={`w-full bg-n-11 rounded-lg`}>
+          <div className={`w-full bg-n-11 rounded-lg dark:bg-white`}>
             <Outlet />
           </div>
         </div>

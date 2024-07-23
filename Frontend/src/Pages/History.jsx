@@ -34,7 +34,7 @@ const History = () => {
 
   return (
     <div className="m-5">
-      <h1 className="text-2xl mb-5 text-white">
+      <h1 className="text-2xl mb-5 text-white dark:text-black">
         No past appointments, go for it now!
       </h1>
       <Link to="/slots">

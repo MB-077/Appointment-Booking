@@ -90,7 +90,7 @@ const Login = () => {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 2, translateY: "250px" }}
         transition={{ duration: 0.5 }}
-        className="relative left-[40%] -top-11 w-[280px] h-[41vh] bg-n-11 rounded-md"
+        className="relative left-[40%] -top-11 w-[280px] h-[41vh] bg-n-11 dark:bg-white rounded-md"
       >
         {url ? <h2 className="url_login">{url}</h2> : null}
 
@@ -104,10 +104,10 @@ const Login = () => {
             variable={usernameCondition}
             message={"username must be of atleat 3 digits"}
           />
-          <h4 className="text-white text-[14px] relative -top-3">
+          <h4 className="text-white dark:text-black text-[14px] relative -top-3">
             Welcome Back to <span className="text-n-5"> EasySlot</span>
           </h4>
-          <span className="text-[7px] text-white/70 relative -top-2">
+          <span className="text-[8px] text-white/70 dark:text-black/70 relative -top-2">
             Please enter your details to continue
           </span>
           <form onClick={handleSubmit}>
@@ -129,7 +129,7 @@ const Login = () => {
 
             <div className=" w-[100%] mt-4">
               <Link to="/verifyEmail">
-                <p className="hover:underline text-white text-right text-[8px]">
+                <p className="hover:underline text-white dark:text-black text-right text-[8px]">
                   forget password?
                 </p>
               </Link>
@@ -146,7 +146,7 @@ const Login = () => {
               Login using Google
             </button>
             <Link to="/register">
-              <span className="text-[8px] text-white mt-2 hover:underline">
+              <span className="text-[8px] text-white dark:text-black mt-2 hover:underline">
                 New User? Register Here
               </span>
             </Link>

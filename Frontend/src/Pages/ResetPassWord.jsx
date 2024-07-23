@@ -55,7 +55,7 @@ const ResetPassWord = () => {
 
   return (
     <div>
-      <div className=" flexC h-[100vh] ">
+      <div className=" flexC h-[100vh]">
         <div className="shadow-xl w-[550px] h-[450px] rounded-md flexR">
           <div className=" w-[85%] h-[80%] flexC gap-5">
             <div className="text-center w-full tracking-wider flexC gap-3">

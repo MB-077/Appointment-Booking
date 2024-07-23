@@ -12,7 +12,7 @@ const Message = ({ message, variable }) => {
             stiffness: 300,
             duration: 1,
           }}
-          className="text-red-900 font-semibold text-[9px] w-[80%] bg-white text-center absolute top-[5px]  rounded-sm left-7"
+          className="text-red-900 font-semibold text-[9px] w-[80%] bg-white dark:bg-black dark:text-white text-center absolute top-[5px]  rounded-sm left-7"
         >
           {message}
         </motion.h4>

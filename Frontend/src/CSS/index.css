@@ -38,19 +38,19 @@
     @apply absolute backdrop-blur-md backdrop-brightness-50 w-full top-0 left-0 h-full;
   }
   .url_login {
-    @apply text-black text-[9px] relative top-3 flex justify-center items-center bg-white mx-5 rounded-sm py-1;
+    @apply text-black text-[9px] relative top-3 flex justify-center items-center bg-white mx-5 rounded-sm py-1 dark:text-white dark:bg-black;
   }
   .google {
-    @apply bg-white hover:bg-gray-500 mt-2 w-[100%] rounded-sm text-[10px] py-[3.5px] text-black flex justify-center items-center gap-2 font-semibold;
+    @apply bg-white hover:bg-gray-500 mt-2 w-[100%] rounded-sm text-[10px] py-[3.5px] text-black flex justify-center items-center gap-2 font-semibold dark:bg-black dark:text-white dark:font-normal;
   }
   .profile_inputs {
-    @apply px-3 py-2 w-[300px] rounded-[3px] text-[17px] bg-transparent border-[2px] border-white outline-none;
+    @apply px-3 py-2 w-[300px] rounded-[3px] text-[17px] bg-transparent border-[2px] border-white outline-none dark:outline-black;
   }
   .profile_full {
-    @apply bg-transparent text-white px-2 py-1 w-[75%] h-full m-1 list-none rounded-sm;
+    @apply bg-transparent text-white  py-1 w-[75%] h-full m-1 list-none rounded-sm dark:text-black;
   }
   .profile_60 {
-    @apply bg-transparent text-white px-2 py-1 w-[75%] h-[60%] m-1 list-none rounded-sm;
+    @apply bg-transparent text-white  py-1 w-[75%] h-[60%] m-1 list-none rounded-sm dark:text-black dark:outline-black;
   }
   .profile_span {
     @apply font-semibold text-lg;

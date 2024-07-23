@@ -16,13 +16,13 @@ const Header = () => {
   return (
     <nav className={`flexRB  w-full h-[12vh] my-2 rounded-lg`}>
       <div className="flexRB h-full">
-        <div className=" flexR w-[265px] h-full text-n-7 text-[30px] font-openSans tracking-wide bg-n-11 rounded-lg ">
+        <div className=" flexR w-[265px] h-full text-n-7 text-[30px] font-openSans tracking-wide bg-n-11 rounded-lg dark:bg-white dark:text-black">
           EazySlots
         </div>
       </div>
       <div
         className={`${
-          hideComponent ? "w-[70%]" : "w-[56%]"
+          user ? "w-[73%]" : "w-[57%]"
         } bg-gradient h-[12vh] rounded-md`}
       >
         {user && !hideComponent ? (
@@ -39,14 +39,8 @@ const Header = () => {
           <div> </div>
         )}
       </div>
-      {user ? (
-        <div className="flexRE h-full  gap-2 relative ">
-          <div className="bg-n-11 text-n-7 rounded-lg mr-2 h-[12vh] flexR">
-            {/* {hideComponent || <Drop_down />} */}
-          </div>
-        </div>
-      ) : (
-        <div className="flex gap-5">
+      {!user && (
+        <div className="flex gap-3">
           <Button
             func={handleClick2}
             className={`w-[110px] text-[16.5px] btnBlue`}
@@ -62,7 +56,7 @@ const Header = () => {
         </div>
       )}
 
-      <div className="relative right-6 text-[25px] text-n-4/80 cursor-pointer">
+      <div className="relative right-3 text-[25px] text-n-4/80 cursor-pointer">
         <Toggle />
       </div>
     </nav>

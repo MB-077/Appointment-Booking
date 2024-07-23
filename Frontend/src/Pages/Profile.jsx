@@ -151,9 +151,9 @@ const PatientProfile = () => {
   };
 
   return (
-    <div className="p-6  h-[80vh]  rounded-lg text-white">
+    <div className="p-6  h-[80vh]  rounded-lg text-white dark:text-black">
       <div>
-        <h2 className="text-2xl text-center mb-8 text-white">
+        <h2 className="text-2xl text-center mb-8 text-white dark:text-black">
           {isFormEditing ? "Edit your profile" : url}
         </h2>
         {isFormEditing || !el ? (
@@ -229,13 +229,13 @@ const PatientProfile = () => {
             <Button
               type="submit"
               func={handleSubmit}
-              className={`px-6 py-2 relative -top-[68px] mx-5 bg-blue-500 rounded-lg hover:bg-blue-700`}
+              className={`px-6 py-2 dark:text-white relative -top-[68px] mx-5 bg-blue-500 rounded-lg hover:bg-blue-700`}
             >
               {isFormEditing ? "Update" : "Submit"}
             </Button>
           </form>
         ) : (
-          <div className="w-full bg-gradient text-white p-5 font-semibold rounded-lg shadow-md h-[76vh] relative -top-8">
+          <div className="w-full bg-gradient text-white p-5 font-semibold rounded-lg  h-[76vh] relative -top-8">
             <div className="absolute">
               <div className="flex items-center space-x-6 mb-[26px] ">
                 <img
@@ -250,12 +250,12 @@ const PatientProfile = () => {
                 </div>
               </div>
 
-              <div className="w-[1182px] -left-5  bg-n-11 top-[130px] rounded-b-md absolute h-[55.5vh]">
+              <div className="w-[1182px] -left-5 dark:bg-white bg-n-11 top-[130px] rounded-b-md absolute h-[55.5vh]">
                 {" "}
               </div>
               <div className="space-y-7 grid grid-cols-3 gap-5 ">
                 <div className="relative top-3">
-                  <h3 className="profile_span text-gray-500 relative">
+                  <h3 className="profile_span text-gray-500 relative ">
                     Personal Information
                   </h3>
 
