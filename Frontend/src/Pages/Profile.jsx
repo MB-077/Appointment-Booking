@@ -100,6 +100,19 @@ const PatientProfile = () => {
     }
   };
 
+  const notify = (message) => {
+    toast(`${message}`, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name !== "patient_id") {
@@ -124,6 +137,9 @@ const PatientProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isFormEditing) {
+      notify("Profile Updated");
+    }
     postData();
   };
 
@@ -286,6 +302,7 @@ const PatientProfile = () => {
           </div>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import { Toggle, Button } from "./../im-ex-ports";
-import Drop_down from "./Drop_down";
 import { useNavigate, useLocation } from "react-router-dom";
 const Header = () => {
   const text = localStorage.getItem("userData");
@@ -23,7 +22,7 @@ const Header = () => {
       </div>
       <div
         className={`${
-          hideComponent ? "w-[70%]" : "w-[50%]"
+          hideComponent ? "w-[70%]" : "w-[56%]"
         } bg-gradient h-[12vh] rounded-md`}
       >
         {user && !hideComponent ? (
@@ -43,7 +42,7 @@ const Header = () => {
       {user ? (
         <div className="flexRE h-full  gap-2 relative ">
           <div className="bg-n-11 text-n-7 rounded-lg mr-2 h-[12vh] flexR">
-            {hideComponent || <Drop_down />}
+            {/* {hideComponent || <Drop_down />} */}
           </div>
         </div>
       ) : (

@@ -1,12 +1,13 @@
 import React from "react";
 import axios from "axios";
-import { motion } from "framer-motion";
-import { redirect, useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { InputFields } from "../im-ex-ports";
 import { CiUser, CiPhone } from "react-icons/ci";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";
+import Message from "../Components/Message";
 const Register = () => {
   const navigate = useNavigate();
   const [change, setChange] = React.useState({
@@ -16,6 +17,13 @@ const Register = () => {
     password: "",
     password2: "",
   });
+  const [samePassword, setSamePassword] = React.useState(true);
+  const [passwordCondition, setpasswordCondition] = React.useState(true);
+  const [usernameCondition, setUsernameCondition] = React.useState(true);
+  const [emptyCondition, setEmptyCondition] = React.useState(true);
+  const [phoneCondition, setPhoneCondition] = React.useState(true);
+  const [emailCondition, setEmailCondition] = React.useState(true);
+  const [emailindexCondition, setEmailindexCondition] = React.useState(true);
 
   //////////////////////////////////////////////////////////////
   // register posting data
@@ -66,7 +74,36 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    postData();
+    if (
+      change.email === "" ||
+      change.username === "" ||
+      change.phone_number === "" ||
+      change.password === "" ||
+      change.password2 === ""
+    ) {
+      setEmptyCondition(false);
+      setTimeout(() => setEmptyCondition(true), 2000);
+    } else if (change.password.length < 6) {
+      setpasswordCondition(false);
+      setTimeout(() => setpasswordCondition(true), 2000);
+    } else if (change.username.length < 3) {
+      setUsernameCondition(false);
+      setTimeout(() => setUsernameCondition(true), 2000);
+    } else if (change.phone_number.length < 10) {
+      setPhoneCondition(false);
+      setTimeout(() => setPhoneCondition(true), 2000);
+    } else if (change.email.length < 5) {
+      setEmailCondition(false);
+      setTimeout(() => setEmailCondition(true), 2000);
+    } else if (change.email.indexOf("@") === -1) {
+      setEmailindexCondition(false);
+      setTimeout(() => setEmailindexCondition(true), 2000);
+    } else if (change.password !== change.password2) {
+      setSamePassword(false);
+      setTimeout(() => setSamePassword(true), 2000);
+    } else {
+      postData();
+    }
   };
 
   return (
@@ -79,13 +116,35 @@ const Register = () => {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 2, translateY: "250px" }}
         transition={{ duration: 0.5 }}
-        className="relative left-[40%] -top-11 w-[280px] h-[44vh] bg-n-11 rounded-md border-[1px] border-n-5/30 shadow-n-5/50 shadow-sm"
+        className="relative left-[40%] -top-11 w-[280px] h-[45vh] bg-n-11 rounded-md border-[1px] border-n-5/30 shadow-n-5/50 shadow-sm"
       >
         <div className="flexC h-full">
-          <h4 className="text-white text-[14px] relative -top-3">
+          <Message variable={samePassword} message={"Incorrect Password"} />
+          <Message
+            variable={passwordCondition}
+            message={"Password must be of atleat 6 digits"}
+          />
+          <Message
+            variable={usernameCondition}
+            message={"username must be of atleat 3 digits"}
+          />
+          <Message
+            variable={phoneCondition}
+            message={"Number must be of atleat 10 digits"}
+          />
+          <Message
+            variable={emailCondition}
+            message={"Email must be of atleat 5 digits"}
+          />
+          <Message
+            variable={emailindexCondition}
+            message={"Inappropriate Email"}
+          />
+          <Message variable={emptyCondition} message={"Empty field detected"} />
+          <h4 className="text-white text-[17px] relative ">
             Welcome to <span className="text-n-5"> EasySlot</span>
           </h4>
-          <span className="text-[7px] text-white/70 relative -top-2">
+          <span className="text-[7px] text-white/70 relative  ">
             Please enter your details
           </span>
           <form onSubmit={handleSubmit}>

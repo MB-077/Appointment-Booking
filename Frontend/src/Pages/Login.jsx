@@ -7,7 +7,7 @@ import { InputFields } from "../im-ex-ports";
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";
-
+import Message from "../Components/Message";
 export function loginloaders({ request }) {
   return new URL(request.url).searchParams.get("message");
 }
@@ -21,11 +21,14 @@ const Login = () => {
     username: "",
     password: "",
   });
-
+  const [passwordCondition, setpasswordCondition] = React.useState(true);
+  const [usernameCondition, setUsernameCondition] = React.useState(true);
+  const [emptyCondition, setEmptyCondition] = React.useState(true);
   /////////////////////////////////////////////////////////////////
 
   // posting data
   const postData = async () => {
+    console.log(change);
     try {
       const response = await axios.post("http://127.0.0.1:8000/login/", change);
       const { token, ...userData } = response.data;
@@ -64,7 +67,18 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    postData();
+    if (change.username === "" || change.password === "") {
+      setEmptyCondition(false);
+      setTimeout(() => setEmptyCondition(true), 2000);
+    } else if (change.password.length < 6) {
+      setpasswordCondition(false);
+      setTimeout(() => setpasswordCondition(true), 2000);
+    } else if (change.username.length < 3) {
+      setUsernameCondition(false);
+      setTimeout(() => setUsernameCondition(true), 2000);
+    } else {
+      postData();
+    }
   };
 
   //////////////////////////////////////////////////////
@@ -80,6 +94,15 @@ const Login = () => {
         {url ? <h2 className="url_login">{url}</h2> : null}
 
         <div className="flexC h-full ">
+          <Message variable={emptyCondition} message={"Empty field detected"} />
+          <Message
+            variable={passwordCondition}
+            message={"Password must be of atleat 6 digits"}
+          />
+          <Message
+            variable={usernameCondition}
+            message={"username must be of atleat 3 digits"}
+          />
           <h4 className="text-white text-[14px] relative -top-3">
             Welcome Back to <span className="text-n-5"> EasySlot</span>
           </h4>

@@ -1,12 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useNavigate, NavLink, useLocation } from "react-router-dom";
+import { useNavigate, NavLink, useLocation, Link } from "react-router-dom";
 import Button from "./Button";
 import { CiLogout } from "react-icons/ci";
 import { RiMenuUnfold2Line } from "react-icons/ri";
 import { RiMenuUnfoldLine } from "react-icons/ri";
 
 const SideBar = ({ list }) => {
+  const token = localStorage.getItem("token");
   const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
   const AnimateMe = () => {
@@ -55,14 +56,17 @@ const SideBar = ({ list }) => {
       >
         <Button
           func={() => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("userData");
-            navigate("/");
+            if (!token) navigate("/login");
+            else {
+              localStorage.removeItem("token");
+              localStorage.removeItem("userData");
+              navigate("/");
+            }
           }}
           className={` text-[16.5px] btnBlue`}
         >
           {open || hideComponent ? (
-            <div className="w-[180px]">Logout</div>
+            <div className="w-[180px]">{token ? "Logout" : "login"}</div>
           ) : (
             <CiLogout className="text-[20px]" />
           )}
