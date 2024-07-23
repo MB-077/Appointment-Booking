@@ -8,6 +8,7 @@ import { CiUser } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";
 import Message from "../Components/Message";
+
 export function loginloaders({ request }) {
   return new URL(request.url).searchParams.get("message");
 }

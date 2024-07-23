@@ -140,6 +140,9 @@ const PatientProfile = () => {
     if (isFormEditing) {
       notify("Profile Updated");
     }
+    if (!el) {
+      notify("Profile Created");
+    }
     postData();
   };
 

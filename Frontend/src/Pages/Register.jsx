@@ -24,6 +24,7 @@ const Register = () => {
   const [phoneCondition, setPhoneCondition] = React.useState(true);
   const [emailCondition, setEmailCondition] = React.useState(true);
   const [emailindexCondition, setEmailindexCondition] = React.useState(true);
+  const [userExist, setUserExist] = React.useState(true);
 
   //////////////////////////////////////////////////////////////
   // register posting data
@@ -33,8 +34,14 @@ const Register = () => {
         "http://127.0.0.1:8000/register/",
         change
       );
+      const info = response.data;
       console.log("Success:", response.data);
-      navigate("/login");
+      if (info.username === "username already exist") {
+        setUserExist(false);
+        setTimeout(() => setUserExist(true), 2000);
+      } else {
+        navigate("/login");
+      }
     } catch (err) {
       throw {
         message: "Failed To Register",
@@ -140,6 +147,7 @@ const Register = () => {
             variable={emailindexCondition}
             message={"Inappropriate Email"}
           />
+          <Message variable={userExist} message={"User already exist!!"} />
           <Message variable={emptyCondition} message={"Empty field detected"} />
           <h4 className="text-white text-[17px] relative ">
             Welcome to <span className="text-n-5"> EasySlot</span>

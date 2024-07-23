@@ -22,10 +22,12 @@ import { loginloaders } from "./Pages/Login";
 import AllDataProvider from "./Context/dataContext";
 import ResetPassWord from "./Pages/ResetPassWord";
 import ChangePassWord from "./Pages/ChangePassWord";
+import DoctorQuery from "./Components/DoctorQuery";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
+        <Route path="/doctor" element={<DoctorQuery />} />
         <Route path="/verifyEmail" element={<EmailVerify />} />
         <Route path="/resetPass" element={<ResetPassWord />} />
         <Route path="/" element={<Layout />} errorElement={<ErrorComp />}>

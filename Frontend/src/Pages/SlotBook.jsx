@@ -5,7 +5,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import DoctorSearch from "../Components/DoctorQuery";
 const SlotBook = () => {
   // hooks
   const {
@@ -231,9 +231,8 @@ const SlotBook = () => {
               </div>
             </div>
             <div className="gap-2   flex  text-white items-center ">
-              Doctor:
-              <div className="text-black  bg-white h-fit px-5 py-1 rounded-md ">
-                {newDoctorSelect?.doctor || doctors[0]?.doctor}
+              <div className="text-black relative top-4 rounded-md ">
+                <DoctorSearch />
               </div>
             </div>
           </div>
