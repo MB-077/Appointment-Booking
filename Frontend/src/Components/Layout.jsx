@@ -27,7 +27,7 @@ const Layout = () => {
       name: "Appointments",
       icon: <MdApproval />,
     },
-    { id: 5, path: "/history", name: "History", icon: <FaHistory /> },
+    { id: 5, path: "/history", name: "Past Appointments", icon: <FaHistory /> },
     {
       id: 3,
       path: "/profile",

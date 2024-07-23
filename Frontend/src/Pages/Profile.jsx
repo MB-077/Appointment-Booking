@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Button } from "./../im-ex-ports";
 import axios from "axios";
 import cat from "./../images/catto.jpg";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 export function profileLoader({ request }) {
   return newURL(request.url).searchParams.get("message");
@@ -17,9 +17,10 @@ const PatientProfile = () => {
   const info = JSON.parse(userME);
   const id_main = info.patient_id;
   const url = useLoaderData();
-
+  const navigate = useNavigate();
   const [profileData, setProfileData] = React.useState([]);
   const [isFormEditing, setIsFormEditing] = React.useState(false);
+
   const [formData, setFormData] = React.useState({
     patient_id: `${id_main}`,
     age: "",
@@ -52,13 +53,13 @@ const PatientProfile = () => {
   }, [token]);
 
   console.log(profileData);
-  const el = profileData.find((el) => el.id);
-  console.log(el);
+  const el = profileData.find((el) => el.patient === info.username);
 
   const postData = async () => {
-    if (isFormEditing) {
-      console.log(formData);
-      try {
+    try {
+      if (isFormEditing) {
+        console.log(formData);
+
         const response = await axios.put(
           `http://127.0.0.1:8000/patients-detail/${el?.id}/`,
           formData,
@@ -69,13 +70,7 @@ const PatientProfile = () => {
           }
         );
         console.log(response);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsFormEditing(false);
-      }
-    } else {
-      try {
+      } else {
         const response = await axios.post(
           `http://127.0.0.1:8000/patients-detail/`,
           formData,
@@ -86,9 +81,22 @@ const PatientProfile = () => {
           }
         );
         console.log(response);
-      } catch (error) {
-        console.error(error);
       }
+
+      // Refetch profile data after submission
+      //it is a good method to update the data after submission and state
+      const response = await axios.get(
+        `http://127.0.0.1:8000/patients-detail/`,
+        {
+          headers: {
+            Authorization: `token ${token}`,
+          },
+        }
+      );
+      setProfileData(response.data);
+      setIsFormEditing(false);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -119,7 +127,9 @@ const PatientProfile = () => {
     postData();
   };
 
-  const handlePassword = () => {};
+  const handlePassword = () => {
+    navigate("/changePass");
+  };
 
   return (
     <div className="p-6  h-[80vh]  rounded-lg text-white">
@@ -206,8 +216,8 @@ const PatientProfile = () => {
             </Button>
           </form>
         ) : (
-          <div className="w-full  bg-gradient text-white p-6 font-semibold rounded-lg shadow-md h-[76vh]">
-            <div className="absolute left-[22rem]">
+          <div className="w-full bg-gradient text-white p-5 font-semibold rounded-lg shadow-md h-[76vh] relative -top-8">
+            <div className="absolute">
               <div className="flex items-center space-x-6 mb-[26px] ">
                 <img
                   className="w-28 h-28 rounded-full object-cover"
@@ -221,7 +231,7 @@ const PatientProfile = () => {
                 </div>
               </div>
 
-              <div className="w-[1230px] bg-n-11 top-[130px] rounded-b-md absolute h-[56vh] -left-[54px]">
+              <div className="w-[1182px] -left-5  bg-n-11 top-[130px] rounded-b-md absolute h-[55.5vh]">
                 {" "}
               </div>
               <div className="space-y-7 grid grid-cols-3 gap-5 ">
@@ -232,28 +242,28 @@ const PatientProfile = () => {
 
                   <div>
                     <p className="profile_full">
-                      <span className="profile_span">Age:</span> {el.age}
+                      <span className="profile_span">Age:</span> {el?.age}
                     </p>
                     <p className="profile_full">
-                      <span className="">Blood Group:</span> {el.blood_group}
+                      <span className="">Blood Group:</span> {el?.blood_group}
                     </p>
                     <p className="profile_full">
-                      <span className="profile_span">Gender:</span> {el.gender}
+                      <span className="profile_span">Gender:</span> {el?.gender}
                     </p>
                     <p className="profile_full">
                       <span className="profile_span">ZipCode: </span>
-                      {el.zip_code}
+                      {el?.zip_code}
                     </p>
                     <p className="profile_full">
                       <span className="profile_span">Mobile: </span>
-                      {info.phone_number}
+                      {info?.phone_number}
                     </p>
                   </div>
                 </div>
 
                 <div className="relative -top-4">
                   <h3 className="profile_span text-gray-500">Address</h3>
-                  <p className="profile_60">{el.address}</p>
+                  <p className="profile_60">{el?.address}</p>
                 </div>
 
                 <div className="relative -top-4">

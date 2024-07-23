@@ -7,6 +7,9 @@ export { default as History } from "./Pages/History";
 export { default as Register } from "./Pages/Register";
 export { default as Login } from "./Pages/Login";
 export { default as PageNotFound } from "./Pages/PageNotFound";
+export { default as EmailVerify } from "./Pages/EmailVerify";
+export { default as ResetPassword } from "./Pages/ResetPassWord";
+
 //components
 export { default as Layout } from "./Components/Layout";
 export { default as SideBar } from "./Components/SideBar";

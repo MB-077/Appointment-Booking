@@ -103,12 +103,19 @@ const Login = () => {
               name={"password"}
             />
 
-            <button
-              type="button"
-              className=" mt-4 w-[100%] rounded-sm text-[10px] py-[3.5px] btnBlue"
-            >
-              Login
-            </button>
+            <div className=" w-[100%] mt-4">
+              <Link to="/verifyEmail">
+                <p className="hover:underline text-white text-right text-[8px]">
+                  forget password?
+                </p>
+              </Link>
+              <button
+                type="button"
+                className=" w-full rounded-sm text-[10px] py-[3.5px] btnBlue"
+              >
+                Login
+              </button>
+            </div>
 
             <button className="google">
               <FaGoogle />
