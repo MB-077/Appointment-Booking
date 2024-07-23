@@ -65,23 +65,25 @@ const ResetPassWord = () => {
         <div className="shadow-xl w-[550px] h-[450px] rounded-md flexR">
           <div className=" w-[85%] h-[80%] flexC gap-5">
             <div className="text-center w-full tracking-wider flexC gap-3">
-              <h1 className="text-5xl text-white">
+              <h1 className="text-5xl text-white dark:text-black">
                 Easy<span className="text-n-1">Slots</span>
               </h1>
-              <p className="text-base text-white">Reset your Password</p>
+              <p className="text-base text-white dark:text-black">
+                Reset your Password
+              </p>
             </div>
             <form className="w-full">
               <div className="mb-16">
                 <PasswordInputs
                   func={handleChange}
                   placeholder={"Enter old password"}
-                  className={"bg-n-11 text-white"}
+                  className={"bg-n-11 text-white dark:bg-white"}
                 />
 
                 <PasswordInputs
                   func={handleChange}
                   placeholder={"Enter new password"}
-                  className={"bg-n-11 text-white"}
+                  className={"bg-n-11 text-white dark:bg-white"}
                 />
               </div>
               <Button
