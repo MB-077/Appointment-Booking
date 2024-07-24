@@ -1,11 +1,9 @@
 import React from "react";
 import { Button } from "../im-ex-ports";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import PasswordInputs from "../Components/PasswordInputs";
-
+import { postData } from "../apiUtils";
 const ResetPassWord = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = React.useState({
@@ -19,43 +17,9 @@ const ResetPassWord = () => {
     }));
   };
 
-  const notify = (message) => {
-    toast(`${message}`, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-  };
-
-  const postData = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const res = await axios.post(
-        "http://127.0.0.1:8000/change_password/",
-        formData,
-        {
-          headers: {
-            Authorization: `token ${token}`,
-          },
-        }
-      );
-      const info = res.data;
-      console.log("success:", info);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      notify("password has been changed");
-    }
-  };
-
   const handleClick = (e) => {
     e.preventDefault();
-    postData();
+    postData("change_password/", formData, "Password Changed Successfully");
     setTimeout(() => navigate("/profile"), 3000);
   };
 

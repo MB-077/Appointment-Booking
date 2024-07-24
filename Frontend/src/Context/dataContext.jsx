@@ -1,6 +1,6 @@
 import React from "react";
-import axios from "axios";
 import dataContext from "./contextProvider";
+import { fetchData } from "../apiUtils";
 const AllDataProvider = ({ children }) => {
   const [Users, setUsers] = React.useState([]);
   const [total_slots, settotal_Slots] = React.useState([]);
@@ -9,34 +9,13 @@ const AllDataProvider = ({ children }) => {
   const [doctorsSelected, setDoctorsSelected] = React.useState({});
   const newDoctorSelect = doctorsSelected;
   const [darkMode, setDarkMode] = React.useState(false);
-  const token = localStorage.getItem("token");
 
-  // Function to fetch data from API
-  const fetchData = async (url, setState) => {
-    if (!token) return;
-    const response = await axios.get(url, {
-      headers: { Authorization: `token ${token}` },
-    });
-    if (!response.status === 200) {
-      throw {
-        message: "Failed to fetch data",
-        statusText: response.statusText,
-        status: response.status,
-      };
-    }
-    const data = response.data;
-    console.log(data);
-    setState(data);
-  };
-
-  const usersList = () =>
-    fetchData("http://127.0.0.1:8000/patients/", setUsers);
+  const usersList = () => fetchData("patients/", setUsers);
 
   const slotBookingList = (id = 1) =>
-    fetchData(`http://127.0.0.1:8000/doctors/${id}/timeslots/`, settotal_Slots);
+    fetchData(`doctors/${id}/timeslots/`, settotal_Slots);
 
-  const DocAvailable = () =>
-    fetchData("http://127.0.0.1:8000/doctors/", setDoctors);
+  const DocAvailable = () => fetchData("doctors/", setDoctors);
 
   React.useEffect(() => {
     if (darkMode) {

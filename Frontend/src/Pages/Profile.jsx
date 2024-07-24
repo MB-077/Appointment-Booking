@@ -5,6 +5,7 @@ import { Button } from "./../im-ex-ports";
 import axios from "axios";
 import cat from "./../images/catto.jpg";
 import { useLoaderData, useNavigate } from "react-router-dom";
+import { fetchData } from "../apiUtils";
 
 export function profileLoader({ request }) {
   return new URL(request.url).searchParams.get("message");
@@ -30,19 +31,7 @@ const PatientProfile = () => {
 
   React.useEffect(() => {
     const fetchProfileData = async () => {
-      try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/patients-detail/`,
-          {
-            headers: {
-              Authorization: `token ${token}`,
-            },
-          }
-        );
-        setProfileData(response.data);
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
-      }
+      fetchData("patients-detail/", setProfileData);
     };
 
     fetchProfileData();

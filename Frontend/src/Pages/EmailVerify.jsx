@@ -1,11 +1,9 @@
 import React from "react";
 import { Button } from "../im-ex-ports";
-import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { MdAttachEmail } from "react-icons/md";
-
+import { postData } from "../apiUtils";
 const PassWordChange = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = React.useState({
@@ -19,39 +17,12 @@ const PassWordChange = () => {
     }));
   };
 
-  const notify = (message) => {
-    toast(`${message}`, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-  };
-
-  const postData = async () => {
-    try {
-      const res = await axios.post(
-        "http://127.0.0.1:8000/reset_password/",
-        formData
-      );
-      const info = res.data;
-      console.log(`success:`, info);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      notify("email has been sent");
-    }
-  };
-
   const handleClick = (e) => {
     e.preventDefault();
-    postData();
+    postData("reset_password/", formData, "Email has been sent");
     setTimeout(() => navigate("/resetPass"), 3000);
   };
+
   return (
     <div className=" flexC h-[100vh] ">
       <div className="shadow-xl w-[550px] h-[450px] rounded-md flexC">
