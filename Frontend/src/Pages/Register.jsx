@@ -1,13 +1,12 @@
 import React from "react";
 import axios from "axios";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { InputFields } from "../im-ex-ports";
+import { InputFields, Message } from "../im-ex-ports";
 import { CiUser, CiPhone } from "react-icons/ci";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";
-import Message from "../Components/Message";
 const Register = () => {
   const navigate = useNavigate();
   const [change, setChange] = React.useState({

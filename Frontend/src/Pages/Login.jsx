@@ -3,11 +3,10 @@ import { motion } from "framer-motion";
 import { useLoaderData, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import dataContext from "../Context/contextProvider";
-import { InputFields } from "../im-ex-ports";
+import { InputFields, Message } from "../im-ex-ports";
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";
-import Message from "../Components/Message";
 
 export function loginloaders({ request }) {
   return new URL(request.url).searchParams.get("message");

@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 import dataContext from "../Context/contextProvider";
-import { Button, Calendar } from "../im-ex-ports";
+import { Button, Calendar, DoctorQuery } from "../im-ex-ports";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import DoctorSearch from "../Components/DoctorQuery";
 
 const NoBookingsAvailable = ({ message }) => {
   const el = message ? (
@@ -247,7 +246,7 @@ const SlotBook = () => {
             </div>
             <div className="gap-2   flex dark:text-black text-white items-center ">
               <div className="text-black dark:text-white relative top-4 rounded-md ">
-                <DoctorSearch />
+                <DoctorQuery />
               </div>
             </div>
           </div>
