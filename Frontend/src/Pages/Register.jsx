@@ -27,7 +27,6 @@ const Register = () => {
   const [userExist, setUserExist] = React.useState(true);
 
   //////////////////////////////////////////////////////////////
-  // register posting data
   const postData = async () => {
     try {
       const response = await axios.post(
@@ -52,7 +51,6 @@ const Register = () => {
   };
 
   ////////////////////////////////////////////////////////////
-  //all the functions
   const handleMe = (e) => {
     if (e.target.id === "hideMeagain2") {
       navigate(-1);

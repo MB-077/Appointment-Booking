@@ -27,24 +27,28 @@ const ViewYours = () => {
     }
   };
 
-  const appoints = async () => {
+  const fetchData = async (url) => {
     const token = localStorage.getItem("token");
-    try {
-      const response = await axios.get(`http://127.0.0.1:8000/appointments/`, {
-        headers: {
-          Authorization: `token ${token}`,
-        },
-      });
-      const info = await response.data;
-      console.log(info);
-      if (info.length > 0) {
-        setIsAppointed(true);
-      }
-      setAppointments(info);
-      console.log(info);
-    } catch (error) {
-      console.error("Error:", error.response);
+    if (!token) throw new Error("Token not found");
+
+    const response = await axios.get(url, {
+      headers: { Authorization: `token ${token}` },
+    });
+    if (response.status !== 200) {
+      throw {
+        message: "Failed to fetch data",
+        statusText: response.statusText,
+        status: response.status,
+      };
     }
+    const info = await response.data;
+    if (info.length > 0) {
+      setIsAppointed(true);
+    }
+    setAppointments(info);
+    console.log(info);
+
+    return response.data;
   };
 
   const handleCancel = (e) => {
@@ -60,7 +64,7 @@ const ViewYours = () => {
   };
 
   React.useEffect(() => {
-    appoints();
+    fetchData("http://127.0.0.1:8000/appointments/");
   }, []);
 
   const Display = isAppointed ? (

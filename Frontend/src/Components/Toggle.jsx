@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import dataContext from "../Context/contextProvider";
 
 const Toggle = () => {
-  // const [darkMode, setDarkMode] = React.useState(false);
   const { darkMode, setDarkMode } = useContext(dataContext);
   const [move, setMove] = React.useState(false);
 

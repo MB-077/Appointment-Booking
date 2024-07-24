@@ -1,78 +1,42 @@
-import axios from "axios";
 import React from "react";
+import axios from "axios";
 import dataContext from "./contextProvider";
 const AllDataProvider = ({ children }) => {
-  //hooks
-  //total no of users
   const [Users, setUsers] = React.useState([]);
-  //total no f slots available
   const [total_slots, settotal_Slots] = React.useState([]);
-  //slots booked by the user
   const [BookedslotData, setBookedSlotData] = React.useState([]);
-  //total no of doctors available
   const [doctors, setDoctors] = React.useState([]);
-  //total no of doctors selected
   const [doctorsSelected, setDoctorsSelected] = React.useState({});
   const newDoctorSelect = doctorsSelected;
-  //a variable that holds the final object
   const [darkMode, setDarkMode] = React.useState(false);
-  //FUCNTION NO1
-  const usersList = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      return;
-    }
+  const token = localStorage.getItem("token");
 
-    try {
-      const res = await axios.get("http://127.0.0.1:8000/patients/", {
-        headers: {
-          Authorization: `token ${token}`,
-        },
-      });
-      const info = await res.data;
-      console.log(info);
-      setUsers(info);
-    } catch (err) {
-      console.log(err);
+  // Function to fetch data from API
+  const fetchData = async (url, setState) => {
+    if (!token) return;
+    const response = await axios.get(url, {
+      headers: { Authorization: `token ${token}` },
+    });
+    if (!response.status === 200) {
+      throw {
+        message: "Failed to fetch data",
+        statusText: response.statusText,
+        status: response.status,
+      };
     }
+    const data = response.data;
+    console.log(data);
+    setState(data);
   };
 
-  //FUCNTION NO2
-  const slotBookingList = async (id = 1) => {
-    const token = localStorage.getItem("token");
-    try {
-      const response = await axios.get(
-        `http://127.0.0.1:8000/doctors/${id}/timeslots/`,
-        {
-          headers: {
-            Authorization: `token ${token}`,
-          },
-        }
-      );
-      const info = await response.data;
-      console.log(info);
-      settotal_Slots(info);
-    } catch (error) {
-      console.error("Error:", error.response);
-    }
-  };
+  const usersList = () =>
+    fetchData("http://127.0.0.1:8000/patients/", setUsers);
 
-  //FUNCTION NO3
-  const DocAvailable = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const response = await axios.get("http://127.0.0.1:8000/doctors/", {
-        headers: {
-          Authorization: `token ${token}`,
-        },
-      });
-      const info = await response.data;
-      console.log(info);
-      setDoctors(info);
-    } catch (error) {
-      console.error("Error:", error.response);
-    }
-  };
+  const slotBookingList = (id = 1) =>
+    fetchData(`http://127.0.0.1:8000/doctors/${id}/timeslots/`, settotal_Slots);
+
+  const DocAvailable = () =>
+    fetchData("http://127.0.0.1:8000/doctors/", setDoctors);
 
   React.useEffect(() => {
     if (darkMode) {
@@ -82,7 +46,6 @@ const AllDataProvider = ({ children }) => {
     }
   }, [darkMode]);
 
-  //CALLING THE USEFFECT HOOK
   React.useEffect(() => {
     usersList();
     slotBookingList();
@@ -92,23 +55,17 @@ const AllDataProvider = ({ children }) => {
   return (
     <dataContext.Provider
       value={{
-        //state1
         Users,
         doctors,
-        //state2
         BookedslotData,
         setBookedSlotData,
-        //state3
         total_slots,
         settotal_Slots,
-        //state4
         newDoctorSelect,
         doctorsSelected,
         setDoctorsSelected,
-        //state5
         darkMode,
         setDarkMode,
-        //functions
         usersList,
         slotBookingList,
         DocAvailable,

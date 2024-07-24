@@ -6,57 +6,101 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DoctorSearch from "../Components/DoctorQuery";
+
+const NoBookingsAvailable = ({ message }) => {
+  const el = message ? (
+    <h2 className="w-fit bg-white text-red-800 font-openSans font-semibold rounded-sm mx-10 px-10 flex items-center text-[15px] h-fit relative top-2 dark:bg-black dark:text-white">
+      Sorry! No further bookings available
+    </h2>
+  ) : null;
+
+  return el;
+};
+
+const SlotsAppearBottom = ({ show }) => {
+  const el = show ? (
+    <h2 className="w-fit bg-white text-green-800 font-openSans font-semibold rounded-sm py-[1px] mx-10 px-10 relative top-5 dark:bg-black dark:text-white">
+      selected slot will appear at the bottom
+    </h2>
+  ) : null;
+
+  return el;
+};
+
+const SlotsButton = ({ handleClick, total_slots }) => {
+  const elements = total_slots.map((slot) => (
+    <div key={slot.id}>
+      <Button
+        key={slot.id}
+        func={handleClick}
+        disabled={slot.is_booked}
+        className={`${
+          slot.is_booked
+            ? "text-black/70 font-semibold bg-white/50 dark:bg-black/40 cursor-not-allowed "
+            : "font-bold"
+        } bg-white text-black hover:bg-gray-300 transition-colors duration-300 dark:bg-black dark:text-white dark:hover:bg-gray-800 dark:hover:text-white`}
+      >
+        {slot.start_time}
+      </Button>
+    </div>
+  ));
+  return <>{elements}</>;
+};
+
+const SelectedSlot = ({ BookedslotData }) => {
+  const newELement = BookedslotData.map((slot) => (
+    <div
+      key={slot.id}
+      className="bg-white h-fit px-3 py-1 rounded-md border-none dark:bg-black dark:text-white"
+    >
+      <p>{slot.start_time}</p>
+    </div>
+  ));
+  return newELement;
+};
+
+const ConfirmationMessage = ({ confirm }) => (
+  <div className=" py-2">
+    <h2 className="text-white text-base dark:text-black ">{confirm}</h2>
+  </div>
+);
+
 const SlotBook = () => {
-  // hooks
   const {
-    //state1
     total_slots,
     settotal_Slots,
-    //state2
     BookedslotData,
     setBookedSlotData,
-    //normal array
     newDoctorSelect,
     doctors,
   } = useContext(dataContext);
 
   const navigate = useNavigate();
-
-  const dateObj2 = new Date();
-  const year = dateObj2.getFullYear();
-  const month = String(dateObj2.getMonth() + 1).padStart(2, "0");
-  const day = String(dateObj2.getDate()).padStart(2, "0");
-  const datePart2 = `${year}-${month}-${day}`;
-
-  //internal hooks
   const [show, setShow] = React.useState(false);
   const [message, setMessage] = React.useState(false);
   const [timeoutId, setTimeoutId] = React.useState(null);
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [confirm, setConfirm] = React.useState("");
 
-  // handling click
+  ////////////////////////////////////////////////////////////////////
+
   const handleClick = (e) => {
     let selected = total_slots.find(
       (slot) => slot.start_time === e.target.innerText
     );
     if (selected && BookedslotData.length < 1) {
-      // Update selected slot
       const updatedSlot = { ...selected, is_booked: true };
 
-      // Update slots state
       settotal_Slots((prevSlots) =>
         prevSlots.map((slot) =>
           slot.id === updatedSlot.id ? updatedSlot : slot
         )
       );
 
-      // Update booked slots
       setBookedSlotData((prev) =>
         [...prev, updatedSlot].sort((a, b) => a.id - b.id)
       );
 
-      //this is helps to show message on different conditions
       setMessage(false);
       setShow(true);
       if (timeoutId) {
@@ -80,42 +124,20 @@ const SlotBook = () => {
     }
   };
 
-  //   mapping the booked slots
-  const newELement = BookedslotData.map((slot) => (
-    <div
-      key={slot.id}
-      className="bg-white h-fit px-3 py-1 rounded-md border-none dark:bg-black dark:text-white"
-    >
-      <p>{slot.start_time}</p>
-    </div>
-  ));
+  //////////////////////////////////////////////////////////
 
-  // mapping the slots from the database
-  const elements = total_slots.map((slot) => (
-    <div key={slot.id}>
-      <Button
-        key={slot.id}
-        func={handleClick}
-        disabled={slot.is_booked}
-        className={`${
-          slot.is_booked
-            ? "text-black/70 font-semibold bg-white/50 dark:bg-black/40 cursor-not-allowed "
-            : "font-bold"
-        } bg-white text-black hover:bg-gray-300 transition-colors duration-300 dark:bg-black dark:text-white dark:hover:bg-gray-800 dark:hover:text-white`}
-      >
-        {slot.start_time}
-      </Button>
-    </div>
-  ));
-
-  //getting the user data
   const text = localStorage.getItem("userData");
   const user = JSON.parse(text);
 
-  // Function to handle the change in date
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
+
+  const dateObj2 = new Date();
+  const year = dateObj2.getFullYear();
+  const month = String(dateObj2.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObj2.getDate()).padStart(2, "0");
+  const datePart2 = `${year}-${month}-${day}`;
 
   const [timeSlot] = BookedslotData.map((slot) => slot.id);
 
@@ -161,6 +183,7 @@ const SlotBook = () => {
     }, 1000);
   };
 
+  ////////////////////////////////////////////////////////////////
   const handleRemove = () => {
     setConfirm(
       <div className=" py-2">
@@ -175,11 +198,9 @@ const SlotBook = () => {
       setBookedSlotData([]);
     }, 2000);
 
-    // Update selected slot
     const [el] = BookedslotData;
     const updatedSlot = { ...el, is_booked: false };
 
-    // Update slots state
     settotal_Slots((prevSlots) =>
       prevSlots.map((slot) => (slot.id === updatedSlot.id ? updatedSlot : slot))
     );
@@ -193,14 +214,10 @@ const SlotBook = () => {
             <h1 className="text-white dark:text-black font-semibold text-[20px] relative top-5 mx-2">
               Slots
             </h1>
-            {show ? (
-              <h2 className="w-fit bg-white text-green-800 font-openSans font-semibold rounded-sm py-[1px] mx-10 px-10 relative top-5 dark:bg-black dark:text-white">
-                selected slot will appear at the bottom
-              </h2>
-            ) : null}
+            <SlotsAppearBottom show={show} />
           </div>
           <div className=" h-[220px] absolute grid grid-cols-5 top-[75px] w-full pl-8">
-            {elements}
+            <SlotsButton total_slots={total_slots} handleClick={handleClick} />
           </div>
         </div>
         <div className="absolute top-[275px]">
@@ -208,11 +225,7 @@ const SlotBook = () => {
             <h2 className="text-white dark:text-black mb-2 mx-2 text-[20px]">
               Selected Slot
             </h2>
-            {message ? (
-              <h2 className="w-fit bg-white text-red-800 font-openSans font-semibold rounded-sm mx-10 px-10 flex items-center text-[15px] h-fit relative top-2 dark:bg-black dark:text-white">
-                Sorry! No further bookings available
-              </h2>
-            ) : null}
+            <NoBookingsAvailable message={message} />
           </div>
 
           <div className="   mx-3 rounded-md relative top-7 flexRB pr-8  w-[800px] ">
@@ -226,10 +239,10 @@ const SlotBook = () => {
               Time Slot :
               <div
                 className={`text-black h-fit dark:text-white px-3 py-1 rounded-md ${
-                  !newELement ? "hidden" : " visible "
-                } `}
+                  !BookedslotData.length ? "hidden" : "visible"
+                }`}
               >
-                {newELement}
+                <SelectedSlot BookedslotData={BookedslotData} />
               </div>
             </div>
             <div className="gap-2   flex dark:text-black text-white items-center ">
@@ -257,7 +270,7 @@ const SlotBook = () => {
                   Submit
                 </Button>
               </div>
-              <div>{confirm}</div>
+              <ConfirmationMessage confirm={confirm} />
             </div>
           </div>
         )}

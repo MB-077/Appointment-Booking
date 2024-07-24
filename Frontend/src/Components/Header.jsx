@@ -1,5 +1,27 @@
 import { Toggle, Button, Drop_down } from "./../im-ex-ports";
 import { useNavigate, useLocation } from "react-router-dom";
+
+const CombinedButton = ({ handleClick, handleClick2 }) => {
+  return (
+    <>
+      <div className="flex gap-3">
+        <Button
+          func={handleClick2}
+          className={`w-[110px] text-[16.5px] btnBlue`}
+        >
+          Register
+        </Button>
+        <Button
+          func={handleClick}
+          className={`w-[110px] text-[16.5px] btnBlue`}
+        >
+          Login
+        </Button>
+      </div>
+    </>
+  );
+};
+
 const Header = () => {
   const text = localStorage.getItem("userData");
   const user = JSON.parse(text);
@@ -40,20 +62,7 @@ const Header = () => {
         )}
       </div>
       {!user && (
-        <div className="flex gap-3">
-          <Button
-            func={handleClick2}
-            className={`w-[110px] text-[16.5px] btnBlue`}
-          >
-            Register
-          </Button>
-          <Button
-            func={handleClick}
-            className={`w-[110px] text-[16.5px] btnBlue`}
-          >
-            Login
-          </Button>
-        </div>
+        <CombinedButton handleClick={handleClick} handleClick2={handleClick2} />
       )}
 
       <div className="relative right-3 text-[25px] text-n-4/80 cursor-pointer">
