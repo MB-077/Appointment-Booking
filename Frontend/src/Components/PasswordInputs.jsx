@@ -2,7 +2,7 @@ import React from "react";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
-const PasswordInputs = ({ func, placeholder, className }) => {
+const PasswordInputs = ({ func, placeholder, className, name }) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleIcon = () => setShowPassword(!showPassword);
 
@@ -13,7 +13,7 @@ const PasswordInputs = ({ func, placeholder, className }) => {
         <div className="w-full  px-2 py-2 rounded-md outline-none border-2 border-neutral-400  flexRB">
           <input
             type={showPassword ? "text" : "password"}
-            name="password"
+            name={name}
             onChange={func}
             placeholder={placeholder}
             className={`outline-none w-full ${className} `}

@@ -5,12 +5,16 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { MdAttachEmail } from "react-icons/md";
+import { useParams } from "react-router-dom";
 
-const PassWordChange = () => {
+const EmailVerify = () => {
+  const { uid, token } = useParams();
+  console.log(uid, token);
+  const combined = {uid, token}
+console.log(combined);
   const navigate = useNavigate();
   const [formData, setFormData] = React.useState({
-    newPassword: "",
-    password: "",
+    email: "",
   });
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -34,23 +38,41 @@ const PassWordChange = () => {
 
   const postData = async () => {
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:8000/reset_password/",
-        formData
-      );
+      const res = await axios.post("http://127.0.0.1:8000/forgot_password/", formData);
       const info = res.data;
-      console.log(`success:`, info);
+      console.log("success:", info);
+      notify("Email has been sent");
     } catch (error) {
       console.log(error);
-    } finally {
-      notify("email has been sent");
+      notify("Failed to send email");
     }
   };
+
+  React.useEffect(() => {
+    const sendToken = async () => {
+      try {
+        const response = await axios.post(
+          `http://127.0.0.1:8000/resetpassword_validate/${uid}/${token}`,
+          combined
+        );
+        
+        const info = response.data;
+        console.log("success:", info);
+        // notify("Verification Successful");
+      } catch (error) {
+        console.log(error);
+        // notify("Failed Verification");
+      }
+    };
+
+    sendToken();
+  }, []);
+  
 
   const handleClick = (e) => {
     e.preventDefault();
     postData();
-    setTimeout(() => navigate("/resetPass"), 3000);
+    // setTimeout(() => navigate("/resetPass"), 3000);
   };
   return (
     <div className=" flexC h-[100vh] ">
@@ -87,4 +109,4 @@ const PassWordChange = () => {
   );
 };
 
-export default PassWordChange;
+export default EmailVerify;

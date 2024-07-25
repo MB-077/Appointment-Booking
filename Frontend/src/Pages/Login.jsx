@@ -127,7 +127,7 @@ const Login = () => {
             />
 
             <div className=" w-[100%] mt-4">
-              <Link to="/verifyEmail">
+              <Link to={`/emailVerify/${' '}/${' '}`}>
                 <p className="hover:underline text-white dark:text-black text-right text-[8px]">
                   forget password?
                 </p>

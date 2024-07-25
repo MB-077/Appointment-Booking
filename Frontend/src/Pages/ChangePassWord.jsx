@@ -6,10 +6,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const ResetPassWord = () => {
+  const user = localStorage.getItem("userData");
+  const info = JSON.parse(user);
+  const id =  info.user_id
   const navigate = useNavigate();
   const [formData, setFormData] = React.useState({
-    newPassword: "",
-    confirmPassword: "",
+    user: `${id}`,
+    current_password: "",
+    new_password: "",
+    new_password_confirm:'',
   });
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -34,7 +39,7 @@ const ResetPassWord = () => {
   const postData = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.post(
+      const res = await axios.put(
         "http://127.0.0.1:8000/change_password/",
         formData,
         {
@@ -45,10 +50,11 @@ const ResetPassWord = () => {
       );
       const info = res.data;
       console.log("success:", info);
+      notify("password has been changed");
     } catch (error) {
       console.log(error);
     } finally {
-      notify("password has been changed");
+      notify("password has not been changed");
     }
   };
 
@@ -74,14 +80,22 @@ const ResetPassWord = () => {
             <form className="w-full">
               <div className="mb-16">
                 <PasswordInputs
+                name={"current_password"}
                   func={handleChange}
                   placeholder={"Enter old password"}
                   className={"bg-n-11 text-white dark:bg-white"}
                 />
 
                 <PasswordInputs
+                name={"new_password"}
                   func={handleChange}
                   placeholder={"Enter new password"}
+                  className={"bg-n-11 text-white dark:bg-white"}
+                />
+                <PasswordInputs
+                name={"new_password_confirm"}
+                  func={handleChange}
+                  placeholder={"confirm new password"}
                   className={"bg-n-11 text-white dark:bg-white"}
                 />
               </div>

@@ -28,7 +28,7 @@ function App() {
     createRoutesFromElements(
       <Route>
         <Route path="/doctor" element={<DoctorQuery />} />
-        <Route path="/verifyEmail" element={<EmailVerify />} />
+        <Route path="/emailVerify/:uid/:token" element={<EmailVerify />} />
         <Route path="/resetPass" element={<ResetPassWord />} />
         <Route path="/" element={<Layout />} errorElement={<ErrorComp />}>
           <Route path="/" element={<Dashboard />} />
