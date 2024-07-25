@@ -8,9 +8,12 @@ import { useNavigate } from "react-router-dom";
 const ResetPassWord = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = React.useState({
-    newPassword: "",
-    confirmPassword: "",
+    password: "",
+    confirm_password: "",
   });
+
+  const uid = localStorage.getItem('uid');
+  
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -31,18 +34,28 @@ const ResetPassWord = () => {
     });
   };
 
+  console.log(uid);
   const postData = async () => {
     try {
       const res = await axios.post(
         "http://127.0.0.1:8000/reset_password/",
-        formData
+        { ...formData, uid },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
       const info = res.data;
       console.log("success:", info);
+      if (info.message === "Password reset successful") {
+        notify("Password reset successfully");
+      } else {
+        notify("Failed to reset password");
+      }
     } catch (error) {
       console.log(error);
-    } finally {
-      notify("password has been reset");
+      notify("Failed to reset password");
     }
   };
 
@@ -66,12 +79,14 @@ const ResetPassWord = () => {
             <form className="w-full">
               <div className="mb-16">
                 <PasswordInputs
+                  name={"password"}
                   func={handleChange}
                   placeholder={"Enter new password"}
                   className={"bg-white "}
                 />
 
                 <PasswordInputs
+                  name={"confirm_password"}
                   func={handleChange}
                   placeholder={"Confirm new password"}
                   className={"bg-white"}

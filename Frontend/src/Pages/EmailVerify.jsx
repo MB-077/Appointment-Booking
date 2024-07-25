@@ -51,23 +51,27 @@ console.log(combined);
   React.useEffect(() => {
     const sendToken = async () => {
       try {
-        const response = await axios.post(
-          `http://127.0.0.1:8000/resetpassword_validate/${uid}/${token}`,
-          combined
+        console.log(`Sending token to backend: UID=${uid}, Token=${token}`);
+        const response = await axios.get(
+          `http://127.0.0.1:8000/resetpassword_validate/${uid}/${token}`
         );
-        
+        console.log('Response from backend:', response);
         const info = response.data;
-        console.log("success:", info);
-        // notify("Verification Successful");
+        if (info.message === 'Valid link') {
+          // Store UID in local storage or state
+          localStorage.setItem('uid', info.uid); // Using local storage
+          navigate("/resetPass");
+        } else {
+          notify("Invalid or expired link");
+        }
       } catch (error) {
-        console.log(error);
-        // notify("Failed Verification");
+        console.error('Error validating token:', error);
+        notify("Failed to validate token");
       }
     };
-
     sendToken();
-  }, []);
-  
+  }, [uid, token, navigate]);
+    
 
   const handleClick = (e) => {
     e.preventDefault();

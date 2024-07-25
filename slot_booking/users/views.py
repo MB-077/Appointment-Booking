@@ -18,6 +18,9 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage, BadHeaderError
 from django.contrib.auth.models import User
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 class CustomAuthToken(ObtainAuthToken):
 
@@ -146,35 +149,50 @@ def forgotPassword(request):
     return Response({'message': 'Forgot Password Complete'}, status=status.HTTP_200_OK)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def resetpassword_validate(request, uidb64, token):
+    logger.debug(f"Received request: {request.method} {request.path}")
+    logger.debug(f"UID: {uidb64}, Token: {token}")
+
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
+        logger.debug(f"Decoded UID: {uid}")
         user = User.objects.get(pk=uid)
+        if user is not None and default_token_generator.check_token(user, token):
+            request.session['uid'] = uid
+            return Response({'message': 'Valid link', 'uid': uid, 'token': token}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Link has expired or is invalid'}, status=status.HTTP_400_BAD_REQUEST)
         
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist) as e:
         user = None
+        logger.error(f"Exception occurred: {str(e)}")
+        return Response({'error': 'User not found or invalid UID'}, status=status.HTTP_404_NOT_FOUND)
         
-    if user is not None and default_token_generator.check_token(user, token):
-        request.session['uid'] = uid
-        return Response({'message': 'Valid link', 'uid': uid, 'token': token}, status=status.HTTP_200_OK)
-    else:
-        return Response({'error': 'Link has expired or is invalid'}, status=status.HTTP_400_BAD_REQUEST)
-
+    
 
 @api_view(['POST'])   
 def reset_password(request):
     if request.method == "POST":
-        password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm_password')
-        
+        data = request.data  # Parse JSON data
+        password = data.get('password')
+        confirm_password = data.get('confirm_password')
+        uid = data.get('uid')
+
         if password and confirm_password:
             if password == confirm_password:
-                uid = request.session.get('uid')
-                user = User.objects.get(pk=uid)
-                user.set_password(password)
-                user.save()
-                return Response({'message': 'Password reset successful'}, status=status.HTTP_200_OK)
+                # uid = request.session.get('uid')
+                print("getting the uid",uid)
+                if uid:
+                    try:
+                        user = User.objects.get(pk=uid)
+                        user.set_password(password)
+                        user.save()
+                        return Response({'message': 'Password reset successful'}, status=status.HTTP_200_OK)
+                    except User.DoesNotExist:
+                        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+                else:
+                    return Response({'error': 'Session expired'}, status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response({'error': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
         else:
