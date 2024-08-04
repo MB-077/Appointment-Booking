@@ -12,7 +12,6 @@ from rest_framework.exceptions import PermissionDenied
 from datetime import datetime
 
 
-
 class IsAdminOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
@@ -129,7 +128,7 @@ class AppointmentIndividual(RetrieveUpdateDestroyAPIView):
         if 'is_approved' in self.request.data and not self.request.user.is_staff:
             raise PermissionDenied("Only admins can update the 'is_approved' field.")
         serializer.save()
-
+        
 
 class PastAppointmentList(ListCreateAPIView):
     serializer_class = AppointmentSerializer

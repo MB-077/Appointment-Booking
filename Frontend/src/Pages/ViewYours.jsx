@@ -10,8 +10,8 @@ const ViewYours = () => {
   const appointedCancel = async (id) => {
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.put(
-        `http://127.0.0.1:8000/appointments/${id}`,
+      const response = await axios.delete(
+        `http://127.0.0.1:8000/appointments/${id}/`,
         appointments,
         {
           headers: {
