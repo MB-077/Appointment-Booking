@@ -2,6 +2,8 @@ import React from "react";
 import dataContext from "./contextProvider";
 import { fetchData } from "../apiUtils";
 const AllDataProvider = ({ children }) => {
+  const token = localStorage.getItem("token");
+
   const [Users, setUsers] = React.useState([]);
   const [total_slots, settotal_Slots] = React.useState([]);
   const [BookedslotData, setBookedSlotData] = React.useState([]);
@@ -26,11 +28,12 @@ const AllDataProvider = ({ children }) => {
   }, [darkMode]);
 
   React.useEffect(() => {
-    usersList();
-    slotBookingList();
-    DocAvailable();
+    if (token) {
+      usersList();
+      slotBookingList();
+      DocAvailable();
+    }
   }, []);
-
   return (
     <dataContext.Provider
       value={{

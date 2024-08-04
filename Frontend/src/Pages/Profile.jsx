@@ -202,12 +202,20 @@ const PatientProfile = () => {
               />
             </div>
           </div>
-          <Button
-            type="submit"
-            className="px-6 py-2 dark:text-white mx-5 btnBlue"
-          >
-            {isFormEditing ? "Update" : "Submit"}
-          </Button>
+          <div className="flex gap-4">
+            <Button
+              type="submit"
+              className="px-6 py-2 dark:text-white mx-5 btnBlue"
+            >
+              {isFormEditing ? "Update" : "Submit"}
+            </Button>
+            <Button
+              className={`btnBlue rounded-md w-[100px]`}
+              func={() => setIsFormEditing(false)}
+            >
+              Back
+            </Button>
+          </div>
         </form>
       ) : (
         <div className="w-full bg-gradient text-white p-5 font-semibold rounded-lg h-[76vh] relative -top-8">

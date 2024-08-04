@@ -7,26 +7,6 @@ const ViewYours = () => {
   const [isAppointed, setIsAppointed] = React.useState(false);
   const { total_slots } = useContext(dataContext);
 
-  const appointedCancel = async (id) => {
-    const token = localStorage.getItem("token");
-    try {
-      const response = await axios.put(
-        `http://127.0.0.1:8000/appointments/${id}`,
-        appointments,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
-          },
-        }
-      );
-      const info = await response.data;
-      console.log(info);
-    } catch (error) {
-      console.error("Error:", error.response?.data || error.message);
-    }
-  };
-
   const fetchData = async (url) => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Token not found");
@@ -42,22 +22,46 @@ const ViewYours = () => {
       };
     }
     const info = await response.data;
+    console.log(info);
     if (info.length > 0) {
       setIsAppointed(true);
     }
     setAppointments(info);
-    console.log(info);
 
     return response.data;
+  };
+  console.log(appointments);
+
+  const appointedCancel = async (id, Element) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/appointments/${id}/`,
+        Element,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      const info = await response.data;
+      console.log(info);
+    } catch (error) {
+      console.error("Error:", error.response?.data || error.message);
+    }
   };
 
   const handleCancel = (e) => {
     const selected = appointments.find((el) => el.id === parseInt(e.target.id));
     const id = selected.id;
+    console.log(selected);
     const index = appointments.indexOf(selected);
-    appointments.splice(index, 1);
-    setAppointments([...appointments]);
-    appointedCancel(id);
+    console.log(index);
+    const Newappointments = appointments.splice(index, 1);
+    setAppointments(Newappointments);
+    console.log(appointments);
+    appointedCancel(id, selected);
     if (appointments.length === 0) {
       setIsAppointed(false);
     }

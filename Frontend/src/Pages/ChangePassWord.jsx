@@ -1,20 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, PasswordInputs } from "../im-ex-ports";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-
+import dataContext from "../Context/contextProvider";
 const ResetPassWord = () => {
   const user = localStorage.getItem("userData");
   const info = JSON.parse(user);
-  const id =  info.user_id
+  const id = info.user_id;
   const navigate = useNavigate();
+  const { dark } = useContext(dataContext);
   const [formData, setFormData] = React.useState({
     user: `${id}`,
     current_password: "",
     new_password: "",
-    new_password_confirm:'',
+    new_password_confirm: "",
   });
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -32,7 +33,7 @@ const ResetPassWord = () => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "light",
+      theme: `${dark ? "light" : "dark"}`,
     });
   };
 
@@ -53,8 +54,7 @@ const ResetPassWord = () => {
       notify("password has been changed");
     } catch (error) {
       console.log(error);
-    } finally {
-      notify("password has not been changed");
+      notify("password not changed");
     }
   };
 
@@ -80,31 +80,39 @@ const ResetPassWord = () => {
             <form className="w-full">
               <div className="mb-16">
                 <PasswordInputs
-                name={"current_password"}
+                  name={"current_password"}
                   func={handleChange}
                   placeholder={"Enter old password"}
                   className={"bg-n-11 text-white dark:bg-white"}
                 />
 
                 <PasswordInputs
-                name={"new_password"}
+                  name={"new_password"}
                   func={handleChange}
                   placeholder={"Enter new password"}
                   className={"bg-n-11 text-white dark:bg-white"}
                 />
                 <PasswordInputs
-                name={"new_password_confirm"}
+                  name={"new_password_confirm"}
                   func={handleChange}
                   placeholder={"confirm new password"}
                   className={"bg-n-11 text-white dark:bg-white"}
                 />
               </div>
-              <Button
-                className={`btnBlue w-[70%] rounded-md mx-[80px]`}
-                func={handleClick}
-              >
-                Change
-              </Button>
+              <div className="flexR gap-8">
+                <Button
+                  className={`btnBlue rounded-md w-[100px] `}
+                  func={handleClick}
+                >
+                  Change
+                </Button>
+                <Button
+                  className={`btnBlue rounded-md w-[100px]`}
+                  func={() => navigate("/profile")}
+                >
+                  Back
+                </Button>
+              </div>
             </form>
             <ToastContainer />
           </div>

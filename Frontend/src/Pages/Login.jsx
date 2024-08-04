@@ -28,7 +28,6 @@ const Login = () => {
 
   // posting data
   const postData = async () => {
-    console.log(change);
     try {
       const response = await axios.post("http://127.0.0.1:8000/login/", change);
       const { token, ...userData } = response.data;
@@ -127,7 +126,7 @@ const Login = () => {
             />
 
             <div className=" w-[100%] mt-4">
-              <Link to={`/emailVerify/${' '}/${' '}`}>
+              <Link to={`/emailVerify/${" "}/${" "}`}>
                 <p className="hover:underline text-white dark:text-black text-right text-[8px]">
                   forget password?
                 </p>

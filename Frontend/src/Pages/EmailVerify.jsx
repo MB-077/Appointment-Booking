@@ -9,9 +9,6 @@ import { useParams } from "react-router-dom";
 
 const EmailVerify = () => {
   const { uid, token } = useParams();
-  console.log(uid, token);
-  const combined = {uid, token}
-console.log(combined);
   const navigate = useNavigate();
   const [formData, setFormData] = React.useState({
     email: "",
@@ -38,7 +35,7 @@ console.log(combined);
 
   const postData = async () => {
     try {
-      const res = await axios.post("http://127.0.0.1:8000/forgot_password/", formData);
+      const res = await axios.post("http://127.0.0.1:8000/forgot_password/",formData);
       const info = res.data;
       console.log("success:", info);
       notify("Email has been sent");
@@ -55,28 +52,26 @@ console.log(combined);
         const response = await axios.get(
           `http://127.0.0.1:8000/resetpassword_validate/${uid}/${token}`
         );
-        console.log('Response from backend:', response);
+        console.log("Response from backend:", response);
         const info = response.data;
-        if (info.message === 'Valid link') {
-          // Store UID in local storage or state
-          localStorage.setItem('uid', info.uid); // Using local storage
+        if (info.message === "Valid link") {
+          localStorage.setItem("uid", info.uid);
           navigate("/resetPass");
         } else {
           notify("Invalid or expired link");
         }
       } catch (error) {
-        console.error('Error validating token:', error);
+        console.error("Error validating token:", error);
         notify("Failed to validate token");
       }
     };
+
     sendToken();
-  }, [uid, token, navigate]);
-    
+  }, []);
 
   const handleClick = (e) => {
     e.preventDefault();
     postData();
-    // setTimeout(() => navigate("/resetPass"), 3000);
   };
   return (
     <div className=" flexC h-[100vh] ">
