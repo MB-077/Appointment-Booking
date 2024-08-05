@@ -2,13 +2,19 @@ import React, { useContext } from "react";
 import { Button } from "./../im-ex-ports";
 import axios from "axios";
 import dataContext from "./../Context/contextProvider";
+import { ToastContainer } from "react-toastify";
+import useNotify from "./../CustomHooks/UseNotify";
+
 const ViewYours = () => {
+  const { total_slots } = useContext(dataContext);
+  const notify = useNotify();
+  const user_info = JSON.parse(localStorage.getItem("userData"));
+  const token = localStorage.getItem("token");
   const [appointments, setAppointments] = React.useState([]);
   const [isAppointed, setIsAppointed] = React.useState(false);
-  const { total_slots } = useContext(dataContext);
 
-  const fetchData = async (url) => {
-    const token = localStorage.getItem("token");
+  //////////////////////////////////////////////////
+  const fetchData2 = async (url) => {
     if (!token) throw new Error("Token not found");
 
     const response = await axios.get(url, {
@@ -22,26 +28,25 @@ const ViewYours = () => {
       };
     }
     const info = await response.data;
-    console.log(info);
-    if (info.length > 0) {
+    const usersAppoint = info.filter((el) => el.patient === user_info.username);
+
+    if (usersAppoint.length > 0) {
       setIsAppointed(true);
     }
-    setAppointments(info);
+    setAppointments(usersAppoint);
 
     return response.data;
   };
-  console.log(appointments);
 
-  const appointedCancel = async (id, Element) => {
-    const token = localStorage.getItem("token");
+  //////////////////////////////////////////////////////////
+
+  const appointedCancel = async (id) => {
     try {
-      const response = await axios.put(
+      const response = await axios.delete(
         `http://127.0.0.1:8000/appointments/${id}/`,
-        Element,
         {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
+            Authorization: `token ${token}`,
           },
         }
       );
@@ -52,24 +57,27 @@ const ViewYours = () => {
     }
   };
 
-  const handleCancel = (e) => {
+  /////////////////////////////////////////////////////////////////
+  React.useEffect(() => {
+    fetchData2("http://127.0.0.1:8000/appointments/");
+  }, []);
+
+  const handleCancel = async (e) => {
     const selected = appointments.find((el) => el.id === parseInt(e.target.id));
-    const id = selected.id;
-    console.log(selected);
+    const Id = selected.id;
     const index = appointments.indexOf(selected);
-    console.log(index);
     const Newappointments = appointments.splice(index, 1);
     setAppointments(Newappointments);
-    console.log(appointments);
-    appointedCancel(id, selected);
+
+    await appointedCancel(Id);
     if (appointments.length === 0) {
       setIsAppointed(false);
     }
+
+    notify("Appointment Cancelled");
   };
 
-  React.useEffect(() => {
-    fetchData("http://127.0.0.1:8000/appointments/");
-  }, []);
+  ///////////////////////////////////////////////////////////////////
 
   const Display = isAppointed ? (
     appointments.map((el) => {
@@ -110,9 +118,21 @@ const ViewYours = () => {
       );
     })
   ) : (
-    <h1 className="text-2xl text-center text-white">No Appointments</h1>
+    <div>
+      <h1 className="text-2xl text-center text-white">
+        Sorry no appointments available!
+      </h1>
+    </div>
   );
-  return <div className="flex gap-5 mt-8 ml-8">{Display}</div>;
+
+  /////////////////////////////////////////////////////////////////////////
+
+  return (
+    <div className="flex gap-5 mt-8 ml-8">
+      {Display}
+      <ToastContainer />
+    </div>
+  );
 };
 
 export default ViewYours;

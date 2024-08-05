@@ -11,7 +11,7 @@ const getAuthHeader = () => {
   return token ? { Authorization: `token ${token}` } : {};
 };
 
-const notify = (message) => {
+export const notify = (message) => {
   const { dark } = useContext(dataContext);
   toast(`${message}`, {
     position: "top-right",
@@ -30,9 +30,6 @@ export const fetchData = async (endpoint, setState) => {
 
   try {
     const response = await axios.get(url, { headers: getAuthHeader() });
-    if (response.status !== 200) {
-      throw new Error(`Failed to fetch data: ${response.statusText}`);
-    }
     const data = response.data;
     setState(data);
   } catch (error) {
