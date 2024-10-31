@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'users',
     'rest_framework.authtoken',
     'corsheaders',
-    'axes',
     'schema_graph',
     'admin_honeypot',
 ]
@@ -63,7 +62,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'axes.middleware.AxesMiddleware',
 ]
 
 CORS_ALLOWED_ALL_ORIGINS = True
@@ -173,7 +171,6 @@ REST_FRAMEWORK = {
 }
 
 AUTHENTICATION_BACKENDS = [
-    'axes.backends.AxesBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
