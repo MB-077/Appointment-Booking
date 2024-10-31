@@ -1,10 +1,9 @@
 import React from "react";
 import { Button, PasswordInputs } from "./../Service/im-ex-ports";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { updateData } from "../Service/apiUtils";
+import { ApiCall } from "../Service/apiUtils";
 
 const ResetPassWord = () => {
   const navigate = useNavigate();
@@ -25,30 +24,9 @@ const ResetPassWord = () => {
     }));
   };
 
-  // const postData = async () => {
-  //   const token = localStorage.getItem("token");
-  //   try {
-  //     const res = await axios.put(
-  //       "http://127.0.0.1:8000/change_password/",
-  //       formData,
-  //       {
-  //         headers: {
-  //           Authorization: `token ${token}`,
-  //         },
-  //       }
-  //     );
-  //     const info = res.data;
-  //     console.log("success:", info);
-  //     notify("password has been changed");
-  //   } catch (error) {
-  //     console.log(error);
-  //     notify("password has not been changed");
-  //   }
-  // };
-
   const handleClick = (e) => {
     e.preventDefault();
-    updateData("change_password/", formData, "password ");
+    ApiCall("put", "change_password/", formData, "password ", undefined);
     setTimeout(() => navigate("/profile"), 3000);
   };
 

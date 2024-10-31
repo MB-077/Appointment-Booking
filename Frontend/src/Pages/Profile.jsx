@@ -2,10 +2,10 @@ import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "./../Service/im-ex-ports";
-import axios from "axios";
 import cat from "./../Images/catto.jpg";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { fetchData } from "../Service/apiUtils";
+import { ApiCall, notify } from "../Service/apiUtils";
+import axios from "axios";
 
 export function profileLoader({ request }) {
   return new URL(request.url).searchParams.get("message");
@@ -30,24 +30,20 @@ const PatientProfile = () => {
   });
 
   React.useEffect(() => {
-    const fetchProfileData = async () => {
-      fetchData("patients-detail/", setProfileData);
-    };
-
-    fetchProfileData();
-  }, [token]);
+    ApiCall("get", "patients-detail/", undefined, undefined, setProfileData);
+  }, []);
 
   const currentProfile = profileData.find(
     (profile) => profile.patient === info.username
   );
 
+  const endpoint = currentProfile
+    ? `http://127.0.0.1:8000/patients-detail/${currentProfile.id}/`
+    : `http://127.0.0.1:8000/patients-detail/`;
+
+  const method = currentProfile ? "put" : "post";
+
   const postProfileData = async () => {
-    const endpoint = currentProfile
-      ? `http://127.0.0.1:8000/patients-detail/${currentProfile.id}/`
-      : `http://127.0.0.1:8000/patients-detail/`;
-
-    const method = currentProfile ? "put" : "post";
-
     try {
       await axios({
         method,
@@ -58,31 +54,17 @@ const PatientProfile = () => {
         },
       });
 
-      const response = await axios.get(
-        `http://127.0.0.1:8000/patients-detail/`,
-        {
-          headers: {
-            Authorization: `token ${token}`,
-          },
-        }
+      await ApiCall(
+        "get",
+        "patients-detail/",
+        undefined,
+        undefined,
+        setProfileData
       );
-      setProfileData(response.data);
       setIsFormEditing(false);
     } catch (error) {
       console.error("Error posting profile data:", error);
     }
-  };
-
-  const notify = (message) => {
-    toast(message, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "dark",
-    });
   };
 
   const handleChange = (e) => {
