@@ -4,18 +4,20 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { updateData } from "../Service/apiUtils";
 
 const ResetPassWord = () => {
+  const navigate = useNavigate();
   const user = localStorage.getItem("userData");
   const info = JSON.parse(user);
-  const id =  info.user_id
-  const navigate = useNavigate();
+  const id = info.user_id;
   const [formData, setFormData] = React.useState({
     user: `${id}`,
     current_password: "",
     new_password: "",
-    new_password_confirm:'',
+    new_password_confirm: "",
   });
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -23,44 +25,30 @@ const ResetPassWord = () => {
     }));
   };
 
-  const notify = (message) => {
-    toast(`${message}`, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-  };
-
-  const postData = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const res = await axios.put(
-        "http://127.0.0.1:8000/change_password/",
-        formData,
-        {
-          headers: {
-            Authorization: `token ${token}`,
-          },
-        }
-      );
-      const info = res.data;
-      console.log("success:", info);
-      notify("password has been changed");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      notify("password has not been changed");
-    }
-  };
+  // const postData = async () => {
+  //   const token = localStorage.getItem("token");
+  //   try {
+  //     const res = await axios.put(
+  //       "http://127.0.0.1:8000/change_password/",
+  //       formData,
+  //       {
+  //         headers: {
+  //           Authorization: `token ${token}`,
+  //         },
+  //       }
+  //     );
+  //     const info = res.data;
+  //     console.log("success:", info);
+  //     notify("password has been changed");
+  //   } catch (error) {
+  //     console.log(error);
+  //     notify("password has not been changed");
+  //   }
+  // };
 
   const handleClick = (e) => {
     e.preventDefault();
-    postData();
+    updateData("change_password/", formData, "password ");
     setTimeout(() => navigate("/profile"), 3000);
   };
 
@@ -80,20 +68,20 @@ const ResetPassWord = () => {
             <form className="w-full">
               <div className="mb-16">
                 <PasswordInputs
-                name={"current_password"}
+                  name={"current_password"}
                   func={handleChange}
                   placeholder={"Enter old password"}
                   className={"bg-n-11 text-white dark:bg-white"}
                 />
 
                 <PasswordInputs
-                name={"new_password"}
+                  name={"new_password"}
                   func={handleChange}
                   placeholder={"Enter new password"}
                   className={"bg-n-11 text-white dark:bg-white"}
                 />
                 <PasswordInputs
-                name={"new_password_confirm"}
+                  name={"new_password_confirm"}
                   func={handleChange}
                   placeholder={"confirm new password"}
                   className={"bg-n-11 text-white dark:bg-white"}

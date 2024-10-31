@@ -5,9 +5,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const API_URL = "http://127.0.0.1:8000/";
+const token = localStorage.getItem("token");
 
 const getAuthHeader = () => {
-  const token = localStorage.getItem("token");
   return token ? { Authorization: `token ${token}` } : {};
 };
 
@@ -57,19 +57,17 @@ export const postData = async (endpoint, data, message) => {
   }
 };
 
-export const updateData = async (endpoint, data) => {
+export const updateData = async (endpoint, data, keyword) => {
   const url = `${API_URL}${endpoint}`;
 
   try {
     const response = await axios.put(url, data, { headers: getAuthHeader() });
-    if (response.status !== 200) {
-      throw new Error(`Failed to update data: ${response.statusText}`);
-    }
-    return response.data;
+    const info = response.data;
+    console.log("success:", info);
+    notify(`${keyword} has been updated`);
   } catch (error) {
+    notify(`${keyword} has not been updated`);
     console.error(error.message);
     throw error;
-  } finally {
-    notify("Data has been updated");
   }
 };
