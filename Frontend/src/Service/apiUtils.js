@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext } from "react";
-import dataContext from "./Context/contextProvider";
+import dataContext from "../Context/contextProvider";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
