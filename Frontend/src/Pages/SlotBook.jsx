@@ -3,66 +3,8 @@ import dataContext from "../Context/contextProvider";
 import { Button, Calendar, DoctorQuery } from "../Service/im-ex-ports";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-const NoBookingsAvailable = ({ message }) => {
-  const el = message ? (
-    <h2 className="w-fit bg-white text-red-800 font-openSans font-semibold rounded-sm mx-10 px-10 flex items-center text-[15px] h-fit relative top-2 dark:bg-black dark:text-white">
-      Sorry! No further bookings available
-    </h2>
-  ) : null;
-
-  return el;
-};
-
-const SlotsAppearBottom = ({ show }) => {
-  const el = show ? (
-    <h2 className="w-fit bg-white text-green-800 font-openSans font-semibold rounded-sm py-[1px] mx-10 px-10 relative top-5 dark:bg-black dark:text-white">
-      selected slot will appear at the bottom
-    </h2>
-  ) : null;
-
-  return el;
-};
-
-const SlotsButton = ({ handleClick, total_slots }) => {
-  const elements = total_slots.map((slot) => (
-    <div key={slot.id}>
-      <Button
-        key={slot.id}
-        func={handleClick}
-        disabled={slot.is_booked}
-        className={`${
-          slot.is_booked
-            ? "text-black/70 font-semibold bg-white/50 dark:bg-black/40 cursor-not-allowed "
-            : "font-bold"
-        } bg-white text-black hover:bg-gray-300 transition-colors duration-300 dark:bg-black dark:text-white dark:hover:bg-gray-800 dark:hover:text-white`}
-      >
-        {slot.start_time}
-      </Button>
-    </div>
-  ));
-  return <>{elements}</>;
-};
-
-const SelectedSlot = ({ BookedslotData }) => {
-  const newELement = BookedslotData.map((slot) => (
-    <div
-      key={slot.id}
-      className="bg-white h-fit px-3 py-1 rounded-md border-none dark:bg-black dark:text-white"
-    >
-      <p>{slot.start_time}</p>
-    </div>
-  ));
-  return newELement;
-};
-
-const ConfirmationMessage = ({ confirm }) => (
-  <div className=" py-2">
-    <h2 className="text-white text-base dark:text-black ">{confirm}</h2>
-  </div>
-);
+import { ApiCall } from "../Service/apiUtils";
 
 const SlotBook = () => {
   const {
@@ -147,24 +89,26 @@ const SlotBook = () => {
     date: datePart2,
   };
 
-  const PostingFinalObj = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/appointments/",
-        dataObj,
-        {
-          headers: {
-            Authorization: `token ${token}`,
-          },
-        }
-      );
-      const info = await response.data;
-      console.log(`success : ${info}`);
-    } catch (error) {
-      console.error("Error:", error.response?.data || error.message);
-    }
-  };
+  //////////////////////////////////////////////////////////
+
+  // const PostingFinalObj = async () => {
+  //   const token = localStorage.getItem("token");
+  //   try {
+  //     const response = await axios.post(
+  //       "http://127.0.0.1:8000/appointments/",
+  //       dataObj,
+  //       {
+  //         headers: {
+  //           Authorization: `token ${token}`,
+  //         },
+  //       }
+  //     );
+  //     const info = await response.data;
+  //     console.log(`success : ${info}`);
+  //   } catch (error) {
+  //     console.error("Error:", error.response?.data || error.message);
+  //   }
+  // };
 
   const handleSubmit = async () => {
     setConfirm(
@@ -174,7 +118,7 @@ const SlotBook = () => {
         </h2>
       </div>
     );
-    PostingFinalObj();
+    ApiCall("post", "appointments/", dataObj, undefined, undefined);
     setTimeout(() => {
       setConfirm("");
       setBookedSlotData([]);
@@ -286,5 +230,63 @@ const SlotBook = () => {
     </div>
   );
 };
+
+const NoBookingsAvailable = ({ message }) => {
+  const el = message ? (
+    <h2 className="w-fit bg-white text-red-800 font-openSans font-semibold rounded-sm mx-10 px-10 flex items-center text-[15px] h-fit relative top-2 dark:bg-black dark:text-white">
+      Sorry! No further bookings available
+    </h2>
+  ) : null;
+
+  return el;
+};
+
+const SlotsAppearBottom = ({ show }) => {
+  const el = show ? (
+    <h2 className="w-fit bg-white text-green-800 font-openSans font-semibold rounded-sm py-[1px] mx-10 px-10 relative top-5 dark:bg-black dark:text-white">
+      selected slot will appear at the bottom
+    </h2>
+  ) : null;
+
+  return el;
+};
+
+const SlotsButton = ({ handleClick, total_slots }) => {
+  const elements = total_slots.map((slot) => (
+    <div key={slot.id}>
+      <Button
+        key={slot.id}
+        func={handleClick}
+        disabled={slot.is_booked}
+        className={`${
+          slot.is_booked
+            ? "text-black/70 font-semibold bg-white/50 dark:bg-black/40 cursor-not-allowed "
+            : "font-bold"
+        } bg-white text-black hover:bg-gray-300 transition-colors duration-300 dark:bg-black dark:text-white dark:hover:bg-gray-800 dark:hover:text-white`}
+      >
+        {slot.start_time}
+      </Button>
+    </div>
+  ));
+  return <>{elements}</>;
+};
+
+const SelectedSlot = ({ BookedslotData }) => {
+  const newELement = BookedslotData.map((slot) => (
+    <div
+      key={slot.id}
+      className="bg-white h-fit px-3 py-1 rounded-md border-none dark:bg-black dark:text-white"
+    >
+      <p>{slot.start_time}</p>
+    </div>
+  ));
+  return newELement;
+};
+
+const ConfirmationMessage = ({ confirm }) => (
+  <div className=" py-2">
+    <h2 className="text-white text-base dark:text-black ">{confirm}</h2>
+  </div>
+);
 
 export default SlotBook;

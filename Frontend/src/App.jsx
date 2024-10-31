@@ -23,7 +23,25 @@ import AllDataProvider from "./Context/dataContext";
 import ResetPassWord from "./Pages/ResetPassWord";
 import ChangePassWord from "./Pages/ChangePassWord";
 import DoctorQuery from "./Components/DoctorQuery";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import React from "react";
+
+function Message({ content }) {
+  return <p>{content}</p>;
+}
+
 function App() {
+  const initialOptions = {
+    "client-id":
+      "Aeo0dRD7XYJHJCt9k7E071mfr-kJsZElAcZv3SF1gJGmk7baqW1ypZOgGYLawXsTeRoXMYa9vpqRtMMY",
+    "enable-funding": "venmo",
+    "buyer-country": "IN",
+    currency: "INR",
+    components: "buttons",
+  };
+
+  const [message, setMessage] = React.useState("");
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
@@ -65,7 +83,9 @@ function App() {
 
   return (
     <AllDataProvider>
-      <RouterProvider router={router} />
+      <PayPalScriptProvider options={initialOptions}>
+        <RouterProvider router={router} />
+      </PayPalScriptProvider>
     </AllDataProvider>
   );
 }

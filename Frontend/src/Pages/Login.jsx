@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLoaderData, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import dataContext from "../Context/contextProvider";
 import { InputFields, Message } from "../Service/im-ex-ports";
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
@@ -16,14 +15,14 @@ const Login = () => {
   //urls and hooks
   const url = useLoaderData();
   const Navigate = useNavigate();
-  const { usersList, slotBookingList, DocAvailable } = useContext(dataContext);
-  const [change, setChange] = React.useState({
+
+  const [change, setChange] = useState({
     username: "",
     password: "",
   });
-  const [passwordCondition, setpasswordCondition] = React.useState(true);
-  const [usernameCondition, setUsernameCondition] = React.useState(true);
-  const [emptyCondition, setEmptyCondition] = React.useState(true);
+  const [passwordCondition, setpasswordCondition] = useState(true);
+  const [usernameCondition, setUsernameCondition] = useState(true);
+  const [emptyCondition, setEmptyCondition] = useState(true);
   /////////////////////////////////////////////////////////////////
 
   // posting data
@@ -34,9 +33,6 @@ const Login = () => {
       const { token, ...userData } = response.data;
       localStorage.setItem("userData", JSON.stringify(userData));
       localStorage.setItem("token", response.data.token);
-      usersList();
-      slotBookingList();
-      DocAvailable();
       Navigate("/");
     } catch (error) {
       console.log(error);
@@ -50,7 +46,7 @@ const Login = () => {
     e.target.id === "hideMeagain" ? Navigate("/") : null;
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.addEventListener("keydown", handleDown);
   }, []);
 

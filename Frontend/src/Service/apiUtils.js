@@ -11,7 +11,7 @@ const getAuthHeader = () => {
   return token ? { Authorization: `token ${token}` } : {};
 };
 
-const notify = (message) => {
+export const notify = (message) => {
   const { dark } = useContext(dataContext);
   toast(`${message}`, {
     position: "top-right",
@@ -71,3 +71,47 @@ export const updateData = async (endpoint, data, keyword) => {
     throw error;
   }
 };
+
+export const ApiCall = async (
+  method,
+  endpoint,
+  data = null,
+  keyword = null,
+  setData = null
+) => {
+  const url = `${API_URL}${endpoint}`;
+  let message = "";
+
+  try {
+    const response = await axios({
+      method,
+      url,
+      data,
+      headers: getAuthHeader(),
+    });
+    const info = response.data;
+    console.log("success:", info);
+
+    if (typeof setData === "function") {
+      setData(info);
+    }
+
+    message = `${keyword} has been ${
+      method === "post" ? "created" : method === "put" ? "updated" : "fetched"
+    }`;
+  } catch (error) {
+    message = `${keyword} has not been ${
+      method === "post" ? "created" : method === "put" ? "updated" : "fetched"
+    }`;
+    console.error(error.message);
+    throw error;
+  } finally {
+    notify(message);
+  }
+};
+
+// Example usage:
+// fetchData('get', '/endpoint', {}, 'Data', setDataFunction);
+// fetchData('post', '/endpoint', { key: 'value' }, 'Data', setDataFunction);
+// fetchData('put', '/endpoint', { key: 'value' }, 'Data', setDataFunction);
+// fetchData('delete', '/endpoint', {}, 'Data', setDataFunction);
