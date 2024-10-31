@@ -1,6 +1,6 @@
 import React from "react";
 import dataContext from "./contextProvider";
-import { fetchData } from "../apiUtils";
+import { fetchData } from "../Service/apiUtils";
 const AllDataProvider = ({ children }) => {
   const [Users, setUsers] = React.useState([]);
   const [total_slots, settotal_Slots] = React.useState([]);

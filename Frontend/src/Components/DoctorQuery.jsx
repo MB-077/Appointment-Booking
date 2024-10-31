@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useContext } from "react";
 import dataContext from "./../Context/contextProvider";
-import cat from "./../images/catto.jpg";
+import cat from "./../Images/catto.jpg";
 
 const DoctorSearch = () => {
   const [query, setQuery] = useState("");

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useLoaderData, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import dataContext from "../Context/contextProvider";
-import { InputFields, Message } from "../im-ex-ports";
+import { InputFields, Message } from "../Service/im-ex-ports";
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaGoogle } from "react-icons/fa";
@@ -127,7 +127,7 @@ const Login = () => {
             />
 
             <div className=" w-[100%] mt-4">
-              <Link to={`/emailVerify/${' '}/${' '}`}>
+              <Link to={`/emailVerify/${" "}/${" "}`}>
                 <p className="hover:underline text-white dark:text-black text-right text-[8px]">
                   forget password?
                 </p>

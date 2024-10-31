@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { InputFields, Message } from "../im-ex-ports";
+import { InputFields, Message } from "../Service/im-ex-ports";
 import { CiUser, CiPhone } from "react-icons/ci";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";

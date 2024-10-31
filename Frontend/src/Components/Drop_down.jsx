@@ -2,7 +2,7 @@ import React from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useContext } from "react";
 import dataContext from "./../Context/contextProvider";
-import cat from "./../images/catto.jpg";
+import cat from "./../Images/catto.jpg";
 import { motion, AnimatePresence } from "framer-motion";
 const Drop_down = () => {
   //hooks context

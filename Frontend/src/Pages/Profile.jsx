@@ -1,11 +1,11 @@
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Button } from "./../im-ex-ports";
+import { Button } from "./../Service/im-ex-ports";
 import axios from "axios";
-import cat from "./../images/catto.jpg";
+import cat from "./../Images/catto.jpg";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { fetchData } from "../apiUtils";
+import { fetchData } from "../Service/apiUtils";
 
 export function profileLoader({ request }) {
   return new URL(request.url).searchParams.get("message");

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, PasswordInputs } from "../im-ex-ports";
+import { Button, PasswordInputs } from "../Service/im-ex-ports";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,8 +12,8 @@ const ResetPassWord = () => {
     confirm_password: "",
   });
 
-  const uid = localStorage.getItem('uid');
-  
+  const uid = localStorage.getItem("uid");
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
