@@ -6,17 +6,17 @@ const ViewYours = () => {
   const [appointments, setAppointments] = React.useState([]);
   const [isAppointed, setIsAppointed] = React.useState(false);
   const { total_slots } = useContext(dataContext);
+  const [appointedCancelled, setAppointedCancelled] = React.useState({});
+  const token = localStorage.getItem("token");
 
   const appointedCancel = async (id) => {
-    const token = localStorage.getItem("token");
     try {
       const response = await axios.delete(
         `http://127.0.0.1:8000/appointments/${id}/`,
-        appointments,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
+            Authorization: `token ${token}`,
           },
         }
       );
@@ -28,7 +28,6 @@ const ViewYours = () => {
   };
 
   const fetchData = async (url) => {
-    const token = localStorage.getItem("token");
     if (!token) throw new Error("Token not found");
 
     const response = await axios.get(url, {
@@ -52,11 +51,17 @@ const ViewYours = () => {
   };
 
   const handleCancel = (e) => {
-    const selected = appointments.find((el) => el.id === parseInt(e.target.id));
-    const id = selected.id;
-    const index = appointments.indexOf(selected);
+    let selected = appointments.find((el) => el.id === parseInt(e.target.id));
+    let id = selected.id;
+    let index = appointments.indexOf(selected);
     appointments.splice(index, 1);
     setAppointments([...appointments]);
+
+    setAppointedCancelled({
+      doctor_id: selected.doctor,
+      id: selected.id,
+    });
+
     appointedCancel(id);
     if (appointments.length === 0) {
       setIsAppointed(false);
@@ -66,6 +71,8 @@ const ViewYours = () => {
   React.useEffect(() => {
     fetchData("http://127.0.0.1:8000/appointments/");
   }, []);
+
+  console.log(appointedCancelled);
 
   const Display = isAppointed ? (
     appointments.map((el) => {
