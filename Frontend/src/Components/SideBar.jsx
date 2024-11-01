@@ -22,7 +22,9 @@ const ButtonsCombined = ({ token, func, open, hideComponent }) => {
         className={` text-[16.5px] btnBlue`}
       >
         {open || hideComponent ? (
-          <div className="w-[180px]">{token ? "Logout" : "login"}</div>
+          <div className="xl:w-[180px] lg:w-[160px] md:w-[140px] sm:w-[135px] xs:w-[115px]">
+            {token ? "Logout" : "Login"}
+          </div>
         ) : (
           <CiLogout className="text-[20px]" />
         )}
@@ -80,8 +82,12 @@ const SideBar = ({ list }) => {
 
   return (
     <motion.div
-      className={`bg-n-11 h-[81vh] rounded-lg overflow-hidden relative dark:bg-white`}
-      animate={open || hideComponent ? { width: "350px" } : { width: "70px" }}
+      className={`bg-n-11 h-[81vh] rounded-lg overflow-hidden relative dark:bg-white `}
+      animate={
+        open || hideComponent
+          ? { width: ["70px", "300px", "350px"] }
+          : { width: ["50px", "60px", "70px"] }
+      }
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <div className={`transition-all duration-500 ease-in-out`}>

@@ -11,10 +11,12 @@ export default {
   darkMode: "class",
   theme: {
     screens: {
-      sm: "640px",
-      md: "768px",
+      xs: "375px",
+      sm: "735px",
+      md: "858px",
       lg: "1024px",
-      xl: "1280px",
+      xl: "1350px",
+      "xs-only": { min: "400px", max: "735px" },
     },
     extend: {
       colors: {

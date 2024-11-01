@@ -63,7 +63,6 @@ export const updateData = async (endpoint, data, keyword) => {
   try {
     const response = await axios.put(url, data, { headers: getAuthHeader() });
     const info = response.data;
-    console.log("success:", info);
     notify(`${keyword} has been updated`);
   } catch (error) {
     notify(`${keyword} has not been updated`);
@@ -90,7 +89,6 @@ export const ApiCall = async (
       headers: getAuthHeader(),
     });
     const info = response.data;
-    console.log("success:", info);
 
     if (typeof setData === "function") {
       setData(info);
@@ -109,9 +107,3 @@ export const ApiCall = async (
     notify(message);
   }
 };
-
-// Example usage:
-// fetchData('get', '/endpoint', {}, 'Data', setDataFunction);
-// fetchData('post', '/endpoint', { key: 'value' }, 'Data', setDataFunction);
-// fetchData('put', '/endpoint', { key: 'value' }, 'Data', setDataFunction);
-// fetchData('delete', '/endpoint', {}, 'Data', setDataFunction);

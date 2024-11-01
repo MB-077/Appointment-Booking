@@ -91,25 +91,6 @@ const SlotBook = () => {
 
   //////////////////////////////////////////////////////////
 
-  // const PostingFinalObj = async () => {
-  //   const token = localStorage.getItem("token");
-  //   try {
-  //     const response = await axios.post(
-  //       "http://127.0.0.1:8000/appointments/",
-  //       dataObj,
-  //       {
-  //         headers: {
-  //           Authorization: `token ${token}`,
-  //         },
-  //       }
-  //     );
-  //     const info = await response.data;
-  //     console.log(`success : ${info}`);
-  //   } catch (error) {
-  //     console.error("Error:", error.response?.data || error.message);
-  //   }
-  // };
-
   const handleSubmit = async () => {
     setConfirm(
       <div className=" py-2">

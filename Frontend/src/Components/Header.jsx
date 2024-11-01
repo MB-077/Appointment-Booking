@@ -38,13 +38,15 @@ const Header = () => {
   return (
     <nav className={`flexRB  w-full h-[12vh] my-2 rounded-lg`}>
       <div className="flexRB h-full">
-        <div className=" flexR w-[265px] h-full text-n-7 text-[30px] font-openSans tracking-wide bg-n-11 rounded-lg dark:bg-white dark:text-black">
+        <div className=" flexR  h-full text-n-7 text-[30px] font-openSans tracking-wide bg-n-11 rounded-lg dark:bg-white dark:text-black xs:w-[180px] sm:w-[195px] md:w-[215px] lg:w-[240px] xl:w-[265px] xs-only:mr-2">
           EazySlots
         </div>
       </div>
       <div
         className={`${
-          user ? "w-[73%]" : "w-[57%]"
+          user
+            ? "xl:w-[73%] lg:w-[63%] md:w-[60%] sm:w-[53%] xs:w-[100%]"
+            : "w-[57%]"
         } bg-gradient h-[12vh] rounded-md`}
       >
         {user && !hideComponent ? (
@@ -65,7 +67,7 @@ const Header = () => {
         <CombinedButton handleClick={handleClick} handleClick2={handleClick2} />
       )}
 
-      <div className="relative right-3 text-[25px] text-n-4/80 cursor-pointer">
+      <div className="relative xl:right-3 lg:right-4 xs-only:absolute xs-only:right-4 xs-only:z-10 text-[25px] text-n-4/80 cursor-pointer">
         <Toggle />
       </div>
     </nav>
